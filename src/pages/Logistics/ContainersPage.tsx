@@ -1,5 +1,5 @@
 import { columns } from "@/components/logistics/columns";
-import { ContainerSelect } from "@/components/logistics/container-select";
+import { ContainerSelect } from "@/components/containers/container-select";
 import { DataTable } from "@/components/logistics/data-table";
 import { useFetchParcelsByContainerId } from "@/hooks/parcels/containers";
 
@@ -21,7 +21,7 @@ export default function ContainersPage() {
 
 	return (
 		<div>
-			<div className="bg-gray-50/60 flex justify-between items-center rounded-lg p-4 ">
+			<div className=" bg-muted/20  rounded-lg py-6 px-4 flex justify-between items-center  p-4 ">
 				<ContainerSelect setSelectedContainer={setSelectedContainer} />
 
 				<div className="flex gap-4">

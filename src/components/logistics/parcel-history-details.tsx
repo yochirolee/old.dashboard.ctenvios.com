@@ -175,7 +175,7 @@ export default function ParcelHistoryDetails({ hbl }: { hbl: string }) {
 									</time>
 								</div>
 
-								<div className="mt-2 flex justify-between items-center bg-slate-50/80 p-2 rounded-md">
+								<div className="mt-2 flex justify-between items-center bg-slate-50/80 dark:bg-muted/20 p-2 rounded-md">
 									<p className="font-semibold">{event?.status}</p>
 									<p>{event?.statusDetails}</p>
 								</div>

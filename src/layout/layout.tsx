@@ -1,29 +1,19 @@
 import {
-	AudioWaveform,
 	BadgeCheck,
 	Bell,
-	BookOpen,
-	Bot,
 	ChevronRight,
 	ChevronsUpDown,
-	CogIcon,
-	Command,
 	CreditCard,
 	File,
-	Folder,
-	Forward,
 	Frame,
 	GalleryVerticalEnd,
 	Home,
 	LogOut,
 	Map,
-	MoreHorizontal,
 	PieChart,
 	Plus,
 	Settings2,
 	Sparkles,
-	SquareTerminal,
-	Trash2,
 	Warehouse,
 } from "lucide-react";
 
@@ -67,7 +57,7 @@ import {
 	SidebarRail,
 	SidebarTrigger,
 } from "@/components/ui/sidebar";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 // This is
 const data = {
 	user: {
@@ -164,18 +154,11 @@ const data = {
 };
 import { ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useTheme } from "./context/ThemeContext";
-import { ThemeToggle } from "./components/ThemeToggle";
-import { ModeToggle } from "./components/mode-toggle";
+import { ModeToggle } from "@/components/mode-toggle";
 
 export default function Layout({ children }: { children: ReactNode }) {
 	const [activeTeam, setActiveTeam] = useState(data.teams[0]);
 	const [activeItem, setActiveItem] = useState("/"); // Default to Dashboard
-	const { darkMode } = useTheme();
-
-	useEffect(() => {
-		document.body.setAttribute("data-theme", darkMode ? "dark" : "light");
-	}, [darkMode]);
 
 	const handleItemClick = (url: string) => {
 		setActiveItem(url);

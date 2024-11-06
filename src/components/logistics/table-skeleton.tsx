@@ -10,7 +10,7 @@ import {
 
 export default function TableSkeleton() {
 	return (
-		<div className=" mx-auto border broder-gray-50 rounded-md ">
+		<div className=" mx-auto my-6 border broder-gray-50 rounded-md ">
 			<Table>
 				<TableHeader>
 					<TableRow>

@@ -38,7 +38,7 @@ export function SearchForm({
 	}
 
 	return (
-		<div className="bg-gray-50/60   rounded-lg py-6 px-4 ">
+		<div className=" bg-muted/20  rounded-lg py-6 px-4 ">
 			<Form {...form}>
 				<form
 					onSubmit={form.handleSubmit(onSubmit)}
