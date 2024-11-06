@@ -56,7 +56,7 @@ export function SearchForm({
 							</FormItem>
 						)}
 					/>
-					<Button className=" md:w-auto" type="submit" disabled={isLoading}>
+					<Button className=" md:w-auto dark:bg-muted text-white" type="submit" disabled={isLoading}>
 						{isLoading ? (
 							<div className="flex  w-full text-center md:text-left items-center gap-2">
 								<Loader2 className="w-4 h-4 animate-spin" />

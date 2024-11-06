@@ -18,7 +18,6 @@ const FormSchema = z.object({
 });
 
 export function ContainerToPortForm({ selectedContainerId }: { selectedContainerId: number }) {
-	console.log(selectedContainerId, "selectedContainerId");
 	const form = useForm({
 		resolver: zodResolver(FormSchema),
 		defaultValues: {
@@ -76,7 +75,7 @@ export function ContainerToPortForm({ selectedContainerId }: { selectedContainer
 						)}
 					/>
 
-					<Button className="w-full" type="submit">
+					<Button className="w-full dark:bg-muted text-white" type="submit">
 						Agregar al Puerto del Mariel
 					</Button>
 				</form>

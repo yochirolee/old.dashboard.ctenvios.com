@@ -22,6 +22,8 @@ export default function TrackingPage() {
 	};
 	const data = searchQuery ? searchData?.parcels : initialData?.parcels;
 
+	
+
 	if (error || isInitialError) {
 		return (
 			<Alert variant="destructive">

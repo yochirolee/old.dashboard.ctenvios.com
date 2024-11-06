@@ -21,15 +21,17 @@ export default function ContainersPage() {
 
 	return (
 		<div>
-			<div className=" bg-muted/20  rounded-lg py-6 px-4 flex justify-between items-center  p-4 ">
+			<div className=" bg-muted/20  rounded-lg py-2 md:py-6 px-4 gap-4 grid md:flex justify-center md:justify-between items-center  p-4 ">
 				<ContainerSelect setSelectedContainer={setSelectedContainer} />
 
-				<div className="flex gap-4">
-					<p className="text-sm text-muted-foreground">
-						Total de paquetes: {parcelsInContainer?.data?.length}
-					</p>
-					<p className="text-sm text-muted-foreground">Peso: {selectedContainer?.weight} lbs</p>
-				</div>
+				{selectedContainer && (
+					<div className="flex gap-4">
+						<p className="text-sm text-center md:text-left text-muted-foreground">
+							Total de paquetes: {parcelsInContainer?.data?.length ? parcelsInContainer?.data?.length : 0}
+						</p>
+						<p className="text-sm text-muted-foreground">Peso: {selectedContainer?.weight ? selectedContainer?.weight : 0} lbs</p>
+					</div>
+				)}
 			</div>
 			{selectedContainer?.id ? (
 				<div>

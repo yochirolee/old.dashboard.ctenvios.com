@@ -84,7 +84,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
 					)}
 				</TableBody>
 			</Table>
-			<div className="flex items-center justify-end space-x-2 py-4">
+			<div className="flex items-center justify-end space-x-4 mr-4 py-4">
 				<Button
 					variant="outline"
 					size="sm"
