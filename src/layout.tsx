@@ -67,7 +67,7 @@ import {
 	SidebarRail,
 	SidebarTrigger,
 } from "@/components/ui/sidebar";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // This is
 const data = {
 	user: {
@@ -164,10 +164,18 @@ const data = {
 };
 import { ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useTheme } from "./context/ThemeContext";
+import { ThemeToggle } from "./components/ThemeToggle";
+import { ModeToggle } from "./components/mode-toggle";
 
 export default function Layout({ children }: { children: ReactNode }) {
 	const [activeTeam, setActiveTeam] = useState(data.teams[0]);
 	const [activeItem, setActiveItem] = useState("/"); // Default to Dashboard
+	const { darkMode } = useTheme();
+
+	useEffect(() => {
+		document.body.setAttribute("data-theme", darkMode ? "dark" : "light");
+	}, [darkMode]);
 
 	const handleItemClick = (url: string) => {
 		setActiveItem(url);
@@ -204,7 +212,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 
 	return (
 		<SidebarProvider>
-			<Sidebar collapsible="icon" >
+			<Sidebar collapsible="icon">
 				<SidebarHeader>
 					<SidebarMenu>
 						<SidebarMenuItem>
@@ -400,8 +408,12 @@ export default function Layout({ children }: { children: ReactNode }) {
 				<header className="flex z-10 sticky top-0 bg-background h-16 shrink-0 border-b items-center gap-2 px-4">
 					<SidebarTrigger className="-ml-1" />
 					<Separator orientation="vertical" className="mr-2 h-4" />
-					{generateBreadcrumbs()}
+					<div className="flex w-full justify-between items-center gap-2">
+						{generateBreadcrumbs()}
+						<ModeToggle />
+					</div>
 				</header>
+
 				<div className="p-4 flex-1  ">{children}</div>
 			</SidebarInset>
 		</SidebarProvider>

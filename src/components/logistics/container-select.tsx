@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { Check, ChevronsUpDown } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -14,20 +13,9 @@ import {
 } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Skeleton } from "../ui/skeleton";
+import { useFetchContainers } from "@/hooks/parcels/containers";
 
-interface Container {
-	id: string;
-	name: string;
-	// Add other container properties as needed
-}
 
-const fetchContainers = async (): Promise<Container[]> => {
-	const response = await fetch("http://localhost:3001/api/containers/");
-	if (!response.ok) {
-		throw new Error("Failed to fetch containers");
-	}
-	return response.json();
-};
 
 export const ContainerSelect = ({
 	setSelectedContainer,
@@ -37,16 +25,7 @@ export const ContainerSelect = ({
 	const [open, setOpen] = useState(false);
 	const [value, setValue] = useState("");
 
-	const {
-		data: containers = [],
-		isLoading,
-		error,
-	} = useQuery({
-		queryKey: ["containers"],
-		queryFn: fetchContainers,
-
-		staleTime: 1000 * 60 * 5, // 5 minutes
-	});
+	const { data: containers = [], isLoading, error } = useFetchContainers();
 
 	if (error) {
 		return <div>Error loading containers</div>;
