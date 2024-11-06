@@ -38,32 +38,35 @@ export function SearchForm({
 	}
 
 	return (
-		<div className="bg-gray-50/60  rounded-lg py-6 px-4 ">
+		<div className="bg-gray-50/60   rounded-lg py-6 px-4 ">
 			<Form {...form}>
-				<form onSubmit={form.handleSubmit(onSubmit)} className="flex items-center gap-4 ">
+				<form
+					onSubmit={form.handleSubmit(onSubmit)}
+					className="grid grid-cols-1 md:flex  md:mx-0 md:flex-row items-center gap-2 md:gap-4 "
+				>
 					<FormField
 						control={form.control}
 						name="search"
 						render={({ field }) => (
 							<FormItem>
 								<FormControl>
-									<Input className="w-72" placeholder="Search" {...field} />
+									<Input className="md:w-72" placeholder="Search" {...field} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
 						)}
 					/>
-					<Button type="submit" disabled={isLoading}>
+					<Button className=" md:w-auto" type="submit" disabled={isLoading}>
 						{isLoading ? (
-							<>
+							<div className="flex  w-full text-center md:text-left items-center gap-2">
 								<Loader2 className="w-4 h-4 animate-spin" />
-								Buscando
-							</>
+								<p>Buscando</p>
+							</div>
 						) : (
-							<>
+							<div className="flex w-full text-center md:text-left items-center gap-2">
 								<Search className="w-4 h-4" />
-								Buscar
-							</>
+								<p>Buscar</p>
+							</div>
 						)}
 					</Button>
 				</form>
