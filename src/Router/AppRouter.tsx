@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 
 // Import your components here
-import Dashboard from "../pages/Dashboard";
+//import Dashboard from "../pages/Dashboard";
 import Orders from "../pages/Orders";
 import CreateOrder from "../pages/CreateOrder";
 import Configuration from "../pages/Configuration";
@@ -16,7 +16,7 @@ export function AppRouter() {
 	return (
 		<Routes>
 			{/* Main navigation routes */}
-			<Route path="/" element={<Dashboard />} />
+			<Route path="/" element={<TrackingPage />} />
 			<Route path="/orders" element={<Orders />} />
 			<Route path="/orders/create" element={<CreateOrder />} />
 			<Route path="/logistics/containers" element={<ContainersPage />} />
