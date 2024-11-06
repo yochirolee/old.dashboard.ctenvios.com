@@ -12,7 +12,7 @@ import ContainersPage from "@/pages/Logistics/ContainersPage";
 import IssuesPage from "@/pages/Logistics/IssuesPage";
 import TrackingPage from "@/pages/Logistics/TrackingPage";
 
-export function AppRouter() {
+export default function AppRouter() {
 	return (
 		<Routes>
 			{/* Main navigation routes */}
