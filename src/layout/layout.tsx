@@ -155,6 +155,7 @@ const data = {
 import { ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ModeToggle } from "@/components/mode-toggle";
+import { Toaster } from "@/components/ui/toaster";
 
 export default function Layout({ children }: { children: ReactNode }) {
 	const [activeTeam, setActiveTeam] = useState(data.teams[0]);
@@ -398,6 +399,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 				</header>
 
 				<div className="p-4 flex-1  ">{children}</div>
+				<Toaster />
 			</SidebarInset>
 		</SidebarProvider>
 	);
