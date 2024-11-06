@@ -46,6 +46,7 @@ export default function ParcelHistoryDetails({ hbl }: { hbl: string }) {
 		error: Error | null;
 	};
 	if (isLoading) return <div>Loading...</div>;
+
 	if (error) return <div>Error: {error.message}</div>;
 
 	return (
