@@ -10,6 +10,7 @@ import {
 	NoContainerSelected,
 	ContainerPendingToArrival,
 } from "@/components/containers/no-container-selected";
+import { ContainerUpdateModalForm } from "@/components/containers/container-update-modal-form";
 
 export default function ContainersPage() {
 	const [selectedContainer, setSelectedContainer] = useState<number | null>(null);
@@ -25,11 +26,17 @@ export default function ContainersPage() {
 				<ContainerSelect setSelectedContainer={setSelectedContainer} />
 
 				{selectedContainer && (
-					<div className="flex gap-4">
-						<p className="text-sm text-center md:text-left text-muted-foreground">
-							Total de paquetes: {parcelsInContainer?.data?.length ? parcelsInContainer?.data?.length : 0}
-						</p>
-						<p className="text-sm text-muted-foreground">Peso: {selectedContainer?.weight ? selectedContainer?.weight : 0} lbs</p>
+					<div>
+						<div className="flex gap-4">
+							<p className="text-sm text-center md:text-left text-muted-foreground">
+								Total de paquetes:{" "}
+								{parcelsInContainer?.data?.length ? parcelsInContainer?.data?.length : 0}
+							</p>
+							<p className="text-sm text-muted-foreground">
+								Peso: {selectedContainer?.weight ? selectedContainer?.weight : 0} lbs
+							</p>
+						</div>
+						<ContainerUpdateModalForm selectedContainerId={selectedContainer?.id} />
 					</div>
 				)}
 			</div>

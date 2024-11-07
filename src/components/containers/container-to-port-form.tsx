@@ -9,12 +9,16 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { tracking_api } from "@/api/tracking-api";
 
 const FormSchema = z.object({
 	updatedAt: z.date({
 		required_error: "A date is required.",
 	}),
-	selectedContainerId: z.number(),
+	containerId: z.number(),
+	eventType: z.string(),
+	userId: z.string(),
 });
 
 export function ContainerToPortForm({ selectedContainerId }: { selectedContainerId: number }) {
@@ -22,15 +26,34 @@ export function ContainerToPortForm({ selectedContainerId }: { selectedContainer
 		resolver: zodResolver(FormSchema),
 		defaultValues: {
 			updatedAt: new Date(),
-			selectedContainerId: selectedContainerId,
-			currentLocationId: 4, // Puerto del Mariel
-			status: "EN_CONTENEDOR",
+			containerId: selectedContainerId,
+			eventType: "CONTAINER_TO_PORT",
+			userId: "42cbb03e-9d73-47a6-857e-77527c02bdc2",
 		},
 	});
 	const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+	const [error, setError] = useState<string | null>(null);
 
-	const onSubmit = async (data) => {
+	const queryClient = useQueryClient();
+
+	const updateContainerMutation = useMutation({
+		mutationFn: (values: z.infer<typeof FormSchema>) =>
+			tracking_api.containers.containerUpdate({ ...values }),
+		onSuccess: () => {
+			queryClient.invalidateQueries({
+				queryKey: ["parcelsByContainerId", selectedContainerId],
+			});
+			form.reset();
+		},
+		onError: (error) => {
+			setError(error.message || "An error occurred while creating the issue");
+			console.error("Error creating issue:", error);
+		},
+	});
+
+	const onSubmit = async (data: z.infer<typeof FormSchema>) => {
 		console.log(data);
+		updateContainerMutation.mutate(data);
 	};
 
 	return (
@@ -76,7 +99,7 @@ export function ContainerToPortForm({ selectedContainerId }: { selectedContainer
 					/>
 
 					<Button className="w-full dark:bg-muted text-white" type="submit">
-						Agregar al Puerto del Mariel
+						{updateContainerMutation.isPending ? "Actualizando..." : "Agregar al Puerto del Mariel"}
 					</Button>
 				</form>
 			</Form>

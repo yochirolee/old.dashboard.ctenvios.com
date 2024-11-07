@@ -15,6 +15,7 @@ export interface ParcelEvent {
 	eventId: number;
 	locationName: string;
 	status: string;
+	statusName?: string;
 	statusDetails?: string;
 	updatedAt: string;
 	issues?: Array<{ description: string }>;

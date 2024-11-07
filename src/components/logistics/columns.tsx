@@ -248,6 +248,10 @@ export const columns: ColumnDef<ParcelInterface>[] = [
 						<StatusIcon className={`h-4 w-4 mr-1 ${iconColors}`} />
 						{formattedStatus}
 					</Badge>
+					<p className="text-xs flex items-center  text-muted-foreground  ">
+						{row.original?.updatedAt &&
+							format(new Date(row.original?.updatedAt), "dd/MM/yyyy h:mm a")}
+					</p>
 				</div>
 			);
 		},
@@ -256,11 +260,15 @@ export const columns: ColumnDef<ParcelInterface>[] = [
 
 	{
 		accessorKey: "updatedAt",
-		header: "Actualizado",
+		header: "Days",
 		cell: ({ row }) => {
 			const daysDifference = differenceInDays(
 				row.original?.status === "ENTREGADO" ? new Date(row.original?.updatedAt) : new Date(), // Use current date if not ENTREGADO
 				new Date(row.original?.invoiceDate),
+			);
+			const daysDifferenceFromLastStatus = differenceInDays(
+				new Date(),
+				new Date(row.original?.updatedAt),
 			);
 			return (
 				<div className="w-40 flex flex-col items-center gap-1">
@@ -270,32 +278,31 @@ export const columns: ColumnDef<ParcelInterface>[] = [
 							<p className=" col-span-2">Entregado en {daysDifference} días </p>
 						</div>
 					) : (
-						<div className="inline-flex  justify-center items-center gap-1 mt-1">
-							<TimerIcon
-								className={`h-4 w-4 col-span-1 ${
-									daysDifference < 10
-										? "text-blue-500"
-										: daysDifference < 20
-										? "text-yellow-500"
-										: "text-red-500"
-								}`}
-							/>
-							<p className="col-span-2">{daysDifference} días desde Factura </p>
+						<div className="flex flex-col items-center gap-1">
+							<div className="inline-flex  justify-center items-center gap-1 mt-1">
+								<TimerIcon
+									className={`h-4 w-4 col-span-1 ${
+										daysDifference < 10
+											? "text-blue-500"
+											: daysDifference < 20
+											? "text-yellow-500"
+											: "text-red-500"
+									}`}
+								/>
+								<p className="col-span-2">Total: {daysDifference} días    </p>
+							</div>
+							<div className="inline-flex  justify-center items-center gap-1 mt-1">
+								<p className=" text-xs text-muted-foreground">
+									{daysDifferenceFromLastStatus} días {row.original?.status}
+								</p>
+							</div>
 						</div>
 					)}
-					<p className="text-xs flex items-center  text-muted-foreground  ">
-						{row.original?.updatedAt &&
-							format(new Date(row.original?.updatedAt), "dd/MM/yyyy h:mm a")}
-					</p>
 				</div>
 			);
 		},
 	},
-	{
-		accessorKey: "weight",
-		header: "Peso",
-		cell: ({ row }) => <span className="font-light">{row.original?.weight} Lbs</span>,
-	},
+
 	{
 		accessorKey: "sender",
 		header: "Envia",

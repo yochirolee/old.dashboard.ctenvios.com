@@ -1,5 +1,5 @@
-import { tracking_api } from "@/api/parcels";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { tracking_api } from "@/api/tracking-api";
+import {  useQuery } from "@tanstack/react-query";
 
 export const useFetchIssues = () => {
 	return useQuery<any[], Error>({
@@ -13,4 +13,4 @@ export const useFetchIssues = () => {
 		mutationFn: (values: any) => tracking_api.issues.create(values),
 	});
 };
- */
+ */		

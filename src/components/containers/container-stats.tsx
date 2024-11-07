@@ -12,7 +12,7 @@ export const ContainerStats = ({ parcelsInContainer }: { parcelsInContainer: any
 			aforoEspera: parcelsInContainer.filter((p) => p.status === "EN_ESPERA_DE_AFORO").length,
 			almacenMypimes: parcelsInContainer.filter((p) => p.status === "AFORADO").length,
 			enTraslado: parcelsInContainer.filter((p) => p.status === "EN_TRASLADO").length,
-			entregado: parcelsInContainer.filter((p) => p.status === "ENTREGADO").length,
+			entregado: parcelsInContainer.filter((p) => p.status == "ENTREGADO").length,
 		};
 	}, [parcelsInContainer]);
 
