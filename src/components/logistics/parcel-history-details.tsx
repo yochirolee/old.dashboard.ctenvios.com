@@ -21,19 +21,8 @@ import {
 	MessageSquareIcon,
 } from "lucide-react";
 import { IssueModalForm } from "./issue-modal-form";
+import { locations, statuses } from "@/data/data";
 
-const getEventIcon = (locationName: string): LucideIcon => {
-	const name = locationName.toLowerCase();
-
-	if (name.includes("airport") || name.includes("vuelo")) return Plane;
-	if (name.includes("port") || name.includes("puerto")) return Ship;
-	if (name.includes("delivery") || name.includes("entrega")) return CheckIcon;
-	if (name.includes("warehouse") || name.includes("almacen")) return Warehouse;
-	if (name.includes("home") || name.includes("casa")) return Home;
-	if (name.includes("agency") || name.includes("agencia")) return Building2;
-	if (name.includes("tralado") || name.includes("traslado")) return Truck;
-	return Package; // default icon
-};
 export default function ParcelHistoryDetails({ hbl }: { hbl: string }) {
 	if (!hbl) return null;
 	const {
@@ -48,7 +37,7 @@ export default function ParcelHistoryDetails({ hbl }: { hbl: string }) {
 	if (isLoading) return <div>Loading...</div>;
 
 	if (error) return <div>Error: {error.message}</div>;
-
+	console.log(parcel);
 	return (
 		<ScrollArea className="h-[calc(100vh-10rem)] px-4  ">
 			<div className=" grid mt-6  md:grid-cols-2 md:gap-10 text-sm  ">
@@ -152,10 +141,14 @@ export default function ParcelHistoryDetails({ hbl }: { hbl: string }) {
 										<Flame className="h-7 border w-7 bg-white dark:bg-slate-800 p-1 rounded-full text-sky-600" />
 									) : (
 										<div className="relative ">
-											{React.createElement(getEventIcon(event?.locationName), {
-												className:
-													"h-7 border w-7 bg-white dark:bg-slate-800 p-1 rounded-full text-sky-600",
-											})}
+											{locations.find((location) => location.value === event.locationId)?.icon &&
+												React.createElement(
+													locations.find((location) => location.value === event.locationId)!.icon!,
+													{
+														className:
+															"h-7 w-7 bg-white dark:bg-slate-800 p-1 rounded-full text-sky-600",
+													},
+												)}
 										</div>
 									)}
 								</div>
@@ -163,7 +156,7 @@ export default function ParcelHistoryDetails({ hbl }: { hbl: string }) {
 								<div className="ml-12 flex-grow">
 									<div className="flex md:flex-row flex-col items-left md:items-center justify-between my-2">
 										<h4 className="text-sm font-medium text-gray-900 dark:text-gray-100">
-											{event?.locationName}
+											{locations.find((location) => location.value === event.locationId)?.label}
 										</h4>
 										<time className="text-xs text-gray-500">
 											{new Date(event?.updatedAt).toLocaleString("en-US", {
@@ -177,7 +170,9 @@ export default function ParcelHistoryDetails({ hbl }: { hbl: string }) {
 									</div>
 
 									<div className="mt-2 grid md:flex justify-between items-center bg-slate-50/80 dark:bg-muted/20 p-2 rounded-md">
-										<p className="font-semibold">{event?.statusName ? event?.statusName :event?.status}</p>
+										<p className="font-semibold">
+											{statuses.find((status) => status.value === event.status)?.label}
+										</p>
 										<p>{event?.statusDetails}</p>
 									</div>
 									{event?.issues && event.issues.length > 0 && (

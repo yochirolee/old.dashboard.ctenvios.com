@@ -7,17 +7,7 @@ import {
 	FileTextIcon,
 	Tag,
 	TimerIcon,
-	Package,
-	ArrowLeftRight,
-	FileSearch,
-	Building2,
-	Box,
-	Shield,
-	ShieldAlert,
-	Truck,
-	TruckIcon,
-	CheckIcon,
-	ContainerIcon,
+
 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -26,6 +16,7 @@ import { Link } from "react-router-dom";
 import ParcelHistorySheet from "@/components/logistics/parcel-history-sheet";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { statuses } from "@/data/data";
 
 export const columns: ColumnDef<ParcelInterface>[] = [
 	{
@@ -142,15 +133,15 @@ export const columns: ColumnDef<ParcelInterface>[] = [
 		),
 	},
 	{
-		accessorKey: "locationName",
+		accessorKey: "location",
 		header: "Location",
 		cell: ({ row }) => {
 			return (
 				<div className="flex flex-col space-y-2">
 					<span className="text-xs text-nowrap">
 						{row?.original?.container
-							? row.original?.locationName + " - " + row?.original?.container
-							: row.original?.locationName}
+							? row.original?.location + " - " + row?.original?.container
+							: row.original?.location}
 					</span>
 					{row.original?.statusDetails && (
 						<span className="text-xs text-muted-foreground">{row.original.statusDetails}</span>
@@ -175,78 +166,13 @@ export const columns: ColumnDef<ParcelInterface>[] = [
 			);
 		},
 		cell: ({ row }) => {
-			const status = row.original?.status ? row.original?.status : row.original?.statusName;
-			const formattedStatus =
-				{
-					FACTURADO: "Facturado",
-					EN_PALLET: "Pallet",
-					EN_DESPACHO: "Despacho",
-					EN_CONTENEDOR: "Contenedor",
-					EN_ESPERA_DE_AFORO: "Pendiente Aforo",
-					AFORADO: "Aforado",
-					EN_TRASLADO: "Traslado",
-					ENTREGADO: "Entregado",
-					NO_DECLARADO: "No Declarado",
-					ROTO: "Roto",
-					MOJADO: "Mojado",
-					DERRAME: "Derrame",
-					CON_FALTANTE: "Faltante",
-					PERDIDO: "Perdido",
-					ENTREGA_FALLIDA: "Entrega Fallida",
-					RETRASADO: "Retrasado",
-					OTRO: "Otro",
-				}[status] || status;
-
-			const iconColors =
-				{
-					FACTURADO: "text-gray-600",
-					EN_PALLET: "text-purple-600",
-					EN_DESPACHO: "text-indigo-600",
-					EN_CONTENEDOR: "text-blue-600",
-					EN_ESPERA_DE_AFORO: "text-yellow-600",
-					AFORADO: "text-green-600",
-					EN_TRASLADO: "text-sky-600",
-					ENTREGADO: "text-emerald-600",
-					NO_DECLARADO: "text-orange-600",
-					ROTO: "text-red-600",
-					MOJADO: "text-red-600",
-					DERRAME: "text-red-600",
-					CON_FALTANTE: "text-red-600",
-					PERDIDO: "text-red-600",
-					ENTREGA_FALLIDA: "text-red-600",
-					RETRASADO: "text-amber-600",
-					OTRO: "text-gray-600",
-				}[status] || "text-gray-600";
-
-			const StatusIcon =
-				{
-					FACTURADO: FileTextIcon,
-					EN_PALLET: Box,
-					EN_DESPACHO: Building2,
-					EN_CONTENEDOR: ContainerIcon,
-					EN_ESPERA_DE_AFORO: ShieldAlert,
-					AFORADO: Shield,
-					EN_TRASLADO: Truck,
-					ENTREGADO: CheckIcon,
-					NO_DECLARADO: FileSearch,
-					ROTO: Package,
-					MOJADO: Package,
-					DERRAME: Package,
-					CON_FALTANTE: Package,
-					PERDIDO: Package,
-					ENTREGA_FALLIDA: ArrowLeftRight,
-					RETRASADO: TimerIcon,
-					OTRO: Package,
-				}[status] || Package;
-
 			return (
 				<div className="flex flex-col text-nowrap items-center gap-2">
 					<Badge
 						variant="outline"
 						className={`px-3 py-1 text-nowrap rounded-full text-xs font-medium inline-flex items-center gap-1`}
 					>
-						<StatusIcon className={`h-4 w-4 mr-1 ${iconColors}`} />
-						{row.original?.statusName ? row.original?.statusName : row.original?.status}
+						{statuses.find((status) => status.value === row.original?.status)?.label}
 					</Badge>
 					<p className="text-xs flex items-center  text-muted-foreground  ">
 						{row.original?.updatedAt &&

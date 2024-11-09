@@ -13,9 +13,8 @@ export interface Receiver {
 export interface ParcelEvent {
 	hbl: string;
 	eventId: number;
-	locationName: string;
+	locationId: number;
 	status: string;
-	statusName?: string;
 	statusDetails?: string;
 	updatedAt: string;
 	issues?: Array<{ description: string }>;
