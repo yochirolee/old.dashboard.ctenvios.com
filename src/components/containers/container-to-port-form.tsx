@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { cn } from "@/lib/utils";
@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { tracking_api } from "@/api/tracking-api";
+import { toast } from "@/hooks/use-toast";
 
 const FormSchema = z.object({
 	updatedAt: z.date({
@@ -43,6 +44,10 @@ export function ContainerToPortForm({ selectedContainerId }: { selectedContainer
 			queryClient.invalidateQueries({
 				queryKey: ["parcelsByContainerId", selectedContainerId],
 			});
+			toast({
+				title: "Contenedor actualizado",
+				description: "El contenedor ha sido actualizado correctamente",
+			});
 			form.reset();
 		},
 		onError: (error) => {
@@ -52,12 +57,12 @@ export function ContainerToPortForm({ selectedContainerId }: { selectedContainer
 	});
 
 	const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-		console.log(data);
 		updateContainerMutation.mutate(data);
 	};
 
 	return (
 		<div className="my-6">
+			{error && <div className="text-sm text-red-500 mb-4">{error}</div>}
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
 					<FormField
@@ -99,7 +104,14 @@ export function ContainerToPortForm({ selectedContainerId }: { selectedContainer
 					/>
 
 					<Button className="w-full dark:bg-muted text-white" type="submit">
-						{updateContainerMutation.isPending ? "Actualizando..." : "Agregar al Puerto del Mariel"}
+						{updateContainerMutation.isPending ? (
+							<div className="flex items-center gap-2">
+								<Loader2 className="animate-spin" />
+								Actualizando...
+							</div>
+						) : (
+							"Agregar al Puerto del Mariel"
+						)}
 					</Button>
 				</form>
 			</Form>

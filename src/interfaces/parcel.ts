@@ -16,4 +16,5 @@ export interface ParcelInterface {
 	updatedAt: Date;
 	container?: string; // Add this line
 	statusDetails?: string;  // Added with optional modifier
+	statusName?: string;
 }

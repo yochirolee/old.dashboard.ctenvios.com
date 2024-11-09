@@ -39,7 +39,6 @@ export const tracking_api = {
 			return response.data;
 		},
 		containerUpdate: async (values: any): Promise<any[]> => {
-			console.log(values, "values");
 			const response = await axios.post(`${baseUrl}/containers/updateStatus`, values);
 			return response.data;
 		},

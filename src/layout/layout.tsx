@@ -21,7 +21,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
 	Breadcrumb,
 	BreadcrumbItem,
-	BreadcrumbLink,
 	BreadcrumbList,
 	BreadcrumbPage,
 	BreadcrumbSeparator,
@@ -47,7 +46,6 @@ import {
 	SidebarHeader,
 	SidebarInset,
 	SidebarMenu,
-	SidebarMenuAction,
 	SidebarMenuButton,
 	SidebarMenuItem,
 	SidebarMenuSub,
@@ -59,6 +57,12 @@ import {
 } from "@/components/ui/sidebar";
 import React, { useState } from "react";
 // This is
+
+import { ReactNode } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { ModeToggle } from "@/components/common/nav/mode-toggle";
+import { Toaster } from "@/components/ui/toaster";
+
 const data = {
 	user: {
 		name: "shadcn",
@@ -152,11 +156,6 @@ const data = {
 		},
 	],
 };
-import { ReactNode } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { ModeToggle } from "@/components/mode-toggle";
-import { Toaster } from "@/components/ui/toaster";
-
 export default function Layout({ children }: { children: ReactNode }) {
 	const [activeTeam, setActiveTeam] = useState(data.teams[0]);
 	const [activeItem, setActiveItem] = useState("/"); // Default to Dashboard

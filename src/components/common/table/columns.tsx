@@ -23,9 +23,9 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { ParcelInterface } from "@/interfaces/parcel";
 import { Link } from "react-router-dom";
-import ParcelHistorySheet from "./parcel-history-sheet";
-import { Button } from "../ui/button";
-import { Badge } from "../ui/badge";
+import ParcelHistorySheet from "@/components/logistics/parcel-history-sheet";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 export const columns: ColumnDef<ParcelInterface>[] = [
 	{
@@ -175,7 +175,7 @@ export const columns: ColumnDef<ParcelInterface>[] = [
 			);
 		},
 		cell: ({ row }) => {
-			const status = row.original?.status;
+			const status = row.original?.status ? row.original?.status : row.original?.statusName;
 			const formattedStatus =
 				{
 					FACTURADO: "Facturado",
@@ -246,7 +246,7 @@ export const columns: ColumnDef<ParcelInterface>[] = [
 						className={`px-3 py-1 text-nowrap rounded-full text-xs font-medium inline-flex items-center gap-1`}
 					>
 						<StatusIcon className={`h-4 w-4 mr-1 ${iconColors}`} />
-						{formattedStatus}
+						{row.original?.statusName ? row.original?.statusName : row.original?.status}
 					</Badge>
 					<p className="text-xs flex items-center  text-muted-foreground  ">
 						{row.original?.updatedAt &&
@@ -289,7 +289,7 @@ export const columns: ColumnDef<ParcelInterface>[] = [
 											: "text-red-500"
 									}`}
 								/>
-								<p className="col-span-2">Total: {daysDifference} días    </p>
+								<p className="col-span-2">Total: {daysDifference} días </p>
 							</div>
 							<div className="inline-flex  justify-center items-center gap-1 mt-1">
 								<p className=" text-xs text-muted-foreground">

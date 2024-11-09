@@ -1,6 +1,6 @@
-import { columns } from "@/components/logistics/columns";
+import { columns } from "@/components/common/table/columns";
 import { ContainerSelect } from "@/components/containers/container-select";
-import { DataTable } from "@/components/logistics/data-table";
+import { DataTable } from "@/components/common/table/data-table";
 import { useFetchParcelsByContainerId } from "@/hooks/parcels/containers";
 
 import { useState } from "react";
@@ -26,13 +26,13 @@ export default function ContainersPage() {
 				<ContainerSelect setSelectedContainer={setSelectedContainer} />
 
 				{selectedContainer && (
-					<div>
-						<div className="flex gap-4">
-							<p className="text-sm text-center md:text-left text-muted-foreground">
+					<div className="flex md:flex-row flex-col md:items-center md:text-center gap-4">
+						<div className="grid grid-cols-2 gap-4">
+							<p className="text-xs text-center md:text-left text-muted-foreground">
 								Total de paquetes:{" "}
 								{parcelsInContainer?.data?.length ? parcelsInContainer?.data?.length : 0}
 							</p>
-							<p className="text-sm text-muted-foreground">
+							<p className="text-xs text-muted-foreground">
 								Peso: {selectedContainer?.weight ? selectedContainer?.weight : 0} lbs
 							</p>
 						</div>

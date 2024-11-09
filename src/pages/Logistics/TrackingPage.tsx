@@ -1,5 +1,5 @@
-import { columns } from "@/components/logistics/columns";
-import { DataTable } from "@/components/logistics/data-table";
+import { columns } from "@/components/common/table/columns";
+import { DataTable } from "@/components/common/table/data-table";
 import { SearchForm } from "@/components/logistics/search-form";
 import TableSkeleton from "@/components/logistics/table-skeleton";
 import { Alert } from "@/components/ui/alert";

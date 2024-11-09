@@ -1,19 +1,39 @@
-import { React, useMemo } from "react";
+import {  useMemo } from "react";
 import { Label } from "@/components/ui/label";
 import { CheckCheckIcon, ForkliftIcon, ShieldIcon, TruckIcon, AnchorIcon } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
 export const ContainerStats = ({ parcelsInContainer }: { parcelsInContainer: any[] }) => {
-	console.log(parcelsInContainer);
 
 	const stats = useMemo(() => {
-		return {
-			puertoMariel: parcelsInContainer.filter((p) => p.status === "EN_CONTENEDOR").length,
-			aforoEspera: parcelsInContainer.filter((p) => p.status === "EN_ESPERA_DE_AFORO").length,
-			almacenMypimes: parcelsInContainer.filter((p) => p.status === "AFORADO").length,
-			enTraslado: parcelsInContainer.filter((p) => p.status === "EN_TRASLADO").length,
-			entregado: parcelsInContainer.filter((p) => p.status == "ENTREGADO").length,
+		const initialStats = {
+			puertoMariel: 0,
+			aforoEspera: 0,
+			almacenMypimes: 0,
+			enTraslado: 0,
+			entregado: 0
 		};
+
+		return parcelsInContainer.reduce((acc, parcel) => {
+			switch (parcel.status) {
+				case "EN_CONTENEDOR":
+					acc.puertoMariel++;
+					break;
+				case "EN_ESPERA_DE_AFORO":
+					acc.aforoEspera++;
+					break;
+				case "AFORADO":
+					acc.almacenMypimes++;
+					break;
+				case "EN_TRASLADO":
+					acc.enTraslado++;
+					break;
+				case "ENTREGADO":
+					acc.entregado++;
+					break;
+			}
+			return acc;
+		}, initialStats);
 	}, [parcelsInContainer]);
 
 	return (

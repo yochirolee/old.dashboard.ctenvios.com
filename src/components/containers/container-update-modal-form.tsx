@@ -18,7 +18,6 @@ import {
 	FormLabel,
 	FormMessage,
 } from "@/components/ui/form";
-import { Textarea } from "@/components/ui/textarea";
 import {
 	Select,
 	SelectContent,
@@ -26,7 +25,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { CalendarIcon, RefreshCcw } from "lucide-react";
+import { CalendarIcon, Loader2, RefreshCcw } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { useState } from "react";
@@ -39,9 +38,11 @@ import { toast } from "@/hooks/use-toast";
 
 const formSchema = z.object({
 	updatedAt: z.date(),
-	containerId: z.number(),
-	eventType: z.string(),
-	userId: z.string(),
+	eventType: z
+		.string({ required_error: "El tipo de evento es requerido" })
+		.min(1, "Debe seleccionar un tipo de evento"),
+	userId: z.string({ required_error: "El ID del usuario es requerido" }),
+	containerId: z.number().optional(),
 });
 
 // Infer the type from the schema
@@ -51,18 +52,13 @@ export function ContainerUpdateModalForm({ selectedContainerId }: { selectedCont
 	const [open, setOpen] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 	const queryClient = useQueryClient();
-
 	const form = useForm({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			containerId: selectedContainerId,
-			updatedAt: new Date(),
-			eventType: "",
 			userId: "42cbb03e-9d73-47a6-857e-77527c02bdc2",
 		},
 	});
 	const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-
 	const updateContainerMutation = useMutation({
 		mutationFn: (values: z.infer<typeof formSchema>) =>
 			tracking_api.containers.containerUpdate(values),
@@ -79,32 +75,28 @@ export function ContainerUpdateModalForm({ selectedContainerId }: { selectedCont
 			setOpen(false);
 		},
 		onError: (error) => {
-			setError(error.message || "An error occurred while creating the issue");
-			console.error("Error creating issue:", error);
+			setError(error.message || "An error occurred while updating the container");
+			console.error("Error updating container:", error);
 		},
 	});
 
 	const onSubmit = async (data: FormValues) => {
-		try {
-			console.log(data);
-			updateContainerMutation.mutate(data);
-		} catch (error) {
-			if (error instanceof z.ZodError) {
-				// Format and set the validation errors
-				const errorMessages = error.errors
-					.map((err) => `${err.path.join(".")}: ${err.message}`)
-					.join("\n");
-				setError(errorMessages);
-			} else {
-				setError("An unexpected error occurred");
-			}
+		updateContainerMutation.mutate({ ...data, containerId: selectedContainerId });
+		form.reset();
+	};
+
+	const handleOpenChange = (open: boolean) => {
+		if (!open) {
+			form.reset();
+			setError(null);
 		}
+		setOpen(open);
 	};
 
 	return (
-		<Dialog open={open} onOpenChange={setOpen}>
+		<Dialog open={open} onOpenChange={handleOpenChange}>
 			<DialogTrigger asChild>
-				<Button variant="outline" className="my-6">
+				<Button variant="outline">
 					<RefreshCcw className="h-4 w-4 text-green-500" />
 					Actualizar Contenedor
 				</Button>
@@ -175,19 +167,21 @@ export function ContainerUpdateModalForm({ selectedContainerId }: { selectedCont
 											</SelectItem>
 										</SelectContent>
 									</Select>
+									<FormMessage />
 								</FormItem>
 							)}
 						/>
-						<div className="flex justify-end space-x-2 pt-4">
-							<DialogTrigger asChild>
-								<Button type="button" variant="outline">
-									Cancel
-								</Button>
-							</DialogTrigger>
-							<Button disabled={updateContainerMutation.isPending} type="submit">
-								{updateContainerMutation.isPending ? "Actualizando..." : "Actualizar"}
-							</Button>
-						</div>
+
+						<Button className="w-full" disabled={updateContainerMutation.isPending} type="submit">
+							{updateContainerMutation.isPending ? (
+								<div className="flex items-center gap-2">
+									<Loader2 className="animate-spin" />
+									Actualizando...
+								</div>
+							) : (
+								"Actualizar"
+							)}
+						</Button>
 					</form>
 				</Form>
 			</DialogContent>
