@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { Upload, File, CheckCircle, AlertCircle } from "lucide-react";
+import { Upload, File, CheckCircle, AlertCircle, FileX, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import {
@@ -19,15 +19,29 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog";
+import { tracking_api } from "@/api/tracking-api";
+import { useMutation } from "@tanstack/react-query";
 
 export default function ExcelUploadDialog() {
 	const [open, setOpen] = useState(false);
 	const [file, setFile] = useState<File | null>(null);
-	const [uploading, setUploading] = useState(false);
-	const [progress, setProgress] = useState(0);
 	const [error, setError] = useState<string | null>(null);
 	const [success, setSuccess] = useState(false);
 	const fileInputRef = useRef<HTMLInputElement>(null);
+
+	const mutation = useMutation({
+		mutationFn: (file: File) => tracking_api.parcels.importExcelEvents(file),
+		onSuccess: () => {
+			setSuccess(true);
+			// Optionally invalidate and refetch other queries that might need updating
+			// queryClient.invalidateQueries({ queryKey: ['parcels'] });
+		},
+		onError: () => {
+			setError("An error occurred during upload. Please try again.");
+			console.error(error);
+			setSuccess(false);
+		},
+	});
 
 	const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const selectedFile = event.target.files?.[0];
@@ -43,21 +57,6 @@ export default function ExcelUploadDialog() {
 		}
 	};
 
-	const simulateUpload = async () => {
-		setUploading(true);
-		setProgress(0);
-		setError(null);
-		setSuccess(false);
-
-		for (let i = 0; i <= 100; i += 10) {
-			setProgress(i);
-			await new Promise((resolve) => setTimeout(resolve, 500));
-		}
-
-		setUploading(false);
-		setSuccess(true);
-	};
-
 	const handleUpload = async () => {
 		if (!file) {
 			setError("Please select a file to upload");
@@ -65,12 +64,9 @@ export default function ExcelUploadDialog() {
 		}
 
 		try {
-			await simulateUpload();
-			// In a real application, you would use an API call here
-			// const formData = new FormData()
-			// formData.append('file', file)
-			// const response = await fetch('/api/upload', { method: 'POST', body: formData })
-			// if (!response.ok) throw new Error('Upload failed')
+			setError(null);
+			setSuccess(false);
+			mutation.mutate(file);
 		} catch (err) {
 			setError("An error occurred during upload. Please try again.");
 			setSuccess(false);
@@ -79,7 +75,7 @@ export default function ExcelUploadDialog() {
 
 	const resetUpload = () => {
 		setFile(null);
-		setProgress(0);
+
 		setError(null);
 		setSuccess(false);
 		if (fileInputRef.current) {
@@ -90,14 +86,17 @@ export default function ExcelUploadDialog() {
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
-				<Button>Upload Excel File</Button>
+				<Button variant="outline" size="sm" className="ml-auto  h-8 lg:flex">
+					<FileX />
+					<span className="hidden md:inline">Importar Excel</span>
+				</Button>
 			</DialogTrigger>
 			<DialogContent className="sm:max-w-[425px]">
 				<DialogHeader>
 					<DialogTitle>Upload Excel File</DialogTitle>
 					<DialogDescription>Select and upload your Excel (.xlsx) file</DialogDescription>
 				</DialogHeader>
-				<Card className="w-full">
+				<Card className="w-full border-none space-y-4">
 					<CardContent className="pt-6">
 						<div className="space-y-4">
 							<div className="flex items-center justify-center w-full">
@@ -144,22 +143,31 @@ export default function ExcelUploadDialog() {
 									<AlertDescription>File uploaded successfully!</AlertDescription>
 								</Alert>
 							)}
-							{uploading && (
-								<div className="space-y-2">
-									<Progress value={progress} className="w-full" />
-									<p className="text-sm text-gray-500 dark:text-gray-400 text-center">
-										{progress}% uploaded
-									</p>
-								</div>
-							)}
 						</div>
 					</CardContent>
-					<CardFooter className="flex justify-between">
-						<Button variant="outline" onClick={resetUpload}>
-							Reset
+					<CardFooter className="flex  flex-col space-y-4   justify-between">
+						<Button
+							variant="outline"
+							className="w-full md:w-auto"
+							onClick={handleUpload}
+							disabled={!file || mutation.isPending}
+						>
+							{mutation.isPending ? (
+								<div className="flex items-center gap-2">
+									<Loader2 className="animate-spin" />
+									<span>Processing</span>
+								</div>
+							) : (
+								"Upload"
+							)}
 						</Button>
-						<Button onClick={handleUpload} disabled={!file || uploading}>
-							{uploading ? "Uploading..." : "Upload"}
+						<Button
+							variant="ghost"
+							className="w-full md:w-auto"
+							disabled={!file || mutation.isPending}
+							onClick={resetUpload}
+						>
+							Reset
 						</Button>
 					</CardFooter>
 				</Card>

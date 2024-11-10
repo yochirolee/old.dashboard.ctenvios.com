@@ -8,6 +8,7 @@ import { DataTableViewOptions } from "@/components/common/table/data-table-view-
 
 import { statuses } from "@/data/data";
 import { DataTableFacetedFilter } from "@/components/common/table/data-table-faceted-filters";
+import ExcelUploadDialog from "@/components/logistics/excel-upload-file";
 
 interface DataTableToolbarProps<TData> {
 	table: Table<TData>;
@@ -39,10 +40,7 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
 				)}
 			</div>
 			<div className="flex items-center space-x-2 justify-end">
-				<Button variant="outline" size="sm" className="ml-auto  h-8 lg:flex">
-					<FileX className="h-4 w-4 " />
-					<span className="hidden md:inline">Importar Excel</span>
-				</Button>
+				<ExcelUploadDialog />
 				<DataTableViewOptions table={table} />
 			</div>
 		</div>

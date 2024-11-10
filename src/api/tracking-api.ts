@@ -26,6 +26,12 @@ export const tracking_api = {
 			const response = await axios.get(`${baseUrl}/parcels/hbl/${hbl}`);
 			return response.data;
 		},
+		importExcelEvents: async (file: File): Promise<any[]> => {
+			const formData = new FormData();
+			formData.append("file", file);
+			const response = await axios.post(`${baseUrl}/parcels/import-events`, formData);
+			return response.data;
+		},
 	},
 
 	containers: {
