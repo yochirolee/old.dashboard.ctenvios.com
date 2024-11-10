@@ -45,7 +45,7 @@ export const columns: ColumnDef<ParcelInterface>[] = [
 		header: "Agencia",
 		cell: ({ row }) => (
 			<div className="space-y-1">
-				<p className="font-medium text-sm text-sky-800">{row.original?.agency}</p>
+				<p className="font-medium text-xs md:text-sm text-sky-800">{row.original?.agency}</p>
 			</div>
 		),
 		enableSorting: true,

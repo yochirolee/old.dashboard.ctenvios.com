@@ -1,3 +1,5 @@
+import React, { useState } from "react";
+
 import {
 	BadgeCheck,
 	Bell,
@@ -55,8 +57,6 @@ import {
 	SidebarRail,
 	SidebarTrigger,
 } from "@/components/ui/sidebar";
-import React, { useState } from "react";
-// This is
 
 import { ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -182,12 +182,20 @@ export default function Layout({ children }: { children: ReactNode }) {
 						return (
 							<React.Fragment key={to}>
 								<BreadcrumbItem>
-									{isLast ? <BreadcrumbPage>{value}</BreadcrumbPage> : <Link to={to}>{value}</Link>}
+									{isLast ? (
+										<BreadcrumbPage>
+											{value.charAt(0).toUpperCase() + value.slice(1)}
+										</BreadcrumbPage>
+									) : (
+										<Link to={to}>
+											{value.charAt(0).toUpperCase() + value.slice(1)}
+										</Link>
+									)}
 								</BreadcrumbItem>
 								{!isLast && <BreadcrumbSeparator />}
 							</React.Fragment>
 						);
-					})}
+						})}
 				</BreadcrumbList>
 			</Breadcrumb>
 		);
@@ -388,12 +396,12 @@ export default function Layout({ children }: { children: ReactNode }) {
 				<SidebarRail />
 			</Sidebar>
 			<SidebarInset className="relative overflow-auto flex flex-col shrink-1">
-				<header className="flex z-10 sticky top-0 bg-background h-16 shrink-0 border-b items-center gap-2 px-4">
-					<SidebarTrigger className="-ml-1" />
+				<header className="flex z-10 sticky top-0 bg-background h-16 shrink-0 border-b items-center gap-2 px-2 md:px-4">
+					<SidebarTrigger className="md:-ml-1" />
 					<Separator orientation="vertical" className="mr-2 h-4" />
-					<div className="flex w-full justify-between items-center gap-2">
+					<div className="flex flex-1 justify-between items-center ">
 						{generateBreadcrumbs()}
-						<ModeToggle />
+						<ModeToggle  />
 					</div>
 				</header>
 

@@ -110,12 +110,13 @@ export function ContainerUpdateModalForm({ selectedContainerId }: { selectedCont
 				</DialogHeader>
 				{error && <div className="text-sm text-red-500 mb-4">{error}</div>}
 				<Form {...form}>
-					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
 						<FormField
 							control={form.control}
 							name="updatedAt"
 							render={({ field }) => (
 								<FormItem className="flex flex-col">
+									<FormLabel>Fecha</FormLabel>
 									<Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
 										<PopoverTrigger asChild>
 											<FormControl>

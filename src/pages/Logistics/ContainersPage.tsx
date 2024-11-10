@@ -20,6 +20,8 @@ export default function ContainersPage() {
 		error,
 	} = useFetchParcelsByContainerId(selectedContainer?.id);
 
+	
+
 	return (
 		<div>
 			<div className=" bg-muted/20  rounded-lg py-2 md:py-6 px-4 gap-4 grid md:flex justify-center md:justify-between items-center  p-4 ">
@@ -36,7 +38,9 @@ export default function ContainersPage() {
 								Peso: {selectedContainer?.weight ? selectedContainer?.weight : 0} lbs
 							</p>
 						</div>
-						<ContainerUpdateModalForm selectedContainerId={selectedContainer?.id} />
+						{parcelsInContainer?.inPort && (
+							<ContainerUpdateModalForm selectedContainerId={selectedContainer.id} />
+						)}
 					</div>
 				)}
 			</div>

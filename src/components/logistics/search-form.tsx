@@ -50,25 +50,20 @@ export function SearchForm({
 						render={({ field }) => (
 							<FormItem>
 								<FormControl>
-									<Input className="md:w-72" placeholder="Search" {...field} />
+									<div className="relative ml-auto flex-1 md:grow-0">
+										<Search className="absolute left-2.5 top-[12px] h-4 w-4 text-muted-foreground" />
+										<Input
+											type="search"
+											placeholder="Buscar..."
+											className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px]"
+											{...field}
+										/>
+									</div>
 								</FormControl>
 								<FormMessage />
 							</FormItem>
 						)}
 					/>
-					<Button className=" md:w-auto dark:bg-muted text-white" type="submit" disabled={isLoading}>
-						{isLoading ? (
-							<div className="flex  w-full text-center md:text-left items-center gap-2">
-								<Loader2 className="w-4 h-4 animate-spin" />
-								<p>Buscando</p>
-							</div>
-						) : (
-							<div className="flex w-full text-center md:text-left items-center gap-2">
-								<Search className="w-4 h-4" />
-								<p>Buscar</p>
-							</div>
-						)}
-					</Button>
 				</form>
 			</Form>
 		</div>
