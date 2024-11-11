@@ -27,13 +27,15 @@ export default function ContainersPage() {
 				<ContainerSelect setSelectedContainer={setSelectedContainer} />
 				<div className="flex flex-col justify-end ">
 					<div className="grid grid-cols-2 lg:flex  mx-auto items-center md:gap-4 gap-2">
-						{selectedContainer && parcelsInContainer?.inPort && (
-							<ContainerUpdateModalForm selectedContainerId={selectedContainer.id} />
-						)}
-						<ExcelUploadFile />
-					</div>{" "}
+						<ContainerUpdateModalForm
+							selectedContainerId={selectedContainer?.id}
+							inPort={parcelsInContainer?.inPort}
+						/>
+						<ExcelUploadFile isLoading={isLoading} />
+					</div>
 				</div>
 			</div>
+
 			{selectedContainer?.id ? (
 				<div>
 					{isLoading ? (
@@ -43,9 +45,7 @@ export default function ContainersPage() {
 							{parcelsInContainer?.inPort ? (
 								<ContainerStats parcelsInContainer={parcelsInContainer?.data} />
 							) : (
-								<>
-									<ContainerPendingToArrival selectedContainerId={selectedContainer?.id} />
-								</>
+								<ContainerPendingToArrival selectedContainerId={selectedContainer?.id} />
 							)}
 							<DataTable columns={columns} data={parcelsInContainer?.data || []} />
 						</div>

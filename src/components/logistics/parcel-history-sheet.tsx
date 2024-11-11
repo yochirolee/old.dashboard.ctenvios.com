@@ -18,6 +18,7 @@ export default function ParcelHistorySheet({ hbl }: { hbl: string }) {
 					View detailed history and tracking information for this parcel.
 				</SheetDescription>
 				<ParcelHistoryDetails hbl={hbl} />
+				
 			</SheetContent>
 		</Sheet>
 	);

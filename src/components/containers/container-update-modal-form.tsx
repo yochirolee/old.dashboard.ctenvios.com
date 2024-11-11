@@ -48,7 +48,13 @@ const formSchema = z.object({
 // Infer the type from the schema
 type FormValues = z.infer<typeof formSchema>;
 
-export function ContainerUpdateModalForm({ selectedContainerId }: { selectedContainerId: number }) {
+export function ContainerUpdateModalForm({
+	selectedContainerId,
+	inPort,
+}: {
+	selectedContainerId: number;
+	inPort: boolean;
+}) {
 	const [open, setOpen] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 	const queryClient = useQueryClient();
@@ -96,12 +102,12 @@ export function ContainerUpdateModalForm({ selectedContainerId }: { selectedCont
 	return (
 		<Dialog open={open} onOpenChange={handleOpenChange}>
 			<DialogTrigger asChild>
-				<Button variant="ghost" size="sm" className="  h-8 lg:flex">
+				<Button disabled={!inPort} variant="ghost" size="sm" className="  h-8 lg:flex">
 					<RefreshCcw className="h-4 w-4 text-green-600" />
 					<span className=" md:inline">Actualizar</span>
 				</Button>
 			</DialogTrigger>
-			<DialogContent className="sm:max-w-[425px]">
+			<DialogContent className="sm:max-w-[425px]"> 
 				<DialogHeader>
 					<DialogTitle>Actualizar Contenedor</DialogTitle>
 					<DialogDescription>

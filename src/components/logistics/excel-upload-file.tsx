@@ -22,7 +22,7 @@ import {
 import { tracking_api } from "@/api/tracking-api";
 import { useMutation } from "@tanstack/react-query";
 
-export default function ExcelUploadDialog() {
+export default function ExcelUploadDialog({ isLoading }: { isLoading: boolean }) {
 	const [open, setOpen] = useState(false);
 	const [file, setFile] = useState<File | null>(null);
 	const [error, setError] = useState<string | null>(null);
@@ -86,7 +86,7 @@ export default function ExcelUploadDialog() {
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
-				<Button variant="ghost" size="sm" className="  h-8 lg:flex">
+				<Button disabled={isLoading} variant="ghost" size="sm" className="  h-8 lg:flex">
 					<FileX className="h-4 w-4 text-green-600" />
 					<span className=" md:inline">Importar Excel</span>
 				</Button>
