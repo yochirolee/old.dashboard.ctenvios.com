@@ -219,9 +219,31 @@ export const columns: ColumnDef<ParcelInterface>[] = [
 							</div>
 						)}
 					</div>
-					<Button variant="ghost" size="icon">
-						<Flame className="h-4 w-4 text-muted" />
-					</Button>
+					<TooltipProvider>
+						<div className="flex items-center  gap-2">
+							<Tooltip>
+								<TooltipTrigger asChild>
+									<div className="relative">
+										<Button variant="ghost" size="icon">
+											<Flame className="  text-muted-foreground" />
+										</Button>
+
+										{/* <div className="absolute -top-3 -right-3">
+											<Badge
+												variant="destructive"
+												className="rounded-full h-4 w-4 text-[12px] p-1 mx-auto flex items-center justify-center"
+											>
+												2
+											</Badge>
+										</div> */}
+									</div>
+								</TooltipTrigger>
+								<TooltipContent>
+									<p>Reclamar</p>
+								</TooltipContent>
+							</Tooltip>
+						</div>
+					</TooltipProvider>
 				</div>
 			);
 		},

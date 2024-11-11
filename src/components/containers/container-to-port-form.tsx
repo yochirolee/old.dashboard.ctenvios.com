@@ -26,7 +26,7 @@ export function ContainerToPortForm({ selectedContainerId }: { selectedContainer
 	const form = useForm({
 		resolver: zodResolver(FormSchema),
 		defaultValues: {
-			updatedAt: new Date(),
+			updatedAt: undefined,
 			containerId: selectedContainerId,
 			eventType: "CONTAINER_TO_PORT",
 			userId: "42cbb03e-9d73-47a6-857e-77527c02bdc2",
