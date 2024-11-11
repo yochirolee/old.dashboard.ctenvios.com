@@ -1,14 +1,11 @@
-"use client";
 
 import { Table } from "@tanstack/react-table";
-import { CloudUpload, FileJson, FileX, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { DataTableViewOptions } from "@/components/common/table/data-table-view-option";
 
 import { statuses } from "@/data/data";
 import { DataTableFacetedFilter } from "@/components/common/table/data-table-faceted-filters";
-import ExcelUploadDialog from "@/components/logistics/excel-upload-file";
 
 interface DataTableToolbarProps<TData> {
 	table: Table<TData>;
@@ -40,7 +37,7 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
 				)}
 			</div>
 			<div className="flex items-center space-x-2 justify-end">
-				<ExcelUploadDialog />
+			
 				<DataTableViewOptions table={table} />
 			</div>
 		</div>

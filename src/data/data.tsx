@@ -17,6 +17,12 @@ import {
 	Timer,
 	Warehouse,
 	Truck,
+	PieChart,
+	Home,
+	GalleryVerticalEnd,
+	Settings2,
+	Frame,
+	File,
 } from "lucide-react";
 
 export const labels = [
@@ -72,3 +78,102 @@ export const priorities = [
 		icon: ArrowUp,
 	},
 ];
+
+export const nav_links = {
+	user: {
+		name: "shadcn",
+		email: "m@example.com",
+		avatar: "/avatars/shadcn.jpg",
+	},
+	teams: [
+		{
+			name: "CTEnvios Inc",
+			logo: GalleryVerticalEnd,
+			plan: "Enterprise",
+		},
+	],
+	navMain: [
+		{
+			title: "Dashboard",
+			url: "/",
+			icon: Home,
+			isActive: true,
+		},
+		{
+			title: "Ordenes",
+			url: "/orders",
+			icon: File,
+			isActive: true,
+			items: [
+				{
+					title: "Crear Orden",
+					url: "/orders/create",
+					isActive: true,
+				},
+				{
+					title: "Ordenes",
+					url: "/orders",
+					isActive: false,
+				},
+			],
+		},
+		{
+			title: "Logistica",
+			url: "#",
+			icon: Warehouse,
+			isActive: false,
+			items: [
+				{
+					title: "Tracking",
+					url: "/logistics/tracking",
+					isActive: false,
+				},
+				{
+					title: "Contenedores",
+					url: "/logistics/containers",
+					isActive: false,
+				},
+				{
+					title: "Reclamaciones",
+					url: "/logistics/issues",
+					isActive: false,
+				},
+			],
+		},
+		{
+			title: "Configuracion",
+			url: "#",
+			icon: Settings2,
+			isActive: false,
+			items: [
+				{
+					title: "General",
+					url: "/settings",
+					isActive: false,
+				},
+				{
+					title: "Users",
+					url: "/settings/users",
+					isActive: false,
+				},
+			],
+		},
+	],
+	projects: [
+		{
+			name: "Design Engineering",
+			url: "#",
+			icon: Frame,
+		},
+		{
+			name: "Sales & Marketing",
+			url: "#",
+			icon: PieChart,
+		},
+		{
+			name: "Travel",
+			url: "#",
+			icon: Map,
+		},
+	],
+};

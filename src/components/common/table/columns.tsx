@@ -1,14 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
 import { format, differenceInDays } from "date-fns";
-import {
-	ArrowUpDown,
-	CheckCircle2,
-	FileTextIcon,
-	Tag,
-	TimerIcon,
-
-} from "lucide-react";
+import { ArrowUpDown, CheckCircle2, FileTextIcon, Flame, Tag, TimerIcon } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { ParcelInterface } from "@/interfaces/parcel";
@@ -197,33 +190,38 @@ export const columns: ColumnDef<ParcelInterface>[] = [
 				new Date(row.original?.updatedAt),
 			);
 			return (
-				<div className="w-40 flex flex-col items-center gap-1">
-					{row.original?.locationName == "Entregado" ? (
-						<div className="inline-flex justify-center items-center gap-1 mt-1">
-							<CheckCircle2 className="h-4 w-4 col-span-1 text-green-500" />
-							<p className=" col-span-2">Entregado en {daysDifference} días </p>
-						</div>
-					) : (
-						<div className="flex flex-col items-center gap-1">
-							<div className="inline-flex  justify-center items-center gap-1 mt-1">
-								<TimerIcon
-									className={`h-4 w-4 col-span-1 ${
-										daysDifference < 10
-											? "text-blue-500"
-											: daysDifference < 20
-											? "text-yellow-500"
-											: "text-red-500"
-									}`}
-								/>
-								<p className="col-span-2">Total: {daysDifference} días </p>
+				<div className="w-48 flex  justify-between items-center gap-1">
+					<div className="flex flex-1 flex-col  items-start text-nowrap  ">
+						{row.original?.location == "Entregado" ? (
+							<div className=" inline-flex items-center gap-2">
+								<CheckCircle2 className="h-4 w-4  text-green-500" />
+								<p>Entregado {daysDifference} días </p>
 							</div>
-							<div className="inline-flex  justify-center items-center gap-1 mt-1">
-								<p className=" text-xs text-muted-foreground">
-									{daysDifferenceFromLastStatus} días {row.original?.status}
-								</p>
+						) : (
+							<div className="flex flex-col items-start gap-1">
+								<div className="inline-flex  justify-left items-center gap-1 mt-1">
+									<TimerIcon
+										className={`h-4 w-4 col-span-1 ${
+											daysDifference < 10
+												? "text-blue-500"
+												: daysDifference < 20
+												? "text-yellow-500"
+												: "text-red-500"
+										}`}
+									/>
+									<p className="col-span-2">Total: {daysDifference} días </p>
+								</div>
+								<div className="inline-flex  justify-center items-center gap-1 mt-1">
+									<p className=" text-xs text-muted-foreground">
+										{daysDifferenceFromLastStatus} días {row.original?.status}
+									</p>
+								</div>
 							</div>
-						</div>
-					)}
+						)}
+					</div>
+					<Button variant="ghost" size="icon">
+						<Flame className="h-4 w-4 text-muted" />
+					</Button>
 				</div>
 			);
 		},

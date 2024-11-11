@@ -62,102 +62,10 @@ import { ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ModeToggle } from "@/components/common/nav/mode-toggle";
 import { Toaster } from "@/components/ui/toaster";
+import { nav_links } from "@/data/data";
 
-const data = {
-	user: {
-		name: "shadcn",
-		email: "m@example.com",
-		avatar: "/avatars/shadcn.jpg",
-	},
-	teams: [
-		{
-			name: "CTEnvios Inc",
-			logo: GalleryVerticalEnd,
-			plan: "Enterprise",
-		},
-	],
-	navMain: [
-		{
-			title: "Dashboard",
-			url: "/",
-			icon: Home,
-			isActive: true,
-		},
-		{
-			title: "Ordenes",
-			url: "/orders",
-			icon: File,
-			isActive: true,
-			items: [
-				{
-					title: "Crear Orden",
-					url: "/orders/create",
-					isActive: true,
-				},
-				{
-					title: "Ordenes",
-					url: "/orders",
-					isActive: false,
-				},
-			],
-		},
-		{
-			title: "Logistica",
-			url: "#",
-			icon: Warehouse,
-			isActive: false,
-			items: [
-				{
-					title: "Tracking",
-					url: "/logistics/tracking",
-					isActive: false,
-				},
-				{
-					title: "Contenedores",
-					url: "/logistics/containers",
-					isActive: false,
-				},
-				{
-					title: "Reclamaciones",
-					url: "/logistics/issues",
-					isActive: false,
-				},
-			],
-		},
-		{
-			title: "Configuracion",
-			url: "#",
-			icon: Settings2,
-			isActive: false,
-			items: [
-				{
-					title: "General",
-					url: "/configuration",
-					isActive: false,
-				},
-			],
-		},
-	],
-	projects: [
-		{
-			name: "Design Engineering",
-			url: "#",
-			icon: Frame,
-		},
-		{
-			name: "Sales & Marketing",
-			url: "#",
-			icon: PieChart,
-		},
-		{
-			name: "Travel",
-			url: "#",
-			icon: Map,
-		},
-	],
-};
 export default function Layout({ children }: { children: ReactNode }) {
-	const [activeTeam, setActiveTeam] = useState(data.teams[0]);
+	const [activeTeam, setActiveTeam] = useState(nav_links.teams[0]);
 	const [activeItem, setActiveItem] = useState("/"); // Default to Dashboard
 
 	const handleItemClick = (url: string) => {
@@ -233,7 +141,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 									<DropdownMenuLabel className="text-xs text-muted-foreground">
 										Teams
 									</DropdownMenuLabel>
-									{data.teams.map((team, index) => (
+									{nav_links.teams.map((team, index) => (
 										<DropdownMenuItem
 											key={team.name}
 											onClick={() => setActiveTeam(team)}
@@ -262,7 +170,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 					<SidebarGroup>
 						<SidebarGroupLabel>Agencia</SidebarGroupLabel>
 						<SidebarMenu>
-							{data.navMain.map((item) =>
+							{nav_links.navMain.map((item) =>
 								item.items ? (
 									<Collapsible
 										key={item.title}
@@ -333,12 +241,12 @@ export default function Layout({ children }: { children: ReactNode }) {
 										className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
 									>
 										<Avatar className="h-8 w-8 rounded-lg">
-											<AvatarImage src={data.user.avatar} alt={data.user.name} />
+											<AvatarImage src={nav_links.user.avatar} alt={nav_links.user.name} />
 											<AvatarFallback className="rounded-lg">CN</AvatarFallback>
 										</Avatar>
 										<div className="grid flex-1 text-left text-sm leading-tight">
-											<span className="truncate font-semibold">{data.user.name}</span>
-											<span className="truncate text-xs">{data.user.email}</span>
+											<span className="truncate font-semibold">{nav_links.user.name}</span>
+											<span className="truncate text-xs">{nav_links.user.email}</span>
 										</div>
 										<ChevronsUpDown className="ml-auto size-4" />
 									</SidebarMenuButton>
@@ -352,12 +260,12 @@ export default function Layout({ children }: { children: ReactNode }) {
 									<DropdownMenuLabel className="p-0 font-normal">
 										<div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
 											<Avatar className="h-8 w-8 rounded-lg">
-												<AvatarImage src={data.user.avatar} alt={data.user.name} />
+												<AvatarImage src={nav_links.user.avatar} alt={nav_links.user.name} />
 												<AvatarFallback className="rounded-lg">CN</AvatarFallback>
 											</Avatar>
 											<div className="grid flex-1 text-left text-sm leading-tight">
-												<span className="truncate font-semibold">{data.user.name}</span>
-												<span className="truncate text-xs">{data.user.email}</span>
+												<span className="truncate font-semibold">{nav_links.user.name}</span>
+												<span className="truncate text-xs">{nav_links.user.email}</span>
 											</div>
 										</div>
 									</DropdownMenuLabel>
@@ -405,7 +313,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 					</div>
 				</header>
 
-				<div className="p-4 flex-1  ">{children}</div>
+				<div className="p-2 md:p-4 flex-1  ">{children}</div>
 				<Toaster />
 			</SidebarInset>
 		</SidebarProvider>

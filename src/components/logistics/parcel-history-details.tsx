@@ -39,8 +39,8 @@ export default function ParcelHistoryDetails({ hbl }: { hbl: string }) {
 	if (error) return <div>Error: {error.message}</div>;
 	console.log(parcel);
 	return (
-		<ScrollArea className="h-[calc(100vh-10rem)] px-4  ">
-			<div className=" grid mt-6  md:grid-cols-2 md:gap-10 text-sm  ">
+		<ScrollArea className="h-[calc(100vh-10rem)] md:px-4 mb-6  ">
+			<div className=" grid mt-6 pb-6  md:grid-cols-2 md:gap-10 text-sm  ">
 				<div>
 					<div className="flex my-2 justify-between items-center">
 						<h2 className="text-xl">{parcel?.agency}</h2>
@@ -175,37 +175,6 @@ export default function ParcelHistoryDetails({ hbl }: { hbl: string }) {
 										</p>
 										<p>{event?.statusDetails}</p>
 									</div>
-									{event?.issues && event.issues.length > 0 && (
-										<>
-											{event.issues.map((issue, index) => (
-												<div
-													key={index}
-													className="flex border-y border-dashed my-2 p-1 items-center w-full  gap-2 "
-												>
-													<TriangleAlert className="w-4 h-4 mr-4 text-red-500 " />
-													<div className="flex-1 ">
-														<p>{issue.description}</p>
-														<time className="text-xs text-gray-500">
-															{new Date(issue?.createdAt).toLocaleString("en-US", {
-																year: "numeric",
-																month: "short",
-																day: "numeric",
-																hour: "2-digit",
-																minute: "2-digit",
-															})}
-														</time>
-													</div>
-
-													<div className="relative text-xs text-gray-500">
-														<MessageSquareIcon className="w-5 h-5" />
-														<p className="absolute text-center h-4 w-4 rounded-full text-white  bg-red-500  -top-2 left-2">
-															{issue?.comments?.length}
-														</p>
-													</div>
-												</div>
-											))}
-										</>
-									)}
 								</div>
 							</div>
 						))}

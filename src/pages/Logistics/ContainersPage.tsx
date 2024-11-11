@@ -11,6 +11,7 @@ import {
 	ContainerPendingToArrival,
 } from "@/components/containers/no-container-selected";
 import { ContainerUpdateModalForm } from "@/components/containers/container-update-modal-form";
+import ExcelUploadFile from "@/components/logistics/excel-upload-file";
 
 export default function ContainersPage() {
 	const [selectedContainer, setSelectedContainer] = useState<number | null>(null);
@@ -20,29 +21,18 @@ export default function ContainersPage() {
 		error,
 	} = useFetchParcelsByContainerId(selectedContainer?.id);
 
-	
-
 	return (
 		<div>
-			<div className=" bg-muted/20  rounded-lg py-2 md:py-6 px-4 gap-4 grid md:flex justify-center md:justify-between items-center  p-4 ">
+			<div className=" bg-muted/20   rounded-lg py-2 md:py-6  md:px-4 gap-4  grid md:flex justify-center md:justify-between items-center   ">
 				<ContainerSelect setSelectedContainer={setSelectedContainer} />
-
-				{selectedContainer && (
-					<div className="flex md:flex-row flex-col md:items-center md:text-center gap-4">
-						<div className="grid grid-cols-2 gap-4">
-							<p className="text-xs text-center md:text-left text-muted-foreground">
-								Total de paquetes:{" "}
-								{parcelsInContainer?.data?.length ? parcelsInContainer?.data?.length : 0}
-							</p>
-							<p className="text-xs text-muted-foreground">
-								Peso: {selectedContainer?.weight ? selectedContainer?.weight : 0} lbs
-							</p>
-						</div>
-						{parcelsInContainer?.inPort && (
+				<div className="flex flex-col justify-end ">
+					<div className="grid grid-cols-2 lg:flex  mx-auto items-center md:gap-4 gap-2">
+						{selectedContainer && parcelsInContainer?.inPort && (
 							<ContainerUpdateModalForm selectedContainerId={selectedContainer.id} />
 						)}
-					</div>
-				)}
+						<ExcelUploadFile />
+					</div>{" "}
+				</div>
 			</div>
 			{selectedContainer?.id ? (
 				<div>

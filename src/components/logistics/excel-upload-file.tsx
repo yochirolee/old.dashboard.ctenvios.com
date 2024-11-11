@@ -86,9 +86,9 @@ export default function ExcelUploadDialog() {
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
-				<Button variant="outline" size="sm" className="ml-auto  h-8 lg:flex">
-					<FileX />
-					<span className="hidden md:inline">Importar Excel</span>
+				<Button variant="ghost" size="sm" className="  h-8 lg:flex">
+					<FileX className="h-4 w-4 text-green-600" />
+					<span className=" md:inline">Importar Excel</span>
 				</Button>
 			</DialogTrigger>
 			<DialogContent className="sm:max-w-[425px]">

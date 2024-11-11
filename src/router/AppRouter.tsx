@@ -4,13 +4,14 @@ import { Navigate, Route, Routes } from "react-router-dom";
 //import Dashboard from "../pages/Dashboard";
 import Orders from "../pages/Orders";
 import CreateOrder from "../pages/CreateOrder";
-import Configuration from "../pages/Configuration";
 import DesignEngineering from "../pages/DesignEngineering";
 import SalesMarketing from "../pages/SalesMarketing";
 import Travel from "../pages/Travel";
 import ContainersPage from "@/pages/Logistics/ContainersPage";
 import IssuesPage from "@/pages/Logistics/IssuesPage";
 import TrackingPage from "@/pages/Logistics/TrackingPage";
+import SettingsPage from "@/pages/Settings/SettingsPage";
+import UsersPage from "@/pages/Settings/UsersPage";
 
 export default function AppRouter() {
 	return (
@@ -22,8 +23,8 @@ export default function AppRouter() {
 			<Route path="/logistics/containers" element={<ContainersPage />} />
 			<Route path="/logistics/tracking" element={<TrackingPage />} />
 			<Route path="/logistics/issues" element={<IssuesPage />} />
-			<Route path="/configuration" element={<Configuration />} />
-
+			<Route path="/settings" element={<SettingsPage />} />
+			<Route path="/settings/users" element={<UsersPage />} />
 			{/* Project routes */}
 			<Route path="/projects/design-engineering" element={<DesignEngineering />} />
 			<Route path="/projects/sales-marketing" element={<SalesMarketing />} />
