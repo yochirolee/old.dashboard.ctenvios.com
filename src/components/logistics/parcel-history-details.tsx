@@ -39,7 +39,7 @@ export default function ParcelHistoryDetails({ hbl }: { hbl: string }) {
 	if (error) return <div>Error: {error.message}</div>;
 	console.log(parcel);
 	return (
-		<ScrollArea className="h-[calc(100vh-10rem)] md:px-4 mb-6  ">
+		<ScrollArea className="h-[calc(100vh-10rem)] px-2 md:px-4 mb-6  ">
 			<div className=" grid mt-6 pb-6  md:grid-cols-2 md:gap-10 text-sm  ">
 				<div>
 					<div className="flex my-2 justify-between items-center">

@@ -1,11 +1,11 @@
-
 import { Table } from "@tanstack/react-table";
 
 import { Button } from "@/components/ui/button";
 import { DataTableViewOptions } from "@/components/common/table/data-table-view-option";
 
-import { statuses } from "@/data/data";
+import { locations, statuses } from "@/data/data";
 import { DataTableFacetedFilter } from "@/components/common/table/data-table-faceted-filters";
+import { X } from "lucide-react";
 
 interface DataTableToolbarProps<TData> {
 	table: Table<TData>;
@@ -24,6 +24,13 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
 						options={statuses}
 					/>
 				)}
+				{table.getColumn("location") && (
+					<DataTableFacetedFilter
+						column={table.getColumn("location")}
+						title="Location"
+						options={locations}
+					/>
+				)}
 
 				{isFiltered && (
 					<Button
@@ -32,12 +39,11 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
 						className="h-8 px-2 lg:px-3"
 					>
 						Reset
-						<X />
+						<X className="ml-2 h-4 w-4" />
 					</Button>
 				)}
 			</div>
 			<div className="flex items-center space-x-2 justify-end">
-			
 				<DataTableViewOptions table={table} />
 			</div>
 		</div>
