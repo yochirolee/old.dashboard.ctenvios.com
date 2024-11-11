@@ -16,6 +16,7 @@ import {
 	Plus,
 	Settings2,
 	Sparkles,
+	User,
 	Warehouse,
 } from "lucide-react";
 
@@ -63,6 +64,7 @@ import { Link, useLocation } from "react-router-dom";
 import { ModeToggle } from "@/components/common/nav/mode-toggle";
 import { Toaster } from "@/components/ui/toaster";
 import { nav_links } from "@/data/data";
+import { useAuthContext } from "@/context/auth-context";
 
 export default function Layout({ children }: { children: ReactNode }) {
 	const [activeTeam, setActiveTeam] = useState(nav_links.teams[0]);
@@ -71,6 +73,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 	const handleItemClick = (url: string) => {
 		setActiveItem(url);
 	};
+	const { logout, user } = useAuthContext();
 
 	function generateBreadcrumbs() {
 		const location = useLocation();
@@ -95,15 +98,13 @@ export default function Layout({ children }: { children: ReactNode }) {
 											{value.charAt(0).toUpperCase() + value.slice(1)}
 										</BreadcrumbPage>
 									) : (
-										<Link to={to}>
-											{value.charAt(0).toUpperCase() + value.slice(1)}
-										</Link>
+										<Link to={to}>{value.charAt(0).toUpperCase() + value.slice(1)}</Link>
 									)}
 								</BreadcrumbItem>
 								{!isLast && <BreadcrumbSeparator />}
 							</React.Fragment>
 						);
-						})}
+					})}
 				</BreadcrumbList>
 			</Breadcrumb>
 		);
@@ -245,8 +246,8 @@ export default function Layout({ children }: { children: ReactNode }) {
 											<AvatarFallback className="rounded-lg">CN</AvatarFallback>
 										</Avatar>
 										<div className="grid flex-1 text-left text-sm leading-tight">
-											<span className="truncate font-semibold">{nav_links.user.name}</span>
-											<span className="truncate text-xs">{nav_links.user.email}</span>
+											<span className="truncate font-semibold">{user?.username}</span>
+											<span className="truncate text-xs">{user?.email}</span>
 										</div>
 										<ChevronsUpDown className="ml-auto size-4" />
 									</SidebarMenuButton>
@@ -264,16 +265,16 @@ export default function Layout({ children }: { children: ReactNode }) {
 												<AvatarFallback className="rounded-lg">CN</AvatarFallback>
 											</Avatar>
 											<div className="grid flex-1 text-left text-sm leading-tight">
-												<span className="truncate font-semibold">{nav_links.user.name}</span>
-												<span className="truncate text-xs">{nav_links.user.email}</span>
+												<span className="truncate font-semibold">{user?.username}</span>
+												<span className="truncate text-xs">{user?.email}</span>
 											</div>
 										</div>
 									</DropdownMenuLabel>
 									<DropdownMenuSeparator />
 									<DropdownMenuGroup>
 										<DropdownMenuItem>
-											<Sparkles />
-											Upgrade to Pro
+											<User />
+											{user?.role}
 										</DropdownMenuItem>
 									</DropdownMenuGroup>
 									<DropdownMenuSeparator />
@@ -292,7 +293,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 										</DropdownMenuItem>
 									</DropdownMenuGroup>
 									<DropdownMenuSeparator />
-									<DropdownMenuItem>
+									<DropdownMenuItem onClick={logout}>
 										<LogOut />
 										Log out
 									</DropdownMenuItem>
@@ -309,7 +310,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 					<Separator orientation="vertical" className="mr-2 h-4" />
 					<div className="flex flex-1 justify-between items-center ">
 						{generateBreadcrumbs()}
-						<ModeToggle  />
+						<ModeToggle />
 					</div>
 				</header>
 

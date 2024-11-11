@@ -21,30 +21,34 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 
 // Login mutation
 export const useLoginMutation = () => {
-	return useMutation<any, Error, Pick<UserInterface, 'email' | 'password'>>({
-		mutationFn: ({ email, password }) => authApi.login(email, password)
+	return useMutation<any, Error, Pick<UserInterface, "email" | "password">>({
+		mutationFn: ({ email, password }) => authApi.login(email, password),
 	});
 };
 
 // Register mutation
 export const useRegisterMutation = () => {
-	return useMutation<any, Error, Pick<UserInterface, 'email' | 'password' | 'name' | 'agencyId' | 'role'>>({
+	return useMutation<
+		any,
+		Error,
+		Pick<UserInterface, "email" | "password" | "name" | "agencyId" | "role">
+	>({
 		mutationFn: ({ email, password, name, agencyId, role }) =>
-		authApi.register(email, password, name, agencyId, role),
+			authApi.register(email, password, name, agencyId, role),
 	});
 };
 
 // Logout mutation
 export const useLogoutMutation = () => {
 	return useMutation<any, Error, void>({
-		mutationFn: () => authApi.logout()
+		mutationFn: () => authApi.logout(),
 	});
 };
 
 // Refresh token mutation
 export const useRefreshTokenMutation = () => {
 	return useMutation<any, Error, void>({
-		mutationFn: () => authApi.refreshToken()
+		mutationFn: () => authApi.refreshToken(),
 	});
 };
 
@@ -57,7 +61,7 @@ export const useForgotPasswordMutation = () => {
 
 // Reset password mutation
 export const useResetPasswordMutation = () => {
-	return useMutation<any, Error, { token: string, newPassword: string }>({
+	return useMutation<any, Error, { token: string; newPassword: string }>({
 		mutationFn: ({ token, newPassword }) => authApi.resetPassword(token, newPassword),
 	});
 };
@@ -88,16 +92,23 @@ export const useDeleteUserMutation = () => {
 const authApi = {
 	login: async (email: string, password: string) => {
 		try {
-			const response = await axios.post("users/login", { email, password });
+			const response = await axios.post(`${baseUrl}/users/login`, { email, password });
+
 			return response.data;
 		} catch (error) {
 			throw error;
 		}
 	},
 
-	register: async (email: string, password: string, name: string, agencyId: number, role: string) => {
+	register: async (
+		email: string,
+		password: string,
+		name: string,
+		agencyId: number,
+		role: string,
+	) => {
 		try {
-			const response = await axios.post("/users/register", {
+			const response = await axios.post(`${baseUrl}/users/register`, {
 				email,
 				password,
 				name,
@@ -112,16 +123,20 @@ const authApi = {
 
 	logout: async () => {
 		try {
-			const response = await axios.post("/logout");
+			const response = await axios.post(`${baseUrl}/logout`);
 			return response.data;
 		} catch (error) {
 			throw error;
 		}
 	},
 
+	setToken: async (token: string) => {
+		axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+	},
+
 	refreshToken: async () => {
 		try {
-			const response = await axios.post("/refresh-token");
+			const response = await axios.post(`${baseUrl}/refresh-token`);
 			return response.data;
 		} catch (error) {
 			throw error;
@@ -130,7 +145,7 @@ const authApi = {
 
 	forgotPassword: async (email: string) => {
 		try {
-			const response = await axios.post("/forgot-password", { email });
+			const response = await axios.post(`${baseUrl}/forgot-password`, { email });
 			return response.data;
 		} catch (error) {
 			throw error;
@@ -139,7 +154,7 @@ const authApi = {
 
 	resetPassword: async (token: string, newPassword: string) => {
 		try {
-			const response = await axios.post("/reset-password", { token, newPassword });
+			const response = await axios.post(`${baseUrl}/reset-password`, { token, newPassword });
 			return response.data;
 		} catch (error) {
 			throw error;
@@ -148,7 +163,7 @@ const authApi = {
 
 	getUser: async (userId: string) => {
 		try {
-			const response = await axios.get(`/users/${userId}`);
+			const response = await axios.get(`${baseUrl}/users/${userId}`);
 			return response.data;
 		} catch (error) {
 			throw error;
@@ -156,15 +171,15 @@ const authApi = {
 	},
 	getAllUsers: async () => {
 		try {
-			const response = await axios.get("/users");
+			const response = await axios.get(`${baseUrl}/users`);
 			return response.data;
 		} catch (error) {
 			throw error;
 		}
 	},
-	deleteUser: async (userId: string   ) => {
+	deleteUser: async (userId: string) => {
 		try {
-			const response = await axios.delete(`/users/${userId}`);
+			const response = await axios.delete(`${baseUrl}/users/${userId}`);
 			return response.data;
 		} catch (error) {
 			throw error;

@@ -1,101 +1,145 @@
-import { createContext, useContext, ReactNode, useState, useEffect } from 'react';
+import authApi, { useLoginMutation } from "@/api/auth-api";
+import { createContext, useContext, ReactNode, useState, useEffect } from "react";
+import { jwtDecode } from "jwt-decode";
 
 interface AuthContextType {
-  isAuthenticated: boolean;
-  user: User | null;
-  token: string | null;
-  login: (userData: User, token: string) => void;
-  logout: () => void;
-  updateToken: (newToken: string) => void;
+	user: User | null;
+	session: Session | null;
+	login: (email: string, password: string) => void;
+	logout: () => void;
+	isLoggingIn: boolean;
+	loginError: string | null;
 }
 
 interface User {
-  id: string;
-  email: string;
-  // Add other user properties as needed
+	id: string;
+	email: string;
+	agencyId: number;
+	role: string;
+	roleId: number;
+
+	// Add other user properties as needed
+}
+
+interface Session {
+	userId: string;
+	email: string;
+	role: string;
+	username: string;
+	roleId: number;
+	agencyId: number;
+	iat: number;
+	exp: number;
+}
+
+interface JwtToken {
+	id: string;
+	email: string;
+	agencyId: number;
+	username: string;
+	role: string;
+	roleId: number;
+	iat: number;
+	exp: number;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const TOKEN_KEY = 'auth_token';
-const USER_KEY = 'auth_user';
+const USER_KEY = "user";
+const SESSION_KEY = "session";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(() => {
-    const savedUser = localStorage.getItem(USER_KEY);
-    return savedUser ? JSON.parse(savedUser) : null;
-  });
-  
-  const [token, setToken] = useState<string | null>(() => {
-    return localStorage.getItem(TOKEN_KEY);
-  });
-  
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
-    return !!localStorage.getItem(TOKEN_KEY);
-  });
+	const [user, setUser] = useState<User | null>(() => {
+		const savedUser = localStorage.getItem(USER_KEY);
+		return savedUser ? JSON.parse(savedUser) : null;
+	});
 
-  const login = (userData: User, newToken: string) => {
-    setUser(userData);
-    setToken(newToken);
-    setIsAuthenticated(true);
-    localStorage.setItem(TOKEN_KEY, newToken);
-    localStorage.setItem(USER_KEY, JSON.stringify(userData));
-  };
+	const [session, setSession] = useState<Session | null>(() => {
+		const savedSession = localStorage.getItem(SESSION_KEY);
+		return savedSession ? JSON.parse(savedSession) : null;
+	});
 
-  const logout = () => {
-    setUser(null);
-    setToken(null);
-    setIsAuthenticated(false);
-    localStorage.removeItem(TOKEN_KEY);
-    localStorage.removeItem(USER_KEY);
-  };
+	console.log(session, "sessiong");
 
-  const updateToken = (newToken: string) => {
-    setToken(newToken);
-    localStorage.setItem(TOKEN_KEY, newToken);
-  };
+	const loginMutation = useLoginMutation();
 
-  // Optional: Add a token expiration check
-  useEffect(() => {
-    if (token) {
-      const checkTokenExpiration = () => {
-        try {
-          const payload = JSON.parse(atob(token.split('.')[1]));
-          if (payload.exp * 1000 < Date.now()) {
-            logout();
-          }
-        } catch (error) {
-          console.error('Error checking token expiration:', error);
-          logout();
-        }
-      };
+	const login = async (email: string, password: string) => {
+		return loginMutation.mutate(
+			{ email, password },
+			{
+				onSuccess: (data) => {
+					setSession(data.token);
+					authApi.setToken(data.token);
+					const decodedToken = jwtDecode<JwtToken>(data.token);
+					console.log(decodedToken, "decodedToken");
+					const user: User = {
+						id: decodedToken.id,
+						email: decodedToken.email,
+						agencyId: decodedToken.agencyId,
+						role: decodedToken.role,
+						roleId: decodedToken.roleId,
+						username: decodedToken.username,
+					};
+					setUser(user);
+					//save user to local storage
+					localStorage.setItem(SESSION_KEY, JSON.stringify(data.token));
+					localStorage.setItem(USER_KEY, JSON.stringify(user));
+				},
+				onError: (error) => {
+					console.log(error);
+				},
+			},
+		);
+	};
 
-      checkTokenExpiration();
-      const interval = setInterval(checkTokenExpiration, 60000); // Check every minute
-      return () => clearInterval(interval);
-    }
-  }, [token]);
+	const logout = () => {
+		localStorage.removeItem(SESSION_KEY);
+		localStorage.removeItem(USER_KEY);
+		setSession(null);
+		setUser(null);
+	};
 
-  return (
-    <AuthContext.Provider 
-      value={{ 
-        isAuthenticated, 
-        user, 
-        token,
-        login, 
-        logout,
-        updateToken 
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
+	// Check token expiration periodically
+	useEffect(() => {
+		const checkTokenExpiration = () => {
+			if (session?.exp) {
+				const currentTime = Math.floor(Date.now() / 1000); // Convert to seconds
+				if (currentTime >= session.exp) {
+					logout();
+				}
+			}
+		};
+
+		// Check immediately
+		checkTokenExpiration();
+
+		// Set up interval to check every minute
+		const interval = setInterval(checkTokenExpiration, 60000);
+
+		// Cleanup interval on unmount
+		return () => clearInterval(interval);
+	}, [session]);
+
+	return (
+		<AuthContext.Provider
+			value={{
+				user,
+				session,
+				login,
+				logout,
+				isLoggingIn: loginMutation.isPending,
+				loginError: loginMutation.error ? loginMutation.error.message : null,
+			}}
+		>
+			{children}
+		</AuthContext.Provider>
+	);
 }
 
-export function useAuth() {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
+export function useAuthContext() {
+	const context = useContext(AuthContext);
+	if (context === undefined) {
+		throw new Error("useAuth must be used within an AuthProvider");
+	}
+	return context;
 }
