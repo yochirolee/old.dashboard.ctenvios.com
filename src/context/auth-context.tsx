@@ -1,7 +1,7 @@
 import { useLoginMutation } from "@/api/auth-api";
 import { createContext, useContext, ReactNode, useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface AuthContextType {
 	user: User | null;
@@ -83,6 +83,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 					//save user to local storage
 					localStorage.setItem(SESSION_KEY, JSON.stringify(data.token));
 					localStorage.setItem(USER_KEY, JSON.stringify(user));
+					navigate("/");
 				},
 				onError: (error) => {
 					console.log(error);
@@ -106,7 +107,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 				const currentTime = Math.floor(Date.now() / 1000); // Convert to seconds
 				if (currentTime >= session.exp) {
 					logout();
-					navigate("/login");
 				}
 			}
 		};
