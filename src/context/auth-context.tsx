@@ -17,6 +17,7 @@ interface User {
 	agencyId: number;
 	role: string;
 	roleId: number;
+	username: string;
 
 	// Add other user properties as needed
 }
@@ -59,7 +60,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 		return savedSession ? JSON.parse(savedSession) : null;
 	});
 
-	console.log(session, "sessiong");
 
 	const loginMutation = useLoginMutation();
 
@@ -69,9 +69,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 			{
 				onSuccess: (data) => {
 					setSession(data.token);
-					authApi.setToken(data.token);
 					const decodedToken = jwtDecode<JwtToken>(data.token);
-					console.log(decodedToken, "decodedToken");
 					const user: User = {
 						id: decodedToken.id,
 						email: decodedToken.email,

@@ -1,9 +1,16 @@
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { redirect } from "react-router-dom";
+
 const baseUrl =
 	process.env.NODE_ENV === "production"
 		? "https://apiv1trackingctenvioscom.vercel.app/api"
 		: "http://localhost:3001/api";
 
+const token = localStorage.getItem("session")?.replace(/"/g, "");
+if (token && token !== "" && token !== "null") {
+	axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+}
 // Auth API
 
 interface UserInterface {
@@ -16,8 +23,6 @@ interface UserInterface {
 	token?: string;
 	newPassword?: string;
 }
-
-import { useMutation, useQuery } from "@tanstack/react-query";
 
 // Login mutation
 export const useLoginMutation = () => {
@@ -128,10 +133,6 @@ const authApi = {
 		} catch (error) {
 			throw error;
 		}
-	},
-
-	setToken: async (token: string) => {
-		axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 	},
 
 	refreshToken: async () => {
