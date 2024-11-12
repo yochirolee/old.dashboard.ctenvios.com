@@ -1,6 +1,7 @@
-import authApi, { useLoginMutation } from "@/api/auth-api";
+import { useLoginMutation } from "@/api/auth-api";
 import { createContext, useContext, ReactNode, useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
+import { redirect, useNavigate } from "react-router-dom";
 
 interface AuthContextType {
 	user: User | null;
@@ -50,6 +51,7 @@ const USER_KEY = "user";
 const SESSION_KEY = "session";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
+	const navigate = useNavigate();
 	const [user, setUser] = useState<User | null>(() => {
 		const savedUser = localStorage.getItem(USER_KEY);
 		return savedUser ? JSON.parse(savedUser) : null;
@@ -59,7 +61,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 		const savedSession = localStorage.getItem(SESSION_KEY);
 		return savedSession ? JSON.parse(savedSession) : null;
 	});
-
 
 	const loginMutation = useLoginMutation();
 
@@ -95,6 +96,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 		localStorage.removeItem(USER_KEY);
 		setSession(null);
 		setUser(null);
+		navigate("/login");
 	};
 
 	// Check token expiration periodically
@@ -104,6 +106,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 				const currentTime = Math.floor(Date.now() / 1000); // Convert to seconds
 				if (currentTime >= session.exp) {
 					logout();
+					navigate("/login");
 				}
 			}
 		};

@@ -2,28 +2,19 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { Button } from "@/components/ui/button";
-import {
-	Form,
-	FormControl,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Card } from "../ui/card";
-import { Loader2, Search } from "lucide-react";
+import { Search } from "lucide-react";
 
 const formSchema = z.object({
-	search: z.string(),
+	search: z.string().min(4, { message: "Search is required" }),
 });
 
 export function SearchForm({
-	onSearch,
+	setQuerySearch,
 	isLoading,
 }: {
-	onSearch: (query: string) => void;
+	setQuerySearch: (query: string) => void;
 	isLoading: boolean;
 }) {
 	const form = useForm<z.infer<typeof formSchema>>({
@@ -34,7 +25,7 @@ export function SearchForm({
 	});
 
 	function onSubmit(values: z.infer<typeof formSchema>) {
-		onSearch(values.search); // Pass the search term to the parent component
+		setQuerySearch(values.search); // Pass the search term to the parent component
 	}
 
 	return (
@@ -47,6 +38,8 @@ export function SearchForm({
 					<FormField
 						control={form.control}
 						name="search"
+						disabled={isLoading}
+						
 						render={({ field }) => (
 							<FormItem>
 								<FormControl>
@@ -58,6 +51,11 @@ export function SearchForm({
 											className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px]"
 											{...field}
 										/>
+										{isLoading && (
+											<div className="absolute right-2.5 top-[12px]">
+												<div className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+											</div>
+										)}
 									</div>
 								</FormControl>
 								<FormMessage />

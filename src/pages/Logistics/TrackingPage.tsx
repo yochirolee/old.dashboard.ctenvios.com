@@ -15,14 +15,10 @@ export default function TrackingPage() {
 		isLoading: isInitialLoading,
 		error: isInitialError,
 	} = useFetchParcels();
+
 	const { data: searchData, isLoading, error } = useSearchParcels(deferredSearchQuery);
 
-	const handleSearch = (query: string) => {
-		setSearchQuery(query);
-	};
 	const data = searchQuery ? searchData?.parcels : initialData?.parcels;
-
-	
 
 	if (error || isInitialError) {
 		return (
@@ -34,7 +30,7 @@ export default function TrackingPage() {
 
 	return (
 		<div className="rounded-md space-y-6  ">
-			<SearchForm onSearch={handleSearch} isLoading={isLoading} />
+			<SearchForm setQuerySearch={setSearchQuery} isLoading={isLoading} />
 
 			{isLoading || isInitialLoading ? (
 				<TableSkeleton />
