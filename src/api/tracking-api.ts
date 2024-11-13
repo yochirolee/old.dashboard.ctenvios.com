@@ -1,14 +1,11 @@
 import axios from "axios";
-import { ParcelInterface } from "../interfaces/parcel";
 const baseUrl =
 	process.env.NODE_ENV === "production"
 		? "https://apiv1trackingctenvioscom.vercel.app/api"
 		: "http://localhost:3001/api";
 
-// Parcels API
-
 export const tracking_api = {
-	parcels: {
+	/* parcels: {
 		getAll: async (): Promise<ParcelInterface[]> => {
 			const response = await axios.get(`${baseUrl}/parcels`);
 			return response.data;
@@ -32,7 +29,7 @@ export const tracking_api = {
 			const response = await axios.post(`${baseUrl}/parcels/import-events`, formData);
 			return response.data;
 		},
-	},
+	}, */
 
 	containers: {
 		fetchContainers: async (): Promise<any[]> => {

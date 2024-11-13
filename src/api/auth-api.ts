@@ -1,17 +1,10 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { redirect } from "react-router-dom";
 
 const baseUrl =
 	process.env.NODE_ENV === "production"
 		? "https://apiv1trackingctenvioscom.vercel.app/api"
 		: "http://localhost:3001/api";
-
-const token = localStorage.getItem("session")?.replace(/"/g, "");
-if (token && token !== "" && token !== "null") {
-	axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-}
-// Auth API
 
 interface UserInterface {
 	userId: string;
@@ -27,7 +20,10 @@ interface UserInterface {
 // Login mutation
 export const useLoginMutation = () => {
 	return useMutation<any, Error, Pick<UserInterface, "email" | "password">>({
-		mutationFn: ({ email, password }) => authApi.login(email, password),
+		mutationFn: async ({ email, password }) => {
+			const response = await axios.post(`${baseUrl}/users/login`, { email, password });
+			return response.data;
+		},
 	});
 };
 
@@ -97,6 +93,7 @@ export const useDeleteUserMutation = () => {
 const authApi = {
 	login: async (email: string, password: string) => {
 		try {
+			localStorage.removeItem("token");
 			const response = await axios.post(`${baseUrl}/users/login`, { email, password });
 
 			return response.data;

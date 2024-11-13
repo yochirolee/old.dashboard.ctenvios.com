@@ -17,8 +17,8 @@ import Layout from "@/layout/layout";
 import { useAuthContext } from "@/context/auth-context";
 
 export default function AppRouter() {
-	const { session } = useAuthContext();
-	return session ? (
+	const { token } = useAuthContext();
+	return token ? (
 		<Layout>
 			<Routes>
 				{/* Auth routes */}
@@ -38,7 +38,7 @@ export default function AppRouter() {
 				<Route path="/projects/travel" element={<Travel />} />
 
 				{/* Catch-all route for undefined paths */}
-				<Route path="/*" element={<Navigate to="/login" />} />
+				<Route path="/*" element={<Navigate to="/" />} />
 			</Routes>
 		</Layout>
 	) : (

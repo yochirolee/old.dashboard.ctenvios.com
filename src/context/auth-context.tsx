@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 interface AuthContextType {
 	user: User | null;
-	session: Session | null;
+	token: string | null;
 	login: (email: string, password: string) => void;
 	logout: () => void;
 	isLoggingIn: boolean;
@@ -23,32 +23,10 @@ interface User {
 	// Add other user properties as needed
 }
 
-interface Session {
-	userId: string;
-	email: string;
-	role: string;
-	username: string;
-	roleId: number;
-	agencyId: number;
-	iat: number;
-	exp: number;
-}
-
-interface JwtToken {
-	id: string;
-	email: string;
-	agencyId: number;
-	username: string;
-	role: string;
-	roleId: number;
-	iat: number;
-	exp: number;
-}
-
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const USER_KEY = "user";
-const SESSION_KEY = "session";
+const TOKEN_KEY = "token";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
 	const navigate = useNavigate();
@@ -57,20 +35,39 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 		return savedUser ? JSON.parse(savedUser) : null;
 	});
 
-	const [session, setSession] = useState<Session | null>(() => {
-		const savedSession = localStorage.getItem(SESSION_KEY);
-		return savedSession ? JSON.parse(savedSession) : null;
+	const [token, setToken] = useState<string | null>(() => {
+		const savedToken = localStorage.getItem(TOKEN_KEY);
+		return savedToken ? JSON.parse(savedToken) : null;
 	});
 
 	const loginMutation = useLoginMutation();
 
+	useEffect(() => {
+		if (token && isTokenExpired(token)) {
+			localStorage.removeItem(TOKEN_KEY);
+			logout();
+		}
+	}, [token]);
+
+	const isTokenExpired = (token: string): boolean => {
+		try {
+			const decoded: any = jwtDecode(token);
+			const currentTime = Date.now() / 1000;
+			console.log("Token expiration:", decoded.exp);
+			console.log("Current time:", currentTime);
+			console.log("Is expired:", decoded.exp < currentTime);
+			return decoded.exp < currentTime;
+		} catch (error) {
+			return true;
+		}
+	};
 	const login = async (email: string, password: string) => {
 		return loginMutation.mutate(
 			{ email, password },
 			{
 				onSuccess: (data) => {
-					setSession(data.token);
-					const decodedToken = jwtDecode<JwtToken>(data.token);
+					setToken(data.token);
+					const decodedToken = jwtDecode<User>(data.token);
 					const user: User = {
 						id: decodedToken.id,
 						email: decodedToken.email,
@@ -81,7 +78,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 					};
 					setUser(user);
 					//save user to local storage
-					localStorage.setItem(SESSION_KEY, JSON.stringify(data.token));
+					localStorage.setItem(TOKEN_KEY, JSON.stringify(data.token));
 					localStorage.setItem(USER_KEY, JSON.stringify(user));
 					navigate("/");
 				},
@@ -93,41 +90,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 	};
 
 	const logout = () => {
-		localStorage.removeItem(SESSION_KEY);
+		localStorage.removeItem(TOKEN_KEY);
 		localStorage.removeItem(USER_KEY);
-		setSession(null);
+		setToken(null);
 		setUser(null);
 		navigate("/login");
 	};
-
-	// Check token expiration periodically
-	useEffect(() => {
-		const checkTokenExpiration = () => {
-			if (session?.exp) {
-				const currentTime = Math.floor(Date.now() / 1000); // Convert to seconds
-				if (currentTime >= session.exp) {
-					logout();
-				}
-			}
-		};
-
-		// Check immediately
-		checkTokenExpiration();
-
-		// Set up interval to check every minute
-		const interval = setInterval(checkTokenExpiration, 60000);
-
-		// Cleanup interval on unmount
-		return () => clearInterval(interval);
-	}, [session]);
 
 	return (
 		<AuthContext.Provider
 			value={{
 				user,
-				session,
+				token,
 				login,
 				logout,
+
 				isLoggingIn: loginMutation.isPending,
 				loginError: loginMutation.error ? loginMutation.error.message : null,
 			}}

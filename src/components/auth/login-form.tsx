@@ -24,6 +24,10 @@ type FormValues = z.infer<typeof FormSchema>;
 export function LoginForm() {
 	const form = useForm<FormValues>({
 		resolver: zodResolver(FormSchema),
+		defaultValues: {
+			email: "",
+			password: ""
+		}
 	});
 
 	const { login, isLoggingIn, loginError } = useAuthContext();
@@ -67,7 +71,6 @@ export function LoginForm() {
 						<FormField
 							control={form.control}
 							name="password"
-							
 							render={({ field }) => (
 								<FormItem className="flex flex-col">
 									<div className="grid gap-2">

@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { startTransition } from "react";
 
 type Theme = "dark" | "light" | "system";
 
@@ -51,7 +52,9 @@ export function ThemeProvider({
 		theme,
 		setTheme: (theme: Theme) => {
 			localStorage.setItem(storageKey, theme);
-			setTheme(theme);
+			startTransition(() => {
+				setTheme(theme);
+			});
 		},
 	};
 
