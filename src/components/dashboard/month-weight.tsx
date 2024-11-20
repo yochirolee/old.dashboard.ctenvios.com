@@ -18,6 +18,7 @@ import {
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "../ui/skeleton";
+import { tracking_api } from "@/api/tracking-api";
 /* const chartData = [
 	{ agency: "Agency 1", weight: 186 },
 	{ agency: "Agency 2", weight: 305 },
@@ -44,7 +45,7 @@ const chartConfig = {
 export function MonthWeight() {
 	const { data: chartData, isLoading } = useQuery({
 		queryKey: ["month-weight"],
-		queryFn: async () => (await axios.get("http://localhost:3001/api/stats")).data,
+		queryFn: async () => tracking_api.stats.getStats(),
 	});
 
 	const totalWeight = chartData?.reduce(
@@ -53,7 +54,6 @@ export function MonthWeight() {
 	);
 
 	if (isLoading) return <Skeleton className="h-40 w-full" />;
-	console.log(chartData);
 	return (
 		<Card>
 			<CardHeader>
@@ -64,7 +64,7 @@ export function MonthWeight() {
 				<div className="flex flex-col text-sm gap-2">
 					{chartData.map((agency: { agency: string; weight: number }) => (
 						<div className="flex justify-between" key={agency.agency}>
-							<span className="font-medium ">{ agency.agency}</span>{" "}
+							<span className="font-medium ">{agency.agency}</span>{" "}
 							<span className="text-muted-foreground">{agency.weight} Lbs</span>
 						</div>
 					))}
