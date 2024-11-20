@@ -5,7 +5,7 @@ export default function Dashboard() {
 	return (
 		<div className="p-4 space-y-4">
 			<InvoicesCount />
-			<div className="grid grid-cols-3">
+			<div className="grid grid-cols-1 md:grid-cols-3">
 				<MonthWeight />
 			</div>
 		</div>

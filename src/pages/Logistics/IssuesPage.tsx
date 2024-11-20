@@ -12,7 +12,7 @@ import {
 	Trash2,
 	Users2,
 } from "lucide-react";
-
+import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 import { Separator } from "@/components/ui/separator";
@@ -24,6 +24,7 @@ import IssueForm from "@/components/issues/issue-form";
 
 import { IssuesList } from "@/components/issues/issues-list";
 import { useFetchIssues } from "@/hooks/parcels/issues";
+
 
 interface IssuesProps {
 	issues: {
@@ -37,13 +38,9 @@ interface IssuesProps {
 	navCollapsedSize: number;
 }
 
-export default function IssuesPage({
-	defaultLayout = [10, 32, 48],
-	defaultCollapsed = false,
-	navCollapsedSize,
-}: IssuesProps) {
+export default function IssuesPage({ defaultLayout = [10, 32, 48] }: IssuesProps) {
 	const { data: issues, isLoading } = useFetchIssues();
-	const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed);
+	const [selectedIssue, setSelectedIssue] = useState<IssuesProps | null>(null);
 
 	const [direction, setDirection] = React.useState<"horizontal" | "vertical">(
 		window.innerWidth < 768 ? "vertical" : "horizontal",
@@ -101,7 +98,7 @@ export default function IssuesPage({
 				</ResizablePanel>
 				<ResizableHandle withHandle />
 				<ResizablePanel defaultSize={defaultLayout[2]} minSize={30}>
-					{/*  <IssuesDisplay i={mails.find((item) => item.id === mail.id) || null} /> */}
+					<IssuesDisplay i={issues?.find((item) => item.hbl === selectedIssue?.hbl) || null} />
 					<IssueForm />
 				</ResizablePanel>
 			</ResizablePanelGroup>

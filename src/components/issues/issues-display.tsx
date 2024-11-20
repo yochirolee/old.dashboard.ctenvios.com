@@ -174,7 +174,7 @@ export function IssuesDisplay({ mail }: IssuesDisplayProps) {
 								</AvatarFallback>
 							</Avatar>
 							<div className="grid gap-1">
-								<div className="font-semibold">{mail.name}</div>
+								<div className="font-semibold">{mail.hbl}</div>
 								<div className="line-clamp-1 text-xs">{mail.subject}</div>
 								<div className="line-clamp-1 text-xs">
 									<span className="font-medium">Reply-To:</span> {mail.email}
