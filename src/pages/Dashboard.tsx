@@ -1,11 +1,13 @@
+import { InvoicesCount } from "@/components/dashboard/invoices-count";
+import { MonthWeight } from "@/components/dashboard/month-weight";
 
 export default function Dashboard() {
-  return (
-    <div className="">
-      <h1>Dashboard</h1>
-      <p>Welcome to the dashboard!</p>
-    </div>
-  );
+	return (
+		<div className="p-4 space-y-4">
+			<InvoicesCount />
+			<div className="grid grid-cols-3">
+				<MonthWeight />
+			</div>
+		</div>
+	);
 }
-
-

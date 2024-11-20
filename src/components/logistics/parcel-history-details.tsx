@@ -45,10 +45,7 @@ export default function ParcelHistoryDetails({ hbl }: { hbl: string }) {
 					<div>
 						<div className="flex my-2 justify-between items-center">
 							<h2 className="text-xl">{parcel?.agency}</h2>
-							<Button variant="outline" className="text-xs">
-								<LucidePrinter className="h-4 w-4 mr-2" />
-								{parcel?.invoiceId}
-							</Button>
+							<IssueModalForm event={parcel?.events[parcel?.events.length - 1]} />
 						</div>
 						<Separator className="my-4" />
 						<div className="grid gap-3 ">

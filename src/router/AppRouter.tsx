@@ -15,6 +15,7 @@ import UsersPage from "@/pages/Settings/UsersPage";
 import { LoginPage } from "@/pages/Logistics/LoginPage";
 import Layout from "@/layout/layout";
 import { useAuthContext } from "@/context/auth-context";
+import Dashboard from "@/pages/Dashboard";
 
 export default function AppRouter() {
 	const { token } = useAuthContext();
@@ -24,7 +25,7 @@ export default function AppRouter() {
 				{/* Auth routes */}
 
 				{/* Main navigation routes */}
-				<Route path="/" element={<TrackingPage />} />
+				<Route path="/" element={<Dashboard />} />
 				<Route path="/orders" element={<Orders />} />
 				<Route path="/orders/create" element={<CreateOrder />} />
 				<Route path="/logistics/containers" element={<ContainersPage />} />

@@ -33,3 +33,11 @@ export interface Parcel {
 	receiver: Receiver;
 	events: ParcelEvent[];
 }
+
+export interface UserInterface {
+	name: string;
+	email: string;
+	role: string;
+	status: string;
+	lastActive: string;
+}

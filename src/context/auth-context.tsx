@@ -1,12 +1,20 @@
-import { useLoginMutation } from "@/api/auth-api";
+import { useLoginMutation, useRegisterMutation } from "@/api/auth-api";
 import { createContext, useContext, ReactNode, useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface AuthContextType {
 	user: User | null;
 	token: string | null;
 	login: (email: string, password: string) => void;
+	register: (
+		email: string,
+		password: string,
+		name: string,
+		agencyId: number,
+		roleId: number,
+	) => void;
 	logout: () => void;
 	isLoggingIn: boolean;
 	loginError: string | null;
@@ -30,6 +38,7 @@ const TOKEN_KEY = "token";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
 	const navigate = useNavigate();
+	const queryClient = useQueryClient();
 	const [user, setUser] = useState<User | null>(() => {
 		const savedUser = localStorage.getItem(USER_KEY);
 		return savedUser ? JSON.parse(savedUser) : null;
@@ -41,6 +50,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 	});
 
 	const loginMutation = useLoginMutation();
+	const registerMutation = useRegisterMutation();
 
 	useEffect(() => {
 		if (token && isTokenExpired(token)) {
@@ -89,6 +99,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 		);
 	};
 
+	const register = async (
+		email: string,
+		password: string,
+		name: string,
+		agencyId: number,
+		roleId: number,
+	) => {
+		return registerMutation.mutate(
+			{ email, password, name, agencyId, roleId },
+			{
+				onSuccess: () => {
+					queryClient.invalidateQueries({ queryKey: ["users"] });
+				},
+				onError: (error) => {
+					console.log(error);
+				},
+			},
+		);
+	};
+
 	const logout = () => {
 		localStorage.removeItem(TOKEN_KEY);
 		localStorage.removeItem(USER_KEY);
@@ -103,6 +133,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 				user,
 				token,
 				login,
+				register,
 				logout,
 
 				isLoggingIn: loginMutation.isPending,

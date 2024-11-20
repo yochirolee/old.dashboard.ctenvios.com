@@ -12,6 +12,7 @@ interface UserInterface {
 	password: string;
 	name: string;
 	agencyId: number;
+	roleId: number;
 	role: string;
 	token?: string;
 	newPassword?: string;
@@ -32,10 +33,18 @@ export const useRegisterMutation = () => {
 	return useMutation<
 		any,
 		Error,
-		Pick<UserInterface, "email" | "password" | "name" | "agencyId" | "role">
+		Pick<UserInterface, "email" | "password" | "name" | "agencyId" | "roleId">
 	>({
-		mutationFn: ({ email, password, name, agencyId, role }) =>
-			authApi.register(email, password, name, agencyId, role),
+		mutationFn: async ({ email, password, name, agencyId, roleId }) => {
+			const response = await axios.post(`${baseUrl}/users/register`, {
+				email,
+				password,
+				name,
+				agencyId,
+				roleId,
+			});
+			return response.data;
+		},
 	});
 };
 

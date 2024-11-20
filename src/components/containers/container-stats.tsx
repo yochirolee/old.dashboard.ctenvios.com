@@ -1,17 +1,16 @@
-import {  useMemo } from "react";
+import { useMemo } from "react";
 import { Label } from "@/components/ui/label";
 import { CheckCheckIcon, ForkliftIcon, ShieldIcon, TruckIcon, AnchorIcon } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
 export const ContainerStats = ({ parcelsInContainer }: { parcelsInContainer: any[] }) => {
-
 	const stats = useMemo(() => {
 		const initialStats = {
 			puertoMariel: 0,
 			aforoEspera: 0,
 			almacenMypimes: 0,
 			enTraslado: 0,
-			entregado: 0
+			entregado: 0,
 		};
 
 		return parcelsInContainer.reduce((acc, parcel) => {
@@ -72,7 +71,10 @@ export const ContainerStats = ({ parcelsInContainer }: { parcelsInContainer: any
 							<Label> Almacen Mypimes</Label>
 							<ForkliftIcon className="text-xl  text-slate-800" />
 						</div>
-						<h1 className="text-2xl font-bold">{stats.almacenMypimes}</h1>
+						<div className="flex text-center items-center  justify-between gap-2">
+							<h1 className="text-2xl font-bold">{stats.almacenMypimes}</h1>
+							<div className="text-xs text-slate-700">Aforado, Listo para Traslado</div>
+						</div>
 					</div>
 				</Card>
 				<Card className="rounded-xl border bg-card text-card-foreground shadow">

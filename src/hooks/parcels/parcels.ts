@@ -1,25 +1,27 @@
 import { ParcelInterface } from "@/interfaces/parcel";
+import { UserInterface } from "@/types/parcel";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
-const baseUrl =
+export const baseUrl =
 	process.env.NODE_ENV === "production"
 		? "https://apiv1trackingctenvioscom.vercel.app/api"
 		: "http://localhost:3001/api";
+
+const checkTokenValidity = (token: string) => {
+	const decodedToken = jwtDecode(token || "");
+	if (decodedToken.exp && decodedToken.exp < Date.now() / 1000) {
+		return false;
+	}
+	return true;
+};
 
 const authFetcher = async (url: string) => {
 	try {
 		const token = localStorage.getItem("token");
 		//check if token is valid or expired
-		const decodedToken = jwtDecode(token || "");
-		if (decodedToken.exp && decodedToken.exp < Date.now() / 1000) {
-			console.log("token expired redirecting to login");
-			localStorage.removeItem("token");
-			localStorage.removeItem("user");
-			window.location.href = "/login";
-			return [];
-		}
+		checkTokenValidity(token || "");
 
 		const axiosInstance = axios.create({
 			baseURL: baseUrl,
@@ -30,6 +32,26 @@ const authFetcher = async (url: string) => {
 			},
 		});
 
+		return response.data;
+	} catch (error) {
+		throw error;
+	}
+};
+
+export const authPostFetcher = async (url: string, data: any) => {
+	try {
+		console.log("authPostFetcher", url, data);
+		const token = localStorage.getItem("token");
+		checkTokenValidity(token || "");
+		const axiosInstance = axios.create({
+			baseURL: baseUrl,
+		});
+		const response = await axiosInstance.post(url, data.file, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
+		console.log("authPostFetcher response", response.data);
 		return response.data;
 	} catch (error) {
 		throw error;
@@ -56,5 +78,19 @@ export const useFetchParcelByHbl = (hbl: string) => {
 		queryKey: ["fetchParcelByHbl", hbl],
 		queryFn: () => authFetcher(`/parcels/hbl/${hbl}`),
 		enabled: !!hbl,
+	});
+};
+
+export const useFetchUsers = () => {
+	return useQuery<UserInterface[], Error>({
+		queryKey: ["users"],
+		queryFn: () => authFetcher("/users"),
+	});
+};
+
+export const useFetchIssues = () => {
+	return useQuery<any[], Error>({
+		queryKey: ["issues"],
+		queryFn: () => authFetcher("/issues"),
 	});
 };

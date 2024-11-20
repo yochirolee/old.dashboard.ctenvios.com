@@ -11,7 +11,7 @@ import {
 	ContainerPendingToArrival,
 } from "@/components/containers/no-container-selected";
 import { ContainerUpdateModalForm } from "@/components/containers/container-update-modal-form";
-import ExcelUploadFile from "@/components/logistics/excel-upload-file";
+import ExcelUploadDialog from "@/components/logistics/excel-upload-dialog";
 
 export default function ContainersPage() {
 	const [selectedContainer, setSelectedContainer] = useState<number | null>(null);
@@ -22,8 +22,8 @@ export default function ContainersPage() {
 	} = useFetchParcelsByContainerId(selectedContainer?.id);
 
 	return (
-		<div>
-			<div className=" bg-muted/20   rounded-lg py-2 md:py-6  md:px-4 gap-4  grid md:flex justify-center md:justify-between items-center   ">
+		<div className="p-2 md:p-4">
+			<div className=" bg-muted/20   rounded-md my-2 md:py-6  md:px-4 gap-4  grid md:flex justify-center md:justify-between items-center   ">
 				<ContainerSelect setSelectedContainer={setSelectedContainer} />
 				<div className="flex flex-col justify-end ">
 					<div className="grid grid-cols-2 lg:flex  mx-auto items-center md:gap-4 gap-2">
@@ -31,7 +31,7 @@ export default function ContainersPage() {
 							selectedContainerId={selectedContainer?.id}
 							inPort={parcelsInContainer?.inPort}
 						/>
-						<ExcelUploadFile isLoading={isLoading} />
+						<ExcelUploadDialog isLoading={isLoading} />
 					</div>
 				</div>
 			</div>

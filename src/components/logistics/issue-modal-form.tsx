@@ -26,7 +26,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, FlameIcon } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
@@ -35,25 +35,21 @@ const formSchema = z.object({
 	hbl: z.string().min(1, "Tracking number is required"),
 	eventId: z.number().min(1, "Event ID is required"),
 	description: z.string().min(10, "Description must be at least 10 characters"),
-	photoUrl: z.string().optional(),
-	locationId: z.number().optional(),
-	parcelStatus: z.string().optional(),
+	issueType: z.string().min(1, "Issue type is required"),
 	userId: z.string().optional(),
 });
 
 export function IssueModalForm({ event }: { event: any }) {
-	console.log(event);
 	const [open, setOpen] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 	const queryClient = useQueryClient();
-
+	console.log(event, "event");
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
 			hbl: event.hbl,
-			eventId: event.eventId,
-			parcelStatus: event.status,
-			locationId: event.locationId,
+			eventId: event.id,
+			issueType: "",
 			description: "",
 			userId: "42cbb03e-9d73-47a6-857e-77527c02bdc2",
 		},
@@ -79,6 +75,7 @@ export function IssueModalForm({ event }: { event: any }) {
 		},
 	});
 
+	console.log(form.getValues(), "onSubmit");
 	function onSubmit(values: z.infer<typeof formSchema>) {
 		createIssueMutation.mutate(values);
 	}
@@ -87,19 +84,19 @@ export function IssueModalForm({ event }: { event: any }) {
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
 				<Button variant="outline" className="my-6">
-					<AlertCircle className="h-4 w-4 text-red-500" />
-					Nueva Incidencia
+					<FlameIcon className="h-4 w-4 text-red-500" />
+					Incidencia
 				</Button>
 			</DialogTrigger>
 			<DialogContent className="sm:max-w-[425px]">
 				<DialogHeader>
-					<DialogTitle>Reportar Incidencia</DialogTitle>
+					<DialogTitle>Incidencia</DialogTitle>
 					<DialogDescription>
 						Por favor, proporcione detalles sobre la incidencia con su paquete.
 					</DialogDescription>
 				</DialogHeader>
 				{error && <div className="text-sm font-medium text-red-500 mb-4">{error}</div>}
-				<div className="flex flex-col gap-4 p-4 bg-gray-50 rounded-lg">
+				<div className="flex flex-col gap-4 p-4  rounded-lg">
 					<div className="flex items-center gap-2">
 						<span className="text-gray-500">HBL:</span>
 						<span className="font-medium">{event.hbl}</span>
@@ -110,7 +107,7 @@ export function IssueModalForm({ event }: { event: any }) {
 					</div>
 					<div className="col-span-2 flex items-center gap-2">
 						<span className="text-gray-500">Location:</span>
-						<span className="font-medium">{event.locationName}</span>
+						<span className="font-medium">{event.location}</span>
 					</div>
 				</div>
 
@@ -118,7 +115,7 @@ export function IssueModalForm({ event }: { event: any }) {
 					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
 						<FormField
 							control={form.control}
-							name="parcelStatus"
+							name="issueType"
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Issue Type</FormLabel>

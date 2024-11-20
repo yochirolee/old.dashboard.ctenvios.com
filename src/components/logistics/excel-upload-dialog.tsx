@@ -1,15 +1,7 @@
 import { useState, useRef } from "react";
-import { Upload, File, CheckCircle, AlertCircle, FileX, Loader2 } from "lucide-react";
+import { Upload, File, CheckCircle, AlertCircle, FileX, Loader2, UploadCloud } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardFooter,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
 	Dialog,
@@ -19,8 +11,9 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog";
-import { tracking_api } from "@/api/tracking-api";
 import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { baseUrl } from "@/hooks/parcels/parcels";
 
 export default function ExcelUploadDialog({ isLoading }: { isLoading: boolean }) {
 	const [open, setOpen] = useState(false);
@@ -30,7 +23,14 @@ export default function ExcelUploadDialog({ isLoading }: { isLoading: boolean })
 	const fileInputRef = useRef<HTMLInputElement>(null);
 
 	const mutation = useMutation({
-		mutationFn: (file: File) => tracking_api.parcels.importExcelEvents(file),
+		mutationFn: async (file: File) => {
+			const formData = new FormData();
+			formData.append("file", file);
+			axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
+			const response = await axios.post(`${baseUrl}/parcels/upload-excel`, formData);
+			return response.data;
+		},
+
 		onSuccess: () => {
 			setSuccess(true);
 			// Optionally invalidate and refetch other queries that might need updating
@@ -91,7 +91,7 @@ export default function ExcelUploadDialog({ isLoading }: { isLoading: boolean })
 					<span className=" md:inline">Importar Excel</span>
 				</Button>
 			</DialogTrigger>
-			<DialogContent className="sm:max-w-[425px]">
+			<DialogContent className="sm:max-w-[600px]">
 				<DialogHeader>
 					<DialogTitle>Upload Excel File</DialogTitle>
 					<DialogDescription>Select and upload your Excel (.xlsx) file</DialogDescription>
@@ -102,10 +102,10 @@ export default function ExcelUploadDialog({ isLoading }: { isLoading: boolean })
 							<div className="flex items-center justify-center w-full">
 								<label
 									htmlFor="excel-file"
-									className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+									className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-mute dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-muted"
 								>
-									<div className="flex flex-col items-center justify-center pt-5 pb-6">
-										<Upload className="w-8 h-8 mb-2 text-gray-500 dark:text-gray-400" />
+									<div className="flex flex-col items-center b justify-center pt-5 pb-6">
+										<UploadCloud className="w-8 h-8 mb-2 text-gray-500 dark:text-gray-400" />
 										<p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
 											<span className="font-semibold">Click to upload</span> or drag and drop
 										</p>
@@ -123,8 +123,9 @@ export default function ExcelUploadDialog({ isLoading }: { isLoading: boolean })
 								</label>
 							</div>
 							{file && (
-								<Alert>
+								<Alert variant="default">
 									<File className="h-4 w-4" />
+
 									<AlertTitle>Selected File</AlertTitle>
 									<AlertDescription>{file.name}</AlertDescription>
 								</Alert>
@@ -137,15 +138,15 @@ export default function ExcelUploadDialog({ isLoading }: { isLoading: boolean })
 								</Alert>
 							)}
 							{success && (
-								<Alert variant="default" className="border-green-500 text-green-700">
+								<Alert variant="default" className="border-green-500  text-green-700">
 									<CheckCircle className="h-4 w-4" />
 									<AlertTitle>Success</AlertTitle>
-									<AlertDescription>File uploaded successfully!</AlertDescription>
+									<AlertDescription>File processed successfully!</AlertDescription>
 								</Alert>
 							)}
 						</div>
 					</CardContent>
-					<CardFooter className="flex  flex-col space-y-4   justify-between">
+					<CardFooter className="grid grid-flow-col items-baseline gap-2   space-y-4  justify-end ">
 						<Button
 							variant="outline"
 							className="w-full md:w-auto"
@@ -158,7 +159,7 @@ export default function ExcelUploadDialog({ isLoading }: { isLoading: boolean })
 									<span>Processing</span>
 								</div>
 							) : (
-								"Upload"
+								"Process"
 							)}
 						</Button>
 						<Button

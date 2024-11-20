@@ -304,7 +304,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 				</SidebarFooter>
 				<SidebarRail />
 			</Sidebar>
-			<SidebarInset className="relative overflow-auto flex flex-col shrink-1">
+			<SidebarInset className="relative overflow-auto  shrink-1">
 				<header className="flex z-10 sticky top-0 bg-background h-16 shrink-0 border-b items-center gap-2 px-2 md:px-4">
 					<SidebarTrigger className="md:-ml-1" />
 					<Separator orientation="vertical" className="mr-2 h-4" />
@@ -314,7 +314,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 					</div>
 				</header>
 
-				<div className="p-2 md:p-4 flex-1  ">{children}</div>
+				<div className=" flex-1  ">{children}</div>
 				<Toaster />
 			</SidebarInset>
 		</SidebarProvider>

@@ -29,7 +29,7 @@ export default function TrackingPage() {
 	}
 
 	return (
-		<div className="rounded-md space-y-6  ">
+		<div className="rounded-md space-y-6  py-2 p-2 md:p-4  ">
 			<SearchForm setQuerySearch={setSearchQuery} isLoading={isLoading} />
 
 			{isLoading || isInitialLoading ? (
