@@ -24,6 +24,7 @@ import {
 	DialogHeader,
 	DialogTrigger,
 } from "../ui/dialog";
+import { useState } from "react";
 
 export const description =
 	"A login form with email and password. There's an option to login with Google and a link to sign up if you don't have an account.";
@@ -40,6 +41,8 @@ const FormSchema = z.object({
 type FormValues = z.infer<typeof FormSchema>;
 
 export function UserRegisterForm() {
+	const [open, setOpen] = useState(false);
+
 	const form = useForm<FormValues>({
 		resolver: zodResolver(FormSchema),
 		defaultValues: {
@@ -51,15 +54,15 @@ export function UserRegisterForm() {
 		},
 	});
 
-	const { register } = useAuthContext();
+	const { register, isRegistering, registerError } = useAuthContext();
 
-	const onSubmit = (data: z.infer<typeof FormSchema>) => {
-		console.log(data);
+	const onSubmit = async (data: z.infer<typeof FormSchema>) => {
 		register(data.email, data.password, data.name, data.agencyId, data.roleId);
+		if (!isRegistering && !registerError) setOpen(false);
 	};
 
 	return (
-		<Dialog>
+		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
 				<Button variant="outline">Crear usuario</Button>
 			</DialogTrigger>
@@ -150,11 +153,11 @@ export function UserRegisterForm() {
 							)}
 						/>
 
-						<Button type="submit" className="w-full" disabled={false}>
-							{false ? "Registrando..." : "Registrar"}
+						<Button type="submit" className="w-full" disabled={isRegistering}>
+							{isRegistering ? "Registrando..." : "Registrar"}
 						</Button>
 
-						{false && <Alert variant="destructive">Usuario o contraseña incorrectos</Alert>}
+						{registerError && <Alert variant="destructive">{registerError}</Alert>}
 					</form>
 				</Form>
 			</DialogContent>

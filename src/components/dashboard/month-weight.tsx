@@ -45,7 +45,7 @@ const chartConfig = {
 export function MonthWeight() {
 	const { data: chartData, isLoading } = useQuery({
 		queryKey: ["month-weight"],
-		queryFn: async () => tracking_api.stats.getStats(),
+		queryFn: () => tracking_api.stats.getStats(),
 	});
 
 	const totalWeight = chartData?.reduce(

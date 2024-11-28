@@ -88,7 +88,7 @@ export default function IssuesPage({ defaultLayout = [10, 32, 48] }: IssuesProps
 								</div>
 							</form>
 						</div>
-						<TabsContent value="all" className="m-2">
+						<TabsContent value="all" className="m-0">
 							<IssuesList items={issues || []} />
 						</TabsContent>
 						<TabsContent value="unread" className="m-0">

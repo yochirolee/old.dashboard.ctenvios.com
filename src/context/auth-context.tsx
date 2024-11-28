@@ -18,6 +18,8 @@ interface AuthContextType {
 	logout: () => void;
 	isLoggingIn: boolean;
 	loginError: string | null;
+	isRegistering: boolean;
+	registerError: string | null;
 }
 
 interface User {
@@ -138,6 +140,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 				isLoggingIn: loginMutation.isPending,
 				loginError: loginMutation.error ? loginMutation.error.message : null,
+				isRegistering: registerMutation.isPending,
+				registerError: registerMutation.error ? registerMutation.error.message : null,
 			}}
 		>
 			{children}
