@@ -94,22 +94,26 @@ export const nav_links = {
 			url: "/",
 			icon: Home,
 			isActive: true,
+			roles: ["ROOT", "ADMIN", "USER"],
 		},
 		{
 			title: "Ordenes",
 			url: "/orders",
 			icon: File,
 			isActive: true,
+			roles: ["ROOT", "ADMIN", "USER"],
 			items: [
 				{
 					title: "Crear Orden",
 					url: "/orders/create",
 					isActive: true,
+					roles: ["ROOT", "ADMIN"],
 				},
 				{
 					title: "Ordenes",
 					url: "/orders",
 					isActive: false,
+					roles: ["ROOT", "ADMIN"],
 				},
 			],
 		},
@@ -118,21 +122,25 @@ export const nav_links = {
 			url: "#",
 			icon: Warehouse,
 			isActive: false,
+			roles: ["ROOT", "ADMIN", "USER", "SALES"],
 			items: [
 				{
 					title: "Tracking",
 					url: "/logistics/tracking",
 					isActive: false,
+					roles: ["ROOT", "ADMIN", "USER", "SALES"],
 				},
 				{
 					title: "Contenedores",
 					url: "/logistics/containers",
 					isActive: false,
+					roles: ["ROOT", "ADMIN"],
 				},
 				{
 					title: "Reclamaciones",
 					url: "/logistics/issues",
 					isActive: false,
+					roles: ["ROOT", "ADMIN"],
 				},
 			],
 		},
@@ -141,16 +149,19 @@ export const nav_links = {
 			url: "#",
 			icon: Settings2,
 			isActive: false,
+			roles: ["ROOT", "ADMIN"],
 			items: [
 				{
 					title: "General",
 					url: "/settings",
 					isActive: false,
+					roles: ["ROOT", "ADMIN"],
 				},
 				{
 					title: "Users",
 					url: "/settings/users",
 					isActive: false,
+					roles: ["ROOT", "ADMIN"],
 				},
 			],
 		},

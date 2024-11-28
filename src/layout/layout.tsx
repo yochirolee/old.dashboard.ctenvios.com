@@ -75,6 +75,14 @@ export default function Layout({ children }: { children: ReactNode }) {
 	};
 	const { logout, user } = useAuthContext();
 
+	// Add role-based filtering for navigation items
+	const filteredNavLinks = nav_links.navMain.filter(item => {
+		// If no roles specified, show to everyone
+		if (!item.roles) return true;
+		// Show if user's role is included in item's allowed roles
+		return item.roles.includes(user?.role || '');
+	});
+
 	function generateBreadcrumbs() {
 		const location = useLocation();
 		const pathnames = location.pathname.split("/").filter((x) => x);
@@ -171,7 +179,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 					<SidebarGroup>
 						<SidebarGroupLabel>Agencia</SidebarGroupLabel>
 						<SidebarMenu>
-							{nav_links.navMain.map((item) =>
+							{filteredNavLinks.map((item) =>
 								item.items ? (
 									<Collapsible
 										key={item.title}
@@ -195,19 +203,21 @@ export default function Layout({ children }: { children: ReactNode }) {
 											</CollapsibleTrigger>
 											<CollapsibleContent>
 												<SidebarMenuSub>
-													{item.items.map((subItem) => (
-														<SidebarMenuSubItem key={subItem.title}>
-															<Link to={subItem.url}>
-																<SidebarMenuSubButton
-																	asChild
-																	isActive={subItem.url === activeItem}
-																	onClick={() => handleItemClick(subItem.url)}
-																>
-																	<span className="my-0.5 text-md">{subItem.title}</span>
-																</SidebarMenuSubButton>
-															</Link>
-														</SidebarMenuSubItem>
-													))}
+													{item.items
+														.filter(subItem => !subItem.roles || subItem.roles.includes(user?.role || ''))
+														.map((subItem) => (
+															<SidebarMenuSubItem key={subItem.title}>
+																<Link to={subItem.url}>
+																	<SidebarMenuSubButton
+																		asChild
+																		isActive={subItem.url === activeItem}
+																		onClick={() => handleItemClick(subItem.url)}
+																	>
+																		<span className="my-0.5 text-md">{subItem.title}</span>
+																	</SidebarMenuSubButton>
+																</Link>
+															</SidebarMenuSubItem>
+														))}
 												</SidebarMenuSub>
 											</CollapsibleContent>
 										</SidebarMenuItem>
