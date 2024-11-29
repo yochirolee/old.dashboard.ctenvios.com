@@ -1,3 +1,5 @@
+"use client";
+
 import { TrendingUp } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis, YAxis } from "recharts";
 
@@ -15,92 +17,95 @@ import {
 	ChartTooltip,
 	ChartTooltipContent,
 } from "@/components/ui/chart";
-import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-import { Skeleton } from "../ui/skeleton";
 import { tracking_api } from "@/api/tracking-api";
+import { Skeleton } from "../ui/skeleton";
+
+export const description = "A bar chart with a custom label";
+
 /* const chartData = [
-	{ agency: "Agency 1", weight: 186 },
-	{ agency: "Agency 2", weight: 305 },
-	{ agency: "Agency 3", weight: 237 },
-	{ agency: "Agency 4", weight: 73 },
-	{ agency: "Agency 5", weight: 209 },
-	{ agency: "Agency 6", weight: 214 },
+	{ month: "January", desktop: 186, mobile: 80 },
+	{ month: "February", desktop: 305, mobile: 200 },
+	{ month: "March", desktop: 237, mobile: 120 },
+	{ month: "April", desktop: 73, mobile: 190 },
+	{ month: "May", desktop: 209, mobile: 130 },
+	{ month: "June", desktop: 214, mobile: 140 },
 ]; */
 
 const chartConfig = {
-	weight: {
-		label: "weight",
+	sales: {
+		label: "sales",
 		color: "hsl(var(--chart-1))",
 	},
-	agency: {
-		label: "agency",
+	employee: {
+		label: "employee",
 		color: "hsl(var(--chart-2))",
 	},
 	label: {
-		color: "hsl(var(--background))",
+		color: "hsl(var(--foreground))",
 	},
 } satisfies ChartConfig;
 
-export function MonthWeight() {
-	const { data: chartData, isLoading } = useQuery({
-		queryKey: ["month-weight"],
-		queryFn: () => tracking_api.stats.getStats(),
+export function EmployeeSales() {
+	const {
+		data: chartData,
+		isLoading,
+		isError,
+	} = useQuery({
+		queryKey: ["employees-sales"],
+		queryFn: () => tracking_api.stats.getEmployeesSales(),
 	});
-
-	const totalWeight = chartData?.reduce(
-		(acc: number, curr: { weight: number }) => acc + parseFloat(curr.weight.toString()),
-		0,
-	);
-
-	if (isLoading) return <Skeleton className="h-40 w-full" />;
+	if (isLoading) return <Skeleton className="h-[300px] w-full" />;
+	if (isError) return <div>Error</div>;
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle>Month Weight for Sending</CardTitle>
-				<CardDescription>Total Weight: {parseFloat(totalWeight.toFixed(2))} Lbs</CardDescription>
+				<div className="flex items-center justify-between">
+					<div>
+						<CardTitle>Employee Sales</CardTitle>
+						<CardDescription>Daily sales by employee</CardDescription>
+					</div>
+					{/* TODO: Add filter by date */}
+					<div className="flex items-center gap-2">
+						<span className="text-sm text-foreground/50">Sales:</span>
+						<span className=" font-medium">
+							{chartData?.reduce((acc, curr) => acc + parseFloat(curr.sales), 0)}
+						</span>
+					</div>
+				</div>
 			</CardHeader>
 			<CardContent>
-				<div className="flex flex-col text-sm gap-2">
-					{chartData?.map((agency: { agency: string; weight: number }) => (
-						<div className="flex justify-between" key={agency.agency}>
-							<span className="font-medium ">{agency.agency}</span>{" "}
-							<span className="text-muted-foreground">{agency.weight} Lbs</span>
-						</div>
-					))}
-				</div>
-
-				{/* <ChartContainer config={chartConfig}>
+				<ChartContainer config={chartConfig}>
 					<BarChart
 						accessibilityLayer
 						data={chartData}
 						layout="vertical"
 						margin={{
-							right: 450,
+							right: 16,
 						}}
 					>
 						<CartesianGrid horizontal={false} />
 						<YAxis
-							dataKey="agency"
+							dataKey="employee"
 							type="category"
 							tickLine={false}
 							tickMargin={10}
 							axisLine={false}
-							tickFormatter={(value) => value.slice(0, 2)}
+							tickFormatter={(value) => value.slice(0, 3)}
 							hide
 						/>
-						<XAxis dataKey="weight" type="number" hide />
+						<XAxis dataKey="sales" type="number" hide />
 						<ChartTooltip cursor={false} content={<ChartTooltipContent indicator="line" />} />
-						<Bar dataKey="weight" layout="vertical" fill="var(--color-weight)" radius={4}>
+						<Bar dataKey="sales" layout="vertical" fill="var(--color-sales)" radius={4}>
 							<LabelList
-								dataKey="agency"
+								dataKey="employee"
 								position="insideLeft"
-								offset={2}
+								offset={8}
 								className="fill-[--color-label]"
-								fontSize={10}
+								fontSize={12}
 							/>
 							<LabelList
-								dataKey="weight"
+								dataKey="sales"
 								position="right"
 								offset={8}
 								className="fill-foreground"
@@ -108,7 +113,7 @@ export function MonthWeight() {
 							/>
 						</Bar>
 					</BarChart>
-				</ChartContainer> */}
+				</ChartContainer>
 			</CardContent>
 			{/* <CardFooter className="flex-col items-start gap-2 text-sm">
 				<div className="flex gap-2 font-medium leading-none">
