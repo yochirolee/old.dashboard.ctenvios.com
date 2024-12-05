@@ -33,14 +33,15 @@ export function InvoicesCount() {
 	});
 	const [activeChart, setActiveChart] = React.useState<keyof typeof chartConfig>("sales");
 
-	const total = React.useMemo(
+	const {total, maxSalesValue} = React.useMemo(
 		() => ({
-			sales: chartData
+			total: chartData
 				?.reduce((acc, curr) => acc + Number(curr.sales), 0)
 				?.toLocaleString("en-US", {
 					style: "currency",
 					currency: "USD",
 				}),
+			maxSalesValue: chartData ? Math.max(...chartData.map(item => Number(item.sales))) : 0,
 		}),
 		[chartData],
 	);
@@ -87,10 +88,7 @@ export function InvoicesCount() {
 						<YAxis
 							axisLine={false}
 							tickLine={false}
-							domain={[
-								(dataMin: number) => Math.floor(dataMin * 0),
-								(dataMax: number) => Math.ceil(dataMax * 10),
-							]}
+							domain={[0, Math.ceil(maxSalesValue * 1.2)]}
 							padding={{ top: 20, bottom: 20 }}
 							tickFormatter={(value) => `$${value.toFixed(2)}`}
 						/>

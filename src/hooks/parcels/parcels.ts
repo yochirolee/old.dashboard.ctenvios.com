@@ -17,7 +17,7 @@ const checkTokenValidity = (token: string) => {
 	return true;
 };
 
-const authFetcher = async (url: string) => {
+const  authFetcher = async (url: string) => {
 	try {
 		const token = localStorage.getItem("token");
 		//check if token is valid or expired

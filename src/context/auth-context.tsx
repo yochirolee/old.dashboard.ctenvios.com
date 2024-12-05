@@ -65,9 +65,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 		try {
 			const decoded: any = jwtDecode(token);
 			const currentTime = Date.now() / 1000;
-			console.log("Token expiration:", decoded.exp);
-			console.log("Current time:", currentTime);
-			console.log("Is expired:", decoded.exp < currentTime);
+		
 			return decoded.exp < currentTime;
 		} catch (error) {
 			return true;

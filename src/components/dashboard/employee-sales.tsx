@@ -1,16 +1,6 @@
-"use client";
-
-import { TrendingUp } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis, YAxis } from "recharts";
 
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardFooter,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
 	ChartConfig,
 	ChartContainer,
@@ -94,7 +84,11 @@ export function EmployeeSales() {
 							tickFormatter={(value) => value.slice(0, 3)}
 							hide
 						/>
-						<XAxis dataKey="sales" type="number" hide />
+						<XAxis
+							dataKey="sales"
+							type="number"
+							domain={[0, (dataMax: number) => Math.ceil(dataMax * 10)]}
+						/>
 						<ChartTooltip cursor={false} content={<ChartTooltipContent indicator="line" />} />
 						<Bar dataKey="sales" layout="vertical" fill="var(--color-sales)" radius={4}>
 							<LabelList
@@ -107,7 +101,7 @@ export function EmployeeSales() {
 							<LabelList
 								dataKey="sales"
 								position="right"
-								offset={8}
+								offset={12}
 								className="fill-foreground"
 								fontSize={12}
 							/>
