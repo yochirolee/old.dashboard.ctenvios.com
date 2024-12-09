@@ -62,7 +62,7 @@ export function EmployeeSales() {
 					<div className="flex items-center gap-2">
 						<span className="text-sm text-foreground/50">Sales:</span>
 						<span className=" font-medium">
-							{chartData?.reduce((acc, curr) => acc + parseFloat(curr.sales), 0)}
+							{chartData?.reduce((acc, curr) => acc + parseFloat(curr.sales), 0).toFixed(2)}
 						</span>
 					</div>
 				</div>
