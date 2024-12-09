@@ -87,7 +87,7 @@ export function EmployeeSales() {
 						<XAxis
 							dataKey="sales"
 							type="number"
-							domain={[0, (dataMax: number) => Math.ceil(dataMax * 10)]}
+							domain={[0, (dataMax: number) => Math.ceil(dataMax * 1.2)]}
 						/>
 						<ChartTooltip cursor={false} content={<ChartTooltipContent indicator="line" />} />
 						<Bar dataKey="sales" layout="vertical" fill="var(--color-sales)" radius={4}>

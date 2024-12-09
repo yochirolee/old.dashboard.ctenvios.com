@@ -66,7 +66,7 @@ export function InvoicesCount() {
 							>
 								<span className="text-xs text-muted-foreground">{chartConfig[chart].label}</span>
 								<span className="text-lg font-bold leading-none sm:text-3xl">
-									{total[chart as keyof typeof total]}
+									{total}
 								</span>
 							</button>
 						);
