@@ -47,6 +47,9 @@ export function EmployeeSales() {
 	});
 	if (isLoading) return <Skeleton className="h-[300px] w-full" />;
 	if (isError) return <div>Error</div>;
+    
+	const maxSalesValue = chartData ? Math.max(...chartData.map(item => Number(item.sales))) : 0;
+	 
 	return (
 		<Card>
 			<CardHeader>
@@ -87,7 +90,7 @@ export function EmployeeSales() {
 						<XAxis
 							dataKey="sales"
 							type="number"
-							domain={[0, (dataMax: number) => Math.ceil(dataMax * 1.2)]}
+							domain={[0, maxSalesValue * 1.2]}
 						/>
 						<ChartTooltip cursor={false} content={<ChartTooltipContent indicator="line" />} />
 						<Bar dataKey="sales" layout="vertical" fill="var(--color-sales)" radius={4}>
