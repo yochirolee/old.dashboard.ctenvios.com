@@ -21,7 +21,6 @@ import {
 	File,
 } from "lucide-react";
 
-
 export const statuses = [
 	{ value: "FACTURADO", label: "Facturado", icon: FileText },
 	{ value: "EN_PALLET", label: "En Pallet", icon: BaggageClaim },
@@ -42,8 +41,6 @@ export const locations = [
 	{ value: "En Traslado", label: "En Traslado", icon: Truck },
 	{ value: "Entregado", label: "Entregado", icon: CheckCheck },
 ];
-
-
 
 export const nav_links = {
 	user: {
@@ -104,7 +101,7 @@ export const nav_links = {
 					title: "Contenedores",
 					url: "/logistics/containers",
 					isActive: false,
-					roles: ["ROOT", "ADMIN"],
+					roles: ["ROOT", "ADMIN", "USER", "SALES"],
 				},
 				{
 					title: "Reclamaciones",

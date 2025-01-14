@@ -36,8 +36,7 @@ const ProtectedRoute = ({
 };
 
 export default function AppRouter() {
-	const { token, user } = useAuthContext();
-	console.log(token, user);
+	const { token } = useAuthContext();
 	return token ? (
 		<Layout>
 			<Routes>
