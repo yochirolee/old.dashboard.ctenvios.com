@@ -4,9 +4,7 @@ import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 //import Dashboard from "../pages/Dashboard";
 import Orders from "../pages/Orders";
 import CreateOrder from "../pages/CreateOrder";
-import DesignEngineering from "../pages/DesignEngineering";
-import SalesMarketing from "../pages/SalesMarketing";
-import Travel from "../pages/Travel";
+
 import ContainersPage from "@/pages/Logistics/ContainersPage";
 import IssuesPage from "@/pages/Logistics/IssuesPage";
 import TrackingPage from "@/pages/Logistics/TrackingPage";
@@ -52,7 +50,7 @@ export default function AppRouter() {
 						<ProtectedRoute allowedRoles={["ROOT", "ADMINISTRATOR"]}>
 							<Dashboard />
 						</ProtectedRoute>
-					}
+					} 
 				/>
 				<Route path="/orders" element={<Orders />} />
 				<Route

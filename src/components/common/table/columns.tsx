@@ -190,7 +190,7 @@ export const columns: ColumnDef<ParcelInterface>[] = [
 				new Date(row.original?.updatedAt),
 			);
 			return (
-				<div className="w-48 flex  justify-between items-center gap-1">
+				<div className=" flex  justify-between items-center gap-1">
 					<div className="flex flex-1 flex-col  items-start text-nowrap  ">
 						{row.original?.location == "Entregado" ? (
 							<div className=" inline-flex items-center gap-2">
@@ -219,31 +219,7 @@ export const columns: ColumnDef<ParcelInterface>[] = [
 							</div>
 						)}
 					</div>
-					<TooltipProvider>
-						<div className="flex items-center  gap-2">
-							<Tooltip>
-								<TooltipTrigger asChild>
-									<div className="relative">
-										<Button variant="ghost" size="icon">
-											<Flame className="  text-muted-foreground" />
-										</Button>
-
-										{/* <div className="absolute -top-3 -right-3">
-											<Badge
-												variant="destructive"
-												className="rounded-full h-4 w-4 text-[12px] p-1 mx-auto flex items-center justify-center"
-											>
-												2
-											</Badge>
-										</div> */}
-									</div>
-								</TooltipTrigger>
-								<TooltipContent>
-									<p>Reclamar</p>
-								</TooltipContent>
-							</Tooltip>
-						</div>
-					</TooltipProvider>
+				
 				</div>
 			);
 		},
@@ -276,11 +252,11 @@ export const columns: ColumnDef<ParcelInterface>[] = [
 	{
 		accessorKey: "province",
 		header: "Provincia",
-		cell: ({ row }) => <span className="text-slate-600">{row.original?.province}</span>,
+		cell: ({ row }) => (
+			<span className="text-slate-400">
+				{row.original?.province}/{row.original?.city}
+			</span>
+		),
 	},
-	{
-		accessorKey: "city",
-		header: "Municipio",
-		cell: ({ row }) => <span className="text-slate-600">{row.original?.city}</span>,
-	},
+	
 ];

@@ -91,6 +91,7 @@ export function EmployeeSales() {
 							dataKey="sales"
 							type="number"
 							domain={[0, maxSalesValue * 1.2]}
+							
 						/>
 						<ChartTooltip cursor={false} content={<ChartTooltipContent indicator="line" />} />
 						<Bar dataKey="sales" layout="vertical" fill="var(--color-sales)" radius={4}>
