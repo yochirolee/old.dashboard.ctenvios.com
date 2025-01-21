@@ -19,9 +19,14 @@ import {
 	Flame,
 	TriangleAlert,
 	MessageSquareIcon,
+	FileDown,
+	SeparatorHorizontal,
+	PersonStanding,
+	IdCardIcon,
 } from "lucide-react";
 import { IssueModalForm } from "./issue-modal-form";
 import { locations, statuses } from "@/data/data";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 export default function ParcelHistoryDetails({ hbl }: { hbl: string }) {
 	if (!hbl) return null;
@@ -37,15 +42,17 @@ export default function ParcelHistoryDetails({ hbl }: { hbl: string }) {
 	if (isLoading) return <div>Loading...</div>;
 
 	if (error) return <div>Error: {error.message}</div>;
-	console.log(parcel);
 	return (
 		<div>
-			<ScrollArea className="h-[calc(100vh-10rem)] px-2 md:px-4 mb-6  ">
-				<div className=" grid mt-6 pb-6  md:grid-cols-2 md:gap-10 text-sm  ">
+			<ScrollArea className="h-[calc(100vh-8rem)] p-4  mb-6  ">
+				<div className=" grid mt-6 pb-6   gap-4  text-sm  ">
 					<div>
 						<div className="flex my-2 justify-between items-center">
-							<h2 className="text-xl">{parcel?.agency}</h2>
-							<IssueModalForm event={parcel?.events[parcel?.events.length - 1]} />
+							<h2 className="text-base">{parcel?.agency}</h2>
+							<div className="flex items-center border p-2 rounded-lg gap-2">
+								<p>{parcel?.invoiceId}</p>
+								<FileDown className="h-4 cursor-pointer w-4 text-sky-600" />
+							</div>
 						</div>
 						<Separator className="my-4" />
 						<div className="grid gap-3 ">
@@ -59,71 +66,72 @@ export default function ParcelHistoryDetails({ hbl }: { hbl: string }) {
 								</li>
 							</ul>
 						</div>
-						<Separator className="my-4" />
 
-						<div className="grid gap-3 ">
-							<div className="font-semibold">Direccion de Entrega</div>
-							<dl className="grid gap-3">
-								<div className="flex items-center text-muted-foreground justify-between">
-									<dd>{parcel?.shippingAddress}</dd>
+						<div className="my-4 ">
+							<h3 className=" font-semibold text-muted-foreground px-2 dark:bg-muted/20 p-1 rounded-md">
+								Sender
+							</h3>
+							<div className="grid gap-3">
+								<div className="flex my-2 items-center space-x-4 py-2">
+									<Avatar>
+										<AvatarFallback>{parcel?.customer?.fullName?.charAt(0)}</AvatarFallback>
+									</Avatar>
+									<div className="flex flex-col space-y-1">
+										<p>{parcel?.customer?.fullName}</p>
+										<div className="flex items-center text-muted-foreground space-x-2 hover:text-green-600">
+											<a target="_blank" href={`https://wa.me/${parcel?.customer?.mobile}`}>
+												+1{parcel?.customer?.mobile}
+											</a>
+											<MessageCircle className="h-4 w-4 mr-2" />
+										</div>
+									</div>
 								</div>
-								<div className="flex items-center justify-between">
-									<dd>{parcel?.province + " / " + parcel?.city}</dd>
+							</div>
+						</div>
+						<div className="my-4 ">
+							<h3 className=" font-semibold text-muted-foreground px-2 dark:bg-muted/20 p-1 rounded-md">
+								Receiver
+							</h3>
+							<div className="grid gap-3">
+								<div className="flex my-2 items-center space-x-4 py-2">
+									<Avatar>
+										<AvatarFallback>{parcel?.receiver?.fullName?.charAt(0)}</AvatarFallback>
+									</Avatar>
+									<div className="flex flex-col space-y-1">
+										<p>{parcel?.receiver?.fullName}</p>
+										<div className="flex justify-between items-center space-x-2">
+											<div className="flex  items-center text-muted-foreground space-x-2 hover:text-green-600">
+												<a target="_blank" href={`https://wa.me/${+53 + parcel?.receiver?.mobile}`}>
+													+53{parcel?.receiver?.mobile}
+												</a>
+												<MessageCircle className="h-4 w-4 mr-2" />
+											</div>
+											<Separator orientation="vertical" className="h-4" />
+											<div className="flex items-center text-muted-foreground space-x-2">
+												<p>{parcel?.receiver?.ci}</p>
+
+												<IdCardIcon className="h-5 w-5 mr-2" />
+											</div>
+										</div>
+									</div>
 								</div>
-							</dl>
+							</div>
 						</div>
 
-						<Separator className="my-4" />
-						<div className="grid gap-">
-							<div className="font-semibold">Envia</div>
-							<dl className="grid gap-3">
-								<div className="flex items-center justify-between">
-									<dt className="text-muted-foreground">Nombre:</dt>
-									<dd>{parcel?.customer?.fullName}</dd>
-								</div>
-								<div className="flex items-center justify-between">
-									<dt className="text-muted-foreground">Correo:</dt>
-									<dd>
-										<a href="mailto:">{parcel?.customer?.email}</a>
-									</dd>
-								</div>
-								<div className="flex items-center justify-between ">
-									<dt className="text-muted-foreground">Telefono:</dt>
-									<dd className="inline-flex items-center hover:text-green-600">
-										<MessageCircle className="h-4 w-4 mr-2" />
-										<a target="_blank" href={`https://wa.me/${parcel?.customer?.mobile}`}>
-											+1{parcel?.customer?.mobile}
-										</a>
-									</dd>
-								</div>
-							</dl>
-						</div>
+						<div className="my-4 ">
+							<h3 className=" font-semibold text-muted-foreground px-2 dark:bg-muted/20 p-1 rounded-md">
+								Shipping Address
+							</h3>
 
-						<Separator className="my-4" />
-						<div className="grid gap-3">
-							<div className="font-semibold">Recibe</div>
-							<dl className="grid gap-3">
-								<div className="flex items-center justify-between">
-									<dt className="text-muted-foreground">Nombre:</dt>
-									<dd>{parcel?.receiver?.fullName}</dd>
-								</div>
-								<div className="flex items-center justify-between">
-									<dt className="text-muted-foreground">CI:</dt>
-									<dd>
-										<a>{parcel?.receiver?.ci}</a>
-									</dd>
-								</div>
-								<div className="flex items-center justify-between">
-									<dt className="text-muted-foreground">Telefono:</dt>
-									<dd>
-										<a href="tel:">+53{parcel?.receiver?.mobile}</a>
-									</dd>
-								</div>
-							</dl>
+							<div className=" flex-col flex space-y-1 my-2 mx-2 py-2 ">
+								<dd>{parcel?.shippingAddress}</dd>
+								<dd className="text-muted-foreground ">{parcel?.province + " / " + parcel?.city}</dd>
+							</div>
 						</div>
 					</div>
 					<div>
-						<h3 className="text-xl font-semibold text-center mb-6">Tracking</h3>
+						<h3 className="text-lg font-semibold text-center ">Timeline</h3>
+						<Separator className="my-4 " />
 						<div className="relative">
 							{/* Vertical line that connects all events */}
 							<div className="absolute left-4 top-5 bottom-5 w-[1px] bg-gray-200 dark:bg-gray-400" />
