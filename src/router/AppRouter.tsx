@@ -9,11 +9,12 @@ import ContainersPage from "@/pages/Logistics/ContainersPage";
 import IssuesPage from "@/pages/Logistics/IssuesPage";
 import TrackingPage from "@/pages/Logistics/TrackingPage";
 import SettingsPage from "@/pages/Settings/SettingsPage";
-import UsersPage from "@/pages/Settings/UsersPage";
-import { LoginPage } from "@/pages/Logistics/LoginPage";
 import Layout from "@/layout/layout";
 import { useAuthContext } from "@/context/auth-context";
 import Dashboard from "@/pages/Dashboard";
+import { UsersPage } from "@/modules/users/pages/users-page";
+import { UserLoginPage } from "@/modules/users/pages/user-login-page";
+import ShipmentsPage from "@/modules/shipments/pages/shipments-page";
 
 // Define a protected route component
 const ProtectedRoute = ({
@@ -49,7 +50,7 @@ export default function AppRouter() {
 						<ProtectedRoute allowedRoles={["ROOT", "ADMINISTRATOR"]}>
 							<Dashboard />
 						</ProtectedRoute>
-					} 
+					}
 				/>
 				<Route path="/orders" element={<Orders />} />
 				<Route
@@ -61,8 +62,9 @@ export default function AppRouter() {
 					}
 				/>
 				<Route path="/logistics/containers" element={<ContainersPage />} />
-				<Route path="/logistics/tracking" element={<TrackingPage />} />
+				<Route path="/logistics/tracking" element={<ShipmentsPage />} />
 				<Route path="/logistics/issues" element={<IssuesPage />} />
+				<Route path="/logistics/shipments" element={<ShipmentsPage />} />
 				<Route
 					path="/settings"
 					element={
@@ -85,6 +87,6 @@ export default function AppRouter() {
 			</Routes>
 		</Layout>
 	) : (
-		<LoginPage />
+		<UserLoginPage />
 	);
 }

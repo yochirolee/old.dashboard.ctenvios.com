@@ -27,7 +27,7 @@ interface DataTableProps<TData, TValue> {
 	data: TData[];
 }
 
-export function UsersDataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+export function ShipmentsTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
 	const [sorting, setSorting] = useState<SortingState>([]);
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 	const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -53,8 +53,8 @@ export function UsersDataTable<TData, TValue>({ columns, data }: DataTableProps<
 	});
 
 	return (
-		<div className="flex flex-col gap-4">
-			<div className=" rounded-md border ">
+		<div className="flex flex-col  gap-4">
+			<div className="  border rounded-md ">
 				<Table>
 					<TableHeader>
 						{table.getHeaderGroups().map((headerGroup) => (
@@ -94,8 +94,8 @@ export function UsersDataTable<TData, TValue>({ columns, data }: DataTableProps<
 				<div className="flex items-center justify-between mx-4 py-4">
 					<div>
 						<div className="flex-1 text-sm text-muted-foreground">
-							{table.getFilteredSelectedRowModel().rows.length} of{" "}
-							{table.getFilteredRowModel().rows.length} row(s) selected.
+							{table.getFilteredSelectedRowModel()?.rows?.length} of{" "}
+							{table.getFilteredRowModel()?.rows?.length} row(s) selected.
 						</div>
 					</div>
 					<div className="flex items-center gap-2">

@@ -90,7 +90,7 @@ export function InvoicesCount() {
 							tickLine={false}
 							domain={[0, Math.ceil(maxSalesValue * 1.2)]}
 							padding={{ top: 20, bottom: 20 }}
-							tickFormatter={(value) => `$${value.toFixed(2)}`}
+							tickFormatter={(value) => `$${value?.toFixed(2) ?? 0}`}
 						/>
 						<XAxis
 							dataKey="date"

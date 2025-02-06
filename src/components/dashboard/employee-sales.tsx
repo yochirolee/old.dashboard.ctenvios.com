@@ -45,6 +45,7 @@ export function EmployeeSales() {
 		queryKey: ["employees-sales"],
 		queryFn: () => tracking_api.stats.getEmployeesSales(),
 	});
+	console.log(chartData);
 	if (isLoading) return <Skeleton className="h-[300px] w-full" />;
 	if (isError) return <div>Error</div>;
     
@@ -62,7 +63,7 @@ export function EmployeeSales() {
 					<div className="flex items-center gap-2">
 						<span className="text-sm text-foreground/50">Sales:</span>
 						<span className=" font-medium">
-							{chartData?.reduce((acc, curr) => acc + parseFloat(curr.sales), 0).toFixed(2)}
+							{chartData?.reduce((acc, curr) => acc + parseFloat(curr.sales), 0)?.toFixed(2) ?? "0"}
 						</span>
 					</div>
 				</div>

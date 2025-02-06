@@ -21,6 +21,21 @@ import {
 	File,
 } from "lucide-react";
 
+export const roles = [
+	"ROOT",
+	"ADMINISTRATOR",
+	"AGENCY_ADMIN",
+	"MESSENGER",
+	"SALES",
+	"CARRIER_MESSENGER",
+	"CARRIER_ADMIN",
+	"CARRIER_WAREHOUSE_MANAGER",
+	"CARRIER_WAREHOUSE_WORKER",
+	"WAREHOUSE_MANAGER",
+	"WAREHOUSE_WORKER",
+	"AGENT",
+];
+
 export const statuses = [
 	{ value: "FACTURADO", label: "Facturado", icon: FileText },
 	{ value: "EN_PALLET", label: "En Pallet", icon: BaggageClaim },

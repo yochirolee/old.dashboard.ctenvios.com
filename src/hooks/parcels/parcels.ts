@@ -6,8 +6,8 @@ import { jwtDecode } from "jwt-decode";
 
 export const baseUrl =
 	process.env.NODE_ENV === "production"
-		? "https://apiv1trackingctenvioscom.vercel.app/api"
-		: "http://localhost:3001/api";
+		? "https://apiv1trackingctenvioscom.vercel.app/api/v1"
+		: "http://localhost:3001/api/v1";
 
 const checkTokenValidity = (token: string) => {
 	const decodedToken = jwtDecode(token || "");

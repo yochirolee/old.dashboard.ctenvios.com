@@ -1,32 +1,11 @@
 import React from "react";
 import { useFetchParcelByHbl } from "@/hooks/parcels/parcels";
-import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import { ScrollArea } from "../ui/scroll-area";
 import { Parcel } from "@/types/parcel";
-import {
-	Plane,
-	Ship,
-	Truck,
-	Package,
-	CheckIcon,
-	Home,
-	Building2,
-	Warehouse,
-	MessageCircle,
-	LucidePrinter,
-	LucideIcon,
-	Flame,
-	TriangleAlert,
-	MessageSquareIcon,
-	FileDown,
-	SeparatorHorizontal,
-	PersonStanding,
-	IdCardIcon,
-} from "lucide-react";
-import { IssueModalForm } from "./issue-modal-form";
+import { MessageCircle, Flame, FileDown, IdCardIcon } from "lucide-react";
 import { locations, statuses } from "@/data/data";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Avatar, AvatarFallback } from "../ui/avatar";
 
 export default function ParcelHistoryDetails({ hbl }: { hbl: string }) {
 	if (!hbl) return null;
@@ -125,7 +104,9 @@ export default function ParcelHistoryDetails({ hbl }: { hbl: string }) {
 
 							<div className=" flex-col flex space-y-1 my-2 mx-2 py-2 ">
 								<dd>{parcel?.shippingAddress}</dd>
-								<dd className="text-muted-foreground ">{parcel?.province + " / " + parcel?.city}</dd>
+								<dd className="text-muted-foreground ">
+									{parcel?.province + " / " + parcel?.city}
+								</dd>
 							</div>
 						</div>
 					</div>

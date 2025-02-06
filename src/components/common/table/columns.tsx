@@ -131,14 +131,7 @@ export const columns: ColumnDef<ParcelInterface>[] = [
 		cell: ({ row }) => {
 			return (
 				<div className="flex flex-col space-y-2">
-					<span className="text-xs text-nowrap">
-						{row?.original?.container
-							? row.original?.location + " - " + row?.original?.container
-							: row.original?.location}
-					</span>
-					{row.original?.statusDetails && (
-						<span className="text-xs text-muted-foreground">{row.original.statusDetails}</span>
-					)}
+					<span className="text-xs text-muted-foreground">{row.original.location?.name}</span>
 				</div>
 			);
 		},
@@ -165,7 +158,7 @@ export const columns: ColumnDef<ParcelInterface>[] = [
 						variant="outline"
 						className={`px-3 py-1 text-nowrap rounded-full text-xs font-medium inline-flex items-center gap-1`}
 					>
-						{statuses.find((status) => status.value === row.original?.status)?.label}
+						{row.original?.status}
 					</Badge>
 					<p className="text-xs flex items-center  text-muted-foreground  ">
 						{row.original?.updatedAt &&
@@ -219,7 +212,6 @@ export const columns: ColumnDef<ParcelInterface>[] = [
 							</div>
 						)}
 					</div>
-				
 				</div>
 			);
 		},
@@ -258,5 +250,4 @@ export const columns: ColumnDef<ParcelInterface>[] = [
 			</span>
 		),
 	},
-	
 ];

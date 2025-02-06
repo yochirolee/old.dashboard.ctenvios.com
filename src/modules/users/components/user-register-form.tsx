@@ -4,10 +4,8 @@ import { Label } from "@/components/ui/label";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "../form";
-
-import { useAuthContext } from "@/context/auth-context";
-import { Alert } from "../alert";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Alert } from "@/components/ui/alert";
 import {
 	Select,
 	SelectItem,
@@ -15,7 +13,7 @@ import {
 	SelectContent,
 	SelectValue,
 	SelectGroup,
-} from "../select";
+} from "@/components/ui/select";
 import {
 	Dialog,
 	DialogContent,
@@ -23,9 +21,11 @@ import {
 	DialogTitle,
 	DialogHeader,
 	DialogTrigger,
-} from "../dialog";
+} from "@/components/ui/dialog";
 import { useState } from "react";
 import { roles } from "@/data/data";
+import { useRegister } from "@/hooks/use-users";
+import { UserPlus } from "lucide-react";
 
 export const description =
 	"A login form with email and password. There's an option to login with Google and a link to sign up if you don't have an account.";
@@ -48,23 +48,29 @@ export function UserRegisterForm() {
 		defaultValues: {
 			email: "",
 			password: "",
-			role: "ADMINISTRATOR",
+			role: "",
 			name: "",
 			agencyId: 1,
 		},
 	});
 
-	const { register, isRegistering, registerError } = useAuthContext();
-
+	const registerUser = useRegister();
 	const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-		register(data.email, data.password, data.name, data.agencyId, data.role);
-		if (!isRegistering && !registerError) setOpen(false);
+		registerUser.mutate(data, {
+			onSuccess: () => {
+				setOpen(false);
+				form.reset();
+			},
+		});
 	};
 
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
-				<Button variant="outline">Crear usuario</Button>
+				<Button  variant="outline">
+					<UserPlus className="w-4 h-4" />
+					<span className="hidden md:block">Crear usuario</span>
+				</Button>
 			</DialogTrigger>
 
 			<DialogContent className="max-w-md">
@@ -156,11 +162,13 @@ export function UserRegisterForm() {
 							)}
 						/>
 
-						<Button type="submit" className="w-full" disabled={isRegistering}>
-							{isRegistering ? "Registrando..." : "Registrar"}
+						<Button type="submit" className="w-full" disabled={registerUser.isPending}>
+							{registerUser.isPending ? "Registrando..." : "Registrar"}
 						</Button>
 
-						{registerError && <Alert variant="destructive">{registerError}</Alert>}
+						{registerUser.error && (
+							<Alert variant="destructive">{registerUser.error.message}</Alert>
+						)}
 					</form>
 				</Form>
 			</DialogContent>

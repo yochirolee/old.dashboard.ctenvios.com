@@ -9,7 +9,6 @@ import {
 import { ChevronRight, X } from "lucide-react";
 import ParcelHistoryDetails from "./parcel-history-details";
 import { Button } from "../ui/button";
-import { Separator } from "../ui/separator";
 
 export default function ParcelHistorySheet({ hbl }: { hbl: string }) {
 	return (

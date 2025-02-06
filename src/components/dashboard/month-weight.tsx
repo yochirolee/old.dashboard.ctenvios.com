@@ -43,7 +43,7 @@ export function MonthWeight() {
 	});
 
 	const totalWeight = chartData?.reduce(
-		(acc: number, curr: { weight: number }) => acc + parseFloat(curr.weight.toString()),
+		(acc: number, curr: { weight: number }) => acc + parseFloat(curr?.weight?.toString()),
 		0,
 	);
 
@@ -52,14 +52,14 @@ export function MonthWeight() {
 		<Card>
 			<CardHeader>
 				<CardTitle>Month Weight for Sending</CardTitle>
-				<CardDescription>Total Weight: {parseFloat(totalWeight.toFixed(2))} Lbs</CardDescription>
+				<CardDescription>Total Weight: {parseFloat(totalWeight?.toFixed(2) ?? "0")} Lbs</CardDescription>
 			</CardHeader>
 			<CardContent>
 				<div className="flex flex-col text-sm gap-2">
 					{chartData?.map((agency: { agency: string; weight: number }) => (
-						<div className="flex justify-between" key={agency.agency}>
-							<span className="font-medium ">{agency.agency}</span>{" "}
-							<span className="text-muted-foreground">{agency.weight} Lbs</span>
+						<div className="flex justify-between" key={agency?.agency}>
+							<span className="font-medium ">{agency?.agency}</span>{" "}
+							<span className="text-muted-foreground">{agency?.weight} Lbs</span>
 						</div>
 					))}
 				</div>

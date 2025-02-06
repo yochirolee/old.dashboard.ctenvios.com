@@ -76,11 +76,11 @@ export default function Layout({ children }: { children: ReactNode }) {
 	const { logout, user } = useAuthContext();
 
 	// Add role-based filtering for navigation items
-	const filteredNavLinks = nav_links.navMain.filter(item => {
+	const filteredNavLinks = nav_links.navMain.filter((item) => {
 		// If no roles specified, show to everyone
 		if (!item.roles) return true;
 		// Show if user's role is included in item's allowed roles
-		return item.roles.includes(user?.role || '');
+		return item.roles.includes(user?.role || "");
 	});
 
 	function generateBreadcrumbs() {
@@ -204,7 +204,10 @@ export default function Layout({ children }: { children: ReactNode }) {
 											<CollapsibleContent>
 												<SidebarMenuSub>
 													{item.items
-														.filter(subItem => !subItem.roles || subItem.roles.includes(user?.role || ''))
+														.filter(
+															(subItem) =>
+																!subItem.roles || subItem.roles.includes(user?.role || ""),
+														)
 														.map((subItem) => (
 															<SidebarMenuSubItem key={subItem.title}>
 																<Link to={subItem.url}>
@@ -324,7 +327,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 					</div>
 				</header>
 
-				<div className=" flex-1  ">{children}</div>
+				<div className=" flex-1 md:p-4 p-2 mt-2">{children}</div>
 				<Toaster />
 			</SidebarInset>
 		</SidebarProvider>

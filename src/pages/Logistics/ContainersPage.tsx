@@ -1,7 +1,4 @@
-import { columns } from "@/components/common/table/columns";
-import { ContainerSelect } from "@/components/containers/container-select";
-import { DataTable } from "@/components/common/table/data-table";
-import { useFetchParcelsByContainerId } from "@/hooks/parcels/containers";
+import { ContainerSelect }	 from "@/modules/shipments/components/containers/container-select";
 import { useState, useDeferredValue, useMemo } from "react";
 import TableSkeleton from "@/components/logistics/table-skeleton";
 import { ContainerStats } from "@/components/containers/container-stats";
@@ -12,7 +9,7 @@ import {
 import { ContainerUpdateModalForm } from "@/components/containers/container-update-modal-form";
 import ExcelUploadDialog from "@/components/logistics/excel-upload-dialog";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { DataTableFacetedFilter } from "@/components/common/table/data-table-faceted-filters";
+import { useFetchParcelsByContainerId } from "@/hooks/parcels/containers";
 
 export default function ContainersPage() {
 	const [selectedContainer, setSelectedContainer] = useState<{ id: number } | null>(null);

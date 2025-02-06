@@ -1,9 +1,5 @@
 import axios from "axios";
-const baseUrl =
-	process.env.NODE_ENV === "production"
-		? "https://apiv1trackingctenvioscom.vercel.app/api"
-		: "http://localhost:3001/api";
-
+import { baseUrl } from "./api";
 export const tracking_api = {
 	/* parcels: {
 		getAll: async (): Promise<ParcelInterface[]> => {

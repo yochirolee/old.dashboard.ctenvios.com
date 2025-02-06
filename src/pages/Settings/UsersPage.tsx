@@ -1,7 +1,6 @@
 import { userColumns } from "@/components/settings/user-columns";
 import { useFetchUsers } from "@/hooks/parcels/parcels";
 import { UsersDataTable } from "@/components/settings/user-data-table";
-import { Button } from "@/components/ui/button";
 import { UserRegisterForm } from "@/components/settings/user-register-form";
 
 export default function UsersPage() {

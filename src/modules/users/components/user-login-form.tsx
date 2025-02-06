@@ -6,10 +6,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "../ui/form";
-
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { useAuthContext } from "@/context/auth-context";
-import { Alert } from "../ui/alert";
+import { Alert } from "@/components/ui/alert";
 
 export const description =
 	"A login form with email and password. There's an option to login with Google and a link to sign up if you don't have an account.";
@@ -21,13 +20,13 @@ const FormSchema = z.object({
 
 type FormValues = z.infer<typeof FormSchema>;
 
-export function LoginForm() {
+export function UserLoginForm() {
 	const form = useForm<FormValues>({
 		resolver: zodResolver(FormSchema),
 		defaultValues: {
 			email: "",
-			password: ""
-		}
+			password: "",
+		},
 	});
 
 	const { login, isLoggingIn, loginError } = useAuthContext();
@@ -76,7 +75,7 @@ export function LoginForm() {
 									<div className="grid gap-2">
 										<Label htmlFor="password">Password</Label>
 										<FormControl>
-											<Input {...field} id="password" type="password" required />
+											<Input {...field} id="password" autoComplete="off" type="password" required />
 										</FormControl>
 									</div>
 									<FormMessage />
