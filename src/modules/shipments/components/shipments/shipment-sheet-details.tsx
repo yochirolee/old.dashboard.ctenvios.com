@@ -63,10 +63,10 @@ export function ShipmentSheetDetails({ hbl }: { hbl: string }) {
 					<ChevronRight className="h-4 w-4 text-sky-600" />
 				</Button>
 			</SheetTrigger>
-			<SheetContent className="m-0 text p-0 min-w-[550px]">
+			<SheetContent className="m-0 text p-0 w-full lg:max-w-[550px]">
 				<SheetHeader className="p-4 flex  text-center">
 					<SheetTitle className="text-base font-semibold">Shipment Details</SheetTitle>
-					<Separator />	
+					<Separator />
 				</SheetHeader>
 				<ScrollArea className="h-[calc(100vh-30px)]">
 					<ShipmentDetails hbl={hbl} />
