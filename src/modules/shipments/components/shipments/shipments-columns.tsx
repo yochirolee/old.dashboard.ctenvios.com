@@ -2,7 +2,7 @@ import { ColumnDef } from "@tanstack/react-table";
 
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { toLower, camelCase } from "lodash";
+import { toLower, camelCase, capitalize } from "lodash";
 import { FileTextIcon } from "lucide-react";
 
 import { Checkbox } from "@/components/ui/checkbox";
@@ -50,12 +50,12 @@ export const ShipmentColumns = (): ColumnDef<typeof shipmentInterface>[] => [
 		enableSorting: false,
 		enableHiding: false,
 	},
+
 	{
 		accessorKey: "invoiceId",
 		header: "Factura",
 		cell: ({ row }) => (
 			<div className=" ">
-				<div className="flex items-center text-xs ">{row.original.agency}</div>
 				<TooltipProvider>
 					<Tooltip>
 						<TooltipTrigger asChild>
@@ -74,11 +74,7 @@ export const ShipmentColumns = (): ColumnDef<typeof shipmentInterface>[] => [
 						</TooltipContent>
 					</Tooltip>
 				</TooltipProvider>
-
-				<p className="text-xs text-muted-foreground ">
-					{/* 	{row.original?.invoiceDate &&
-						format(new Date(row.original?.invoiceDate), "dd/MM/yyyy h:mm a")} */}
-				</p>
+				<div className="flex items-center text-sky-700 text-xs  ">{row.original.agency}</div>
 			</div>
 		),
 		enableSorting: true,
