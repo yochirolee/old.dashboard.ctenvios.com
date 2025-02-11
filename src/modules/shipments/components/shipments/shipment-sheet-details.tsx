@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+
 import {
 	Sheet,
 	SheetClose,
@@ -12,9 +11,49 @@ import {
 	SheetTrigger,
 } from "@/components/ui/sheet";
 import { ChevronRight } from "lucide-react";
+import ShipmentTimeline from "./shipment-timeline";
+import { useGetShipmentByHbl } from "@/hooks/use-shipments";
 
-export function ShipmentSheetDetails() {
-	return (
+const sampleEvents: TrackingEvent[] = [
+	{
+		id: "1",
+		status: "Ordered",
+		description: "Your order has been placed",
+		date: "2023-04-01 10:00 AM",
+		isCompleted: true,
+	},
+	{
+		id: "2",
+		status: "Processing",
+		description: "Your order is being processed",
+		date: "2023-04-01 2:30 PM",
+		isCompleted: true,
+	},
+	{
+		id: "3",
+		status: "Shipped",
+		description: "Your order has been shipped",
+		date: "2023-04-02 9:15 AM",
+		isCompleted: true,
+	},
+	{
+		id: "4",
+		status: "In Transit",
+		description: "Your order is on its way",
+		date: "2023-04-03 11:45 AM",
+		isCompleted: false,
+	},
+	{
+		id: "5",
+		status: "Delivered",
+		description: "Your order has been delivered",
+		date: "Estimated: 2023-04-05",
+		isCompleted: false,
+	},
+];
+
+export function ShipmentSheetDetails({ hbl }: { hbl: string }) {
+		return (
 		<Sheet>
 			<SheetTrigger asChild>
 				<Button variant="ghost" size="icon">
@@ -24,24 +63,9 @@ export function ShipmentSheetDetails() {
 			<SheetContent>
 				<SheetHeader>
 					<SheetTitle>Edit profile</SheetTitle>
-					<SheetDescription>
-						Make changes to your profile here. Click save when you're done.
-					</SheetDescription>
+					<SheetDescription>{hbl}</SheetDescription>
 				</SheetHeader>
-				<div className="grid gap-4 py-4">
-					<div className="grid grid-cols-4 items-center gap-4">
-						<Label htmlFor="name" className="text-right">
-							Name
-						</Label>
-						<Input id="name" value="Pedro Duarte" className="col-span-3" />
-					</div>
-					<div className="grid grid-cols-4 items-center gap-4">
-						<Label htmlFor="username" className="text-right">
-							Username
-						</Label>
-						<Input id="username" value="@peduarte" className="col-span-3" />
-					</div>
-				</div>
+				<ShipmentTimeline hbl={hbl} />
 				<SheetFooter>
 					<SheetClose asChild>
 						<Button type="submit">Save changes</Button>

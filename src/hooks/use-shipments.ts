@@ -20,3 +20,11 @@ export const useSearchShipments = (params: { query: string }) => {
 		queryFn: () => api.shipments.search(params),
 	});
 };
+export const useGetShipmentByHbl = (hbl: string) => {
+	console.log(hbl);
+	return useQuery({
+		queryKey: ["getShipmentByHbl", hbl],
+		queryFn: () => api.shipments.getShipmentByHbl(hbl),
+		enabled: !!hbl,
+	});
+};

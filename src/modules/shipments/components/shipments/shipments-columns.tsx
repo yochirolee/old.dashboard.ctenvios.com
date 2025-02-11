@@ -3,16 +3,13 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { toLower, camelCase } from "lodash";
-import { ChevronRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { FileTextIcon } from "lucide-react";
+
 import { Checkbox } from "@/components/ui/checkbox";
 import { Tooltip, TooltipTrigger } from "@/components/ui/tooltip";
 import { TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
 import { ShipmentSheetDetails } from "./shipment-sheet-details";
-
-type Location = {
-	name: string;
-};
+import { Link } from "react-router-dom";
 
 const shipmentInterface = {
 	hbl: "",
@@ -26,6 +23,8 @@ const shipmentInterface = {
 	receiver: "",
 	state: "",
 	city: "",
+	agency: "",
+	invoiceDate: "",
 	updateMethod: "",
 	statusDetails: "",
 };
@@ -53,19 +52,45 @@ export const ShipmentColumns = (): ColumnDef<typeof shipmentInterface>[] => [
 	},
 	{
 		accessorKey: "invoiceId",
-		header: "Invoice",
-		cell: ({ row }) => <Badge variant="secondary">{row.getValue("invoiceId")}</Badge>,
+		header: "Factura",
+		cell: ({ row }) => (
+			<div className=" ">
+				<div className="flex items-center text-xs ">{row.original.agency}</div>
+				<TooltipProvider>
+					<Tooltip>
+						<TooltipTrigger asChild>
+							<Link
+								to={`https://systemcaribetravel.com/ordenes/factura_print.php?id=${row.original.invoiceId}`}
+								target="_blank"
+								rel="noopener noreferrer"
+								className="flex items-center gap-2 "
+							>
+								<FileTextIcon size={16} className="h-4 w-4 text-sky-700" />
+								{row.original.invoiceId}
+							</Link>
+						</TooltipTrigger>
+						<TooltipContent>
+							<p>Ver Factura</p>
+						</TooltipContent>
+					</Tooltip>
+				</TooltipProvider>
+
+				<p className="text-xs text-muted-foreground ">
+					{/* 	{row.original?.invoiceDate &&
+						format(new Date(row.original?.invoiceDate), "dd/MM/yyyy h:mm a")} */}
+				</p>
+			</div>
+		),
+		enableSorting: true,
 	},
 	{
 		accessorKey: "hbl",
 		header: "HBL",
 		cell: ({ row }) => {
 			return (
-				<div className="flex space-x-2 items-left">
-					<div className="flex flex-col gap-2">
-						<div>{row.original.hbl}</div>
-						<div className="text-xs text-muted-foreground">{row.original?.description}</div>
-					</div>
+				<div className=" items-left">
+					<div>{row.original.hbl}</div>
+					<div className="text-xs text-muted-foreground">{row.original?.description}</div>
 				</div>
 			);
 		},
@@ -74,16 +99,14 @@ export const ShipmentColumns = (): ColumnDef<typeof shipmentInterface>[] => [
 		id: "actions",
 		cell: ({ row }) => (
 			<TooltipProvider>
-				<div className="flex items-center gap-2">
-					<Tooltip>
-						<TooltipTrigger asChild>
-							<ShipmentSheetDetails />
-						</TooltipTrigger>
-						<TooltipContent>
-							<p>History</p>
-						</TooltipContent>
-					</Tooltip>
-				</div>
+				<Tooltip>
+					<TooltipTrigger asChild>
+						<ShipmentSheetDetails hbl={row.original?.hbl} />
+					</TooltipTrigger>
+					<TooltipContent>
+						<p>History</p>
+					</TooltipContent>
+				</Tooltip>
 			</TooltipProvider>
 		),
 	},
@@ -111,26 +134,23 @@ export const ShipmentColumns = (): ColumnDef<typeof shipmentInterface>[] => [
 		accessorKey: "timestamp",
 		header: "Updated",
 		cell: ({ row }) => (
-			<div>
-				<div className="text-xs text-muted-foreground">
+			<div className="text-xs space-y-2 text-muted-foreground">
+				{row.original.timestamp
+					? new Date(row.original?.timestamp).toLocaleDateString("en-US", {
+							day: "numeric",
+							month: "short",
+							year: "numeric",
+							hour: "2-digit",
+							minute: "2-digit",
+					  })
+					: ""}
+				{/* days passed from timestamp to now */}
+				<div className="text-muted ">
 					{row.original.timestamp
-						? new Date(row.original?.timestamp).toLocaleDateString("en-US", {
-								day: "numeric",
-								month: "short",
-								year: "numeric",
-								hour: "2-digit",
-								minute: "2-digit",
-						  })
+						? `${Math.floor(
+								(Date.now() - new Date(row.original?.timestamp).getTime()) / (1000 * 60 * 60 * 24),
+						  )} days ago`
 						: ""}
-					{/* days passed from timestamp to now */}
-					<div className="mt-2 text-muted ">
-						{row.original.timestamp
-							? `${Math.floor(
-									(Date.now() - new Date(row.original?.timestamp).getTime()) /
-										(1000 * 60 * 60 * 24),
-							  )} days ago`
-							: ""}
-					</div>
 				</div>
 			</div>
 		),

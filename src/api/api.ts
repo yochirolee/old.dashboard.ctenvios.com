@@ -67,6 +67,10 @@ const api = {
 			const response = await axiosInstance.get("/shipments/search", { params });
 			return response.data;
 		},
+		getShipmentByHbl: async (hbl: string) => {
+			const response = await axiosInstance.get(`/shipments/hbl/${hbl}`);
+			return response.data;
+		},
 	},
 };
 export { api, baseUrl };
