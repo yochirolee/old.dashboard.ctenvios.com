@@ -10,12 +10,11 @@ export interface TrackingEvent {
 	isCompleted: boolean;
 }
 
+export interface ShipmentEvents {
+	events: TrackingEvent[];
+}
 
-
-export default function ShipmentTimeline({ hbl }: { hbl: string }) {
-	if (!hbl) return null;
-	const { data, isLoading } = useGetShipmentByHbl(hbl);
-	console.log(data);
+export default function ShipmentTimeline({ events }: ShipmentEvents) {
 	const getIcon = (status: string) => {
 		switch (status.toLowerCase()) {
 			case "created":
@@ -36,23 +35,20 @@ export default function ShipmentTimeline({ hbl }: { hbl: string }) {
 	return (
 		<div className="max-w-2xl mx-auto p-4">
 			<h2 className=" font-bold mb-4">Tracking Timeline</h2>
-			{isLoading ? (
-				<div>Loading...</div>
-			) : (
-				<div className="relative">
-					{data?.events.map((event: TrackingEvent, index: number) => (
-						<ShipmentTimelineItem
-							key={index}
-							icon={getIcon(event.status)}
-							status={event.status}
-							description={event.description}
-							date={event.timestamp}
-							isCompleted={event.isCompleted}
-							isLast={index === data?.events.length - 1}
-						/>
-					))}
-				</div>
-			)}
+
+			<div className="relative">
+				{events.map((event: TrackingEvent, index: number) => (
+					<ShipmentTimelineItem
+						key={index}
+						icon={getIcon(event.status)}
+						status={event.status}
+						description={event.description}
+						date={event.timestamp}
+						isCompleted={event.isCompleted}
+						isLast={index === events.length - 1}
+					/>
+				))}
+			</div>
 		</div>
 	);
 }
