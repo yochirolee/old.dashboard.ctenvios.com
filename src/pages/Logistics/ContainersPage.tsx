@@ -1,5 +1,5 @@
-import { ContainerSelect }	 from "@/modules/shipments/components/containers/container-select";
-import { useState, useDeferredValue, useMemo } from "react";
+import { ContainerSelect } from "@/modules/shipments/components/containers/container-select";
+import { useState, useMemo } from "react";
 import TableSkeleton from "@/components/logistics/table-skeleton";
 import { ContainerStats } from "@/components/containers/container-stats";
 import {
@@ -9,29 +9,26 @@ import {
 import { ContainerUpdateModalForm } from "@/components/containers/container-update-modal-form";
 import ExcelUploadDialog from "@/components/logistics/excel-upload-dialog";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { useFetchParcelsByContainerId } from "@/hooks/parcels/containers";
-
+import { useGetContainerById } from "@/hooks/use-containers";
+import { DataTable } from "@/components/common/table/data-table";
+import { ShipmentColumns } from "@/modules/shipments/components/shipments/shipments-columns";
 export default function ContainersPage() {
 	const [selectedContainer, setSelectedContainer] = useState<{ id: number } | null>(null);
 	const [agencyFilter, setAgencyFilter] = useState<string>("");
-	const [locationFilter, setLocationFilter] = useState<string>("");
+	const [statusFilter, setStatusFilter] = useState<string>("");
 
-	const {
-		data: parcelsInContainer,
-		isLoading,
-		error,
-	} = useFetchParcelsByContainerId(selectedContainer?.id);
-
+	const { data: container, isLoading, error } = useGetContainerById(selectedContainer?.id);
+	console.log(container);
 	const filteredData = useMemo(() => {
-		if (!parcelsInContainer?.data) return [];
-		return parcelsInContainer.data.filter(({ agency, location }) => {
+		if (!container?.shipments) return [];
+		return container.shipments.filter(({ agency, status }) => {
 			const matchesAgency =
 				!agencyFilter || agency?.toLowerCase().includes(agencyFilter.toLowerCase());
-			const matchesLocation =
-				!locationFilter || location?.toLowerCase().includes(locationFilter.toLowerCase());
-			return matchesAgency && matchesLocation;
+			const matchesStatus =
+				!statusFilter || status?.toLowerCase().includes(statusFilter.toLowerCase());
+			return matchesAgency && matchesStatus;
 		});
-	}, [parcelsInContainer?.data, agencyFilter, locationFilter]);
+	}, [container?.shipments, agencyFilter, statusFilter]);
 
 	if (error) {
 		return (
@@ -51,7 +48,7 @@ export default function ContainersPage() {
 				<div className="grid grid-cols-2 lg:flex items-center gap-4">
 					<ContainerUpdateModalForm
 						selectedContainerId={selectedContainer?.id}
-						inPort={parcelsInContainer?.inPort}
+						inPort={container?.isActive}
 					/>
 					<ExcelUploadDialog isLoading={isLoading} />
 				</div>
@@ -62,8 +59,8 @@ export default function ContainersPage() {
 					<TableSkeleton />
 				) : (
 					<div>
-						{parcelsInContainer?.inPort ? (
-							<ContainerStats parcelsInContainer={filteredData} />
+						{container ? (
+							<ContainerStats shipments={filteredData} />
 						) : (
 							<ContainerPendingToArrival selectedContainerId={selectedContainer.id} />
 						)}
@@ -85,7 +82,7 @@ export default function ContainersPage() {
 									)}
 									
 								/> */}
-								<DataTable columns={columns} data={filteredData} />
+								<DataTable columns={ShipmentColumns()} data={filteredData} />
 							</>
 						) : (
 							<div className="text-center text-gray-500">

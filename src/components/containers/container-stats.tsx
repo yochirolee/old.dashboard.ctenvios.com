@@ -3,7 +3,7 @@ import { Label } from "@/components/ui/label";
 import { CheckCheckIcon, ForkliftIcon, ShieldIcon, TruckIcon, AnchorIcon } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
-export const ContainerStats = ({ parcelsInContainer }: { parcelsInContainer: any[] }) => {
+export const ContainerStats = ({ shipments }: { shipments: any[] }) => {
 	const stats = useMemo(() => {
 		const initialStats = {
 			puertoMariel: 0,
@@ -13,27 +13,33 @@ export const ContainerStats = ({ parcelsInContainer }: { parcelsInContainer: any
 			entregado: 0,
 		};
 
-		return parcelsInContainer.reduce((acc, parcel) => {
-			switch (parcel.status) {
-				case "EN_CONTENEDOR":
+		return shipments.reduce((acc, shipment) => {
+			switch (shipment.status.code) {
+				case "IN_PORT":
 					acc.puertoMariel++;
 					break;
-				case "EN_ESPERA_DE_AFORO":
+				case "CUSTOMS_PENDING":
 					acc.aforoEspera++;
 					break;
-				case "AFORADO":
+				case "READY_FOR_PICKUP":
 					acc.almacenMypimes++;
 					break;
-				case "EN_TRASLADO":
+				case "IN_TRANSIT":
 					acc.enTraslado++;
 					break;
-				case "ENTREGADO":
+				case "MESSENGER_RECEIVED":
+					acc.enTraslado++;
+					break;
+				case "OUT_FOR_DELIVERY":
+					acc.enTraslado++;
+					break;
+				case "DELIVERED":
 					acc.entregado++;
 					break;
 			}
 			return acc;
 		}, initialStats);
-	}, [parcelsInContainer]);
+	}, [shipments]);
 
 	return (
 		<div className="grid grid-cols-1 lg:grid-cols-5 lg:gap-2 space-y-4 my-4">

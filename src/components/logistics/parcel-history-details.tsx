@@ -1,23 +1,20 @@
 import React from "react";
-import { useFetchParcelByHbl } from "@/hooks/parcels/parcels";
 import { Separator } from "../ui/separator";
 import { ScrollArea } from "../ui/scroll-area";
 import { Parcel } from "@/types/parcel";
 import { MessageCircle, Flame, FileDown, IdCardIcon } from "lucide-react";
 import { locations, statuses } from "@/data/data";
 import { Avatar, AvatarFallback } from "../ui/avatar";
-
+import { useGetShipmentByHbl } from "@/hooks/use-shipments";
+import { Shipment } from "@/types/shipment";
 export default function ParcelHistoryDetails({ hbl }: { hbl: string }) {
 	if (!hbl) return null;
 	const {
 		data: parcel,
 		isLoading,
 		error,
-	} = useFetchParcelByHbl(hbl) as {
-		data: Parcel | undefined;
-		isLoading: boolean;
-		error: Error | null;
-	};
+	} = useGetShipmentByHbl(hbl);
+	console.log(parcel);
 	if (isLoading) return <div>Loading...</div>;
 
 	if (error) return <div>Error: {error.message}</div>;

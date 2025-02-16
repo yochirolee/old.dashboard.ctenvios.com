@@ -83,7 +83,7 @@ export default function AppRouter() {
 				/>
 
 				{/* Catch-all route for undefined paths */}
-				<Route path="/*" element={<Navigate to="/logistics/tracking" />} />
+				<Route path="/*" element={<Navigate to="/logistics/shipments" />} />
 			</Routes>
 		</Layout>
 	) : (

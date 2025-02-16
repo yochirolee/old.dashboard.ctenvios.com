@@ -57,6 +57,18 @@ const api = {
 			const response = await axiosInstance.get("/containers");
 			return response.data;
 		},
+		getContainerById: async (containerId: number) => {
+			const response = await axiosInstance.get(`/containers/${containerId}`);
+			return response.data;
+		},
+		containerToPort: async (containerId: number, timestamp: Date) => {
+			console.log(containerId, "on APi");
+			const response = await axiosInstance.post(`/containers/toPort/${containerId}`, {
+				timestamp,
+			});
+			console.log(response);
+			return response.data;
+		},
 	},
 	shipments: {
 		getAll: async () => {

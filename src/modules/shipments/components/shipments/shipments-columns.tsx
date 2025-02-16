@@ -2,28 +2,33 @@ import { ColumnDef } from "@tanstack/react-table";
 
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { toLower, camelCase, capitalize } from "lodash";
+import { toLower, camelCase } from "lodash";
 import { FileTextIcon } from "lucide-react";
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { Tooltip, TooltipTrigger } from "@/components/ui/tooltip";
 import { TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
-import { ShipmentSheetDetails } from "./shipment-sheet-details";
+import ShipmentSheetDetails from "./shipment-sheet-details";
 import { Link } from "react-router-dom";
 
 const shipmentInterface = {
 	hbl: "",
 	invoiceId: 1,
 	containerId: 1,
+	agency: {
+		name: "",
+	},
 	location: "",
 	timestamp: "",
-	status: "",
+	status: {
+		name: "",
+		description: "",
+	},
 	description: "",
 	sender: "",
 	receiver: "",
 	state: "",
 	city: "",
-	agency: "",
 	invoiceDate: "",
 	updateMethod: "",
 	statusDetails: "",
@@ -50,6 +55,11 @@ export const ShipmentColumns = (): ColumnDef<typeof shipmentInterface>[] => [
 		enableSorting: false,
 		enableHiding: false,
 	},
+	{
+		accessorKey: "agency",
+		header: "Agency",
+		cell: ({ row }) => <div className="text-xs text-sky-700">{row.original.agency?.name}</div>,
+	},
 
 	{
 		accessorKey: "invoiceId",
@@ -74,7 +84,6 @@ export const ShipmentColumns = (): ColumnDef<typeof shipmentInterface>[] => [
 						</TooltipContent>
 					</Tooltip>
 				</TooltipProvider>
-				<div className="flex items-center text-sky-700 text-xs  ">{row.original.agency}</div>
 			</div>
 		),
 		enableSorting: true,
@@ -108,27 +117,20 @@ export const ShipmentColumns = (): ColumnDef<typeof shipmentInterface>[] => [
 	},
 
 	{
-		accessorKey: "location",
-		header: "Location",
-		cell: ({ row }) => <span>{row.original?.location}</span>,
-	},
-	{
 		accessorKey: "status",
 		header: "Status",
 		cell: ({ row }) => (
-			<div className="flex flex-col justify-center items-center">
+			<div className="flex flex-col justify-left items-start">
 				<Badge className="text-green-600 bg-green-500/20 hover:bg-green-500/30" variant="secondary">
-					{camelCase(row.original?.status)}
+					{camelCase(row.original?.status?.name)}
 				</Badge>
-				{row.original?.statusDetails && (
-					<div className="text-xs text-muted-foreground">{row?.original?.statusDetails}</div>
-				)}
 			</div>
 		),
 	},
+
 	{
 		accessorKey: "timestamp",
-		header: "Updated",
+		header: "Updated At",
 		cell: ({ row }) => (
 			<div className="text-xs space-y-2 text-muted-foreground">
 				{row.original.timestamp
