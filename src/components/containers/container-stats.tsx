@@ -42,9 +42,9 @@ export const ContainerStats = ({ shipments }: { shipments: any[] }) => {
 	}, [shipments]);
 
 	return (
-		<div className="grid grid-cols-1 lg:grid-cols-5 lg:gap-2 space-y-4 my-4">
-			<div className="grid  col-span-5  gap-4 bg-muted/40 dark:bg-gray-900 rounded-lg md:p-6 grid-cols-1   lg:grid-cols-5">
-				<Card className="rounded-xl border bg-card text-card-foreground shadow">
+		<div className="grid grid-cols-1 lg:grid-cols-5 gap-1 lg:gap-2 space-y-4 my-4">
+			<div className="grid  col-span-5  lg:gap-4 bg-muted/40 lg:dark:bg-gray-900 rounded-lg lg:p-6 grid-cols-2   lg:grid-cols-5">
+				<Card className="rounded-xl">
 					<div className="m-6">
 						<div className="flex items-center text-slate-800 dark:text-gray-300 my-4 justify-between">
 							<Label> Puerto Mariel</Label>
