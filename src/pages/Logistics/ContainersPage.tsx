@@ -1,4 +1,4 @@
-import { ContainerSelect } from "@/modules/shipments/components/containers/container-select";
+import { ContainerSelect } from "@/modules/components/containers/container-select";
 import { useState, useMemo } from "react";
 import TableSkeleton from "@/components/logistics/table-skeleton";
 import { ContainerStats } from "@/components/containers/container-stats";
@@ -11,14 +11,13 @@ import ExcelUploadDialog from "@/components/logistics/excel-upload-dialog";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useGetContainerById } from "@/hooks/use-containers";
 import { DataTable } from "@/components/common/table/data-table";
-import { ShipmentColumns } from "@/modules/shipments/components/shipments/shipments-columns";
+import { ShipmentColumns } from "@/modules/components/shipments/shipments-columns";
 export default function ContainersPage() {
 	const [selectedContainer, setSelectedContainer] = useState<{ id: number } | null>(null);
 	const [agencyFilter, setAgencyFilter] = useState<string>("");
 	const [statusFilter, setStatusFilter] = useState<string>("");
 
 	const { data: container, isLoading, error } = useGetContainerById(selectedContainer?.id);
-	console.log(container);
 	const filteredData = useMemo(() => {
 		if (!container?.shipments) return [];
 		return container.shipments.filter(({ agency, status }) => {
@@ -46,10 +45,7 @@ export default function ContainersPage() {
 			<div className="bg-muted/20 rounded-md my-2 md:py-6 md:px-4 gap-4 grid md:flex justify-center md:justify-between items-center">
 				<ContainerSelect setSelectedContainer={setSelectedContainer} />
 				<div className="grid grid-cols-2 lg:flex items-center gap-4">
-					<ContainerUpdateModalForm
-						selectedContainerId={selectedContainer?.id}
-						inPort={container?.isActive}
-					/>
+					<ContainerUpdateModalForm selectedContainer={selectedContainer} />
 					<ExcelUploadDialog isLoading={isLoading} />
 				</div>
 			</div>

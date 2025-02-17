@@ -45,3 +45,21 @@ export const useContainerToPort = (id: number) => {
 		},
 	});
 };
+
+export const useUpdateContainerStatus = (containerId: number) => {
+	const queryClient = useQueryClient();
+
+	return useMutation({
+		mutationFn: async (data: { timestamp: Date; statusId: number }) => {
+			// Your API call here
+			await api.containers.updateContainerShipmentsStatus(
+				containerId,
+				data.statusId,
+				data.timestamp,
+			);
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["getContainerById", containerId] });
+		},
+	});
+};

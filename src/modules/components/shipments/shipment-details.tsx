@@ -17,7 +17,7 @@ export default function ShipmentDetails({ hbl }: { hbl: string | undefined }) {
 	const { data: shipment, isLoading, isError } = useGetShipmentByHbl(hbl);
 
 	return (
-		<div>
+		<div className="flex pb-4 flex-col gap-4">
 			{isError && <p>Error loading shipment</p>}
 			{isLoading && <div className="flex justify-center items-center text-sm h-full">Loading shipment</div>}
 			{shipment && (

@@ -1,10 +1,10 @@
-import { ShipmentsTable } from "../components/shipments/shipments-table";
-import { ShipmentColumns } from "../components/shipments/shipments-columns";
+import { ShipmentsTable } from "../../components/shipments/shipments-table";
+import { ShipmentColumns } from "../../components/shipments/shipments-columns";
 import { useGetShipments, useSearchShipments } from "@/hooks/use-shipments";
-import { ShipmentSearchForm } from "../components/shipments/shipment-search-form";
+import { ShipmentSearchForm } from "../../components/shipments/shipment-search-form";
 import { useState } from "react";
-import { ShipmentTableSkeleton } from "../components/shipments/shipment-table-skeleton";
-import { ShipmentActionsMenu } from "../components/shipments/shipment-actions-menu";
+import { ShipmentTableSkeleton } from "../../components/shipments/shipment-table-skeleton";
+import { ShipmentActionsMenu } from "../../components/shipments/shipment-actions-menu";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export default function ShipmentsPage() {

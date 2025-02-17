@@ -1,39 +1,17 @@
+import { Link } from "react-router-dom";
 import { ColumnDef } from "@tanstack/react-table";
-
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { toLower, camelCase } from "lodash";
+import { toLower } from "lodash";
 import { FileTextIcon } from "lucide-react";
-
 import { Checkbox } from "@/components/ui/checkbox";
 import { Tooltip, TooltipTrigger } from "@/components/ui/tooltip";
 import { TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
 import ShipmentSheetDetails from "./shipment-sheet-details";
-import { Link } from "react-router-dom";
+import { getIcon } from "../common/getIcon";
+import { Shipment } from "@/data/data";
 
-const shipmentInterface = {
-	hbl: "",
-	invoiceId: 1,
-	containerId: 1,
-	agency: {
-		name: "",
-	},
-	location: "",
-	timestamp: "",
-	status: {
-		name: "",
-		description: "",
-	},
-	description: "",
-	sender: "",
-	receiver: "",
-	state: "",
-	city: "",
-	invoiceDate: "",
-	updateMethod: "",
-	statusDetails: "",
-};
-export const ShipmentColumns = (): ColumnDef<typeof shipmentInterface>[] => [
+export const ShipmentColumns = (): ColumnDef<Shipment>[] => [
 	{
 		id: "select",
 		header: ({ table }) => (
@@ -58,14 +36,9 @@ export const ShipmentColumns = (): ColumnDef<typeof shipmentInterface>[] => [
 	{
 		accessorKey: "agency",
 		header: "Agency",
-		cell: ({ row }) => <div className="text-xs text-sky-700">{row.original.agency?.name}</div>,
-	},
-
-	{
-		accessorKey: "invoiceId",
-		header: "Factura",
 		cell: ({ row }) => (
-			<div className=" ">
+			<div className="flex flex-col items-start gap-2">
+				<div className=" text-xs text-sky-700">{row.original.agency?.name}</div>
 				<TooltipProvider>
 					<Tooltip>
 						<TooltipTrigger asChild>
@@ -73,9 +46,9 @@ export const ShipmentColumns = (): ColumnDef<typeof shipmentInterface>[] => [
 								to={`https://systemcaribetravel.com/ordenes/factura_print.php?id=${row.original.invoiceId}`}
 								target="_blank"
 								rel="noopener noreferrer"
-								className="flex items-center gap-2 "
+								className="flex items-center gap-2  group-hover:text-white "
 							>
-								<FileTextIcon size={16} className="h-4 w-4 text-sky-700" />
+								<FileTextIcon size={16} className="h-4 w-4 text-muted hover:text-white " />
 								{row.original.invoiceId}
 							</Link>
 						</TooltipTrigger>
@@ -86,8 +59,8 @@ export const ShipmentColumns = (): ColumnDef<typeof shipmentInterface>[] => [
 				</TooltipProvider>
 			</div>
 		),
-		enableSorting: true,
 	},
+
 	{
 		accessorKey: "hbl",
 		header: "HBL",
@@ -121,8 +94,9 @@ export const ShipmentColumns = (): ColumnDef<typeof shipmentInterface>[] => [
 		header: "Status",
 		cell: ({ row }) => (
 			<div className="flex flex-col justify-left items-start">
-				<Badge className="text-green-600 bg-green-500/20 hover:bg-green-500/30" variant="secondary">
-					{camelCase(row.original?.status?.name)}
+				<Badge className=" flex gap-2 items-center" variant="secondary">
+					{getIcon(row.original?.status?.code)}
+					{row.original?.status?.name}
 				</Badge>
 			</div>
 		),

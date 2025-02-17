@@ -62,11 +62,21 @@ const api = {
 			return response.data;
 		},
 		containerToPort: async (containerId: number, timestamp: Date) => {
-			console.log(containerId, "on APi");
 			const response = await axiosInstance.post(`/containers/toPort/${containerId}`, {
 				timestamp,
 			});
 			console.log(response);
+			return response.data;
+		},
+		updateContainerShipmentsStatus: async (
+			containerId: number,
+			statusId: number,
+			timestamp: Date,
+		) => {
+			const response = await axiosInstance.put(`/containers/updateStatus/${containerId}`, {
+				timestamp,
+				statusId,
+			});
 			return response.data;
 		},
 	},
@@ -81,6 +91,12 @@ const api = {
 		},
 		getShipmentByHbl: async (hbl: string) => {
 			const response = await axiosInstance.get(`/shipments/hbl/${hbl}`);
+			return response.data;
+		},
+	},
+	agencies: {
+		getAll: async () => {
+			const response = await axiosInstance.get("/agencies");
 			return response.data;
 		},
 	},

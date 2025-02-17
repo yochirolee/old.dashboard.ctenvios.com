@@ -26,6 +26,8 @@ import { useState } from "react";
 import { roles } from "@/data/data";
 import { useRegister } from "@/hooks/use-users";
 import { UserPlus } from "lucide-react";
+import { useAgencies } from "@/hooks/use-agencies";
+import { AgencySelect } from "@/modules/components/agencies/agencies-select";
 
 export const description =
 	"A login form with email and password. There's an option to login with Google and a link to sign up if you don't have an account.";
@@ -42,6 +44,7 @@ type FormValues = z.infer<typeof FormSchema>;
 
 export function UserRegisterForm() {
 	const [open, setOpen] = useState(false);
+	const [selectedAgency, setSelectedAgency] = useState<any>(null);
 
 	const form = useForm<FormValues>({
 		resolver: zodResolver(FormSchema),
@@ -50,24 +53,30 @@ export function UserRegisterForm() {
 			password: "",
 			role: "",
 			name: "",
-			agencyId: 1,
+			agencyId: 0,
 		},
 	});
 
 	const registerUser = useRegister();
 	const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-		registerUser.mutate(data, {
-			onSuccess: () => {
-				setOpen(false);
-				form.reset();
+		registerUser.mutate(
+			{
+				...data,
+				agencyId: selectedAgency?.id,
 			},
-		});
+			{
+				onSuccess: () => {
+					setOpen(false);
+					form.reset();
+				},
+			},
+		);
 	};
 
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
-				<Button  variant="outline">
+				<Button variant="outline">
 					<UserPlus className="w-4 h-4" />
 					<span className="hidden md:block">Crear usuario</span>
 				</Button>
@@ -135,32 +144,40 @@ export function UserRegisterForm() {
 								</FormItem>
 							)}
 						/>
-						<FormField
-							control={form.control}
-							name="role"
-							render={({ field }) => (
-								<FormItem>
-									<Select onValueChange={field.onChange}>
-										<SelectTrigger>
-											<SelectValue
-												placeholder="Selecciona un rol"
-												aria-placeholder="Selecciona un rol"
-											/>
-										</SelectTrigger>
-										<SelectContent>
-											<SelectGroup>
-												{roles.map((role) => (
-													<SelectItem key={role} value={role}>
-														{role}
-													</SelectItem>
-												))}
-											</SelectGroup>
-										</SelectContent>
-									</Select>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
+						<div className="flex flex-col w-full gap-2">
+							<Label htmlFor="agencyId">Agencia</Label>
+							<AgencySelect setSelectedAgency={setSelectedAgency} />
+						</div>
+
+						<div className="flex flex-col w-full gap-2">
+							<Label htmlFor="role">Rol</Label>
+							<FormField
+								control={form.control}
+								name="role"
+								render={({ field }) => (
+									<FormItem>
+										<Select onValueChange={field.onChange}>
+											<SelectTrigger>
+												<SelectValue
+													placeholder="Selecciona un rol"
+													aria-placeholder="Selecciona un rol"
+												/>
+											</SelectTrigger>
+											<SelectContent>
+												<SelectGroup>
+													{roles.map((role) => (
+														<SelectItem key={role} value={role}>
+															{role}
+														</SelectItem>
+													))}
+												</SelectGroup>
+											</SelectContent>
+										</Select>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+						</div>
 
 						<Button type="submit" className="w-full" disabled={registerUser.isPending}>
 							{registerUser.isPending ? "Registrando..." : "Registrar"}

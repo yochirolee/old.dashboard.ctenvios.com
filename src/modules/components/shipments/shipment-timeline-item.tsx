@@ -1,14 +1,15 @@
-import type { LucideIcon } from "lucide-react";
-
 interface TimelineItemProps {
-	icon: LucideIcon;
+	icon: React.ReactNode;
 	status: {
 		code: string;
 		description: string;
 		name: string;
 		id: number;
 	};
-	color: string;
+	user: {
+		id: number;
+		name: string;
+	};
 	timestamp: string;
 	isCompleted: boolean;
 	isLast: boolean;
@@ -18,7 +19,7 @@ export default function ShipmentTimelineItem({
 	icon: Icon,
 	status,
 	timestamp,
-	color,
+ user,
 	isCompleted,
 	isLast,
 }: TimelineItemProps) {
@@ -29,7 +30,7 @@ export default function ShipmentTimelineItem({
 					className={`w-6 h-6 rounded-full  flex items-center justify-center z-10
             ${isCompleted ? "bg-green-500 border-green-500" : "bg-gray-200/15 "}`}
 				>
-					<Icon className={`w-4 h-4 ${color}`} />
+					{Icon}
 				</div>
 				{!isLast && (
 					<div
@@ -46,16 +47,17 @@ export default function ShipmentTimelineItem({
 						{status?.name}
 					</h3>
 					<p className="text-sm text-gray-600">{status?.description}</p>
+					<span className="text-xs text-gray-400">
+						{new Date(timestamp).toLocaleDateString("en-US", {
+							day: "numeric",
+							month: "short",
+							year: "numeric",
+							hour: "2-digit",
+							minute: "2-digit",
+						})}
+					</span>
 				</div>
-				<span className="text-xs text-gray-400">
-					{new Date(timestamp).toLocaleDateString("en-US", {
-						day: "numeric",
-						month: "short",
-						year: "numeric",
-						hour: "2-digit",
-						minute: "2-digit",
-					})}
-				</span>
+				<span className="text-xs text-gray-400">{user?.name}</span>
 			</div>
 		</div>
 	);

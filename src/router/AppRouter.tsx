@@ -7,14 +7,13 @@ import CreateOrder from "../pages/CreateOrder";
 
 import ContainersPage from "@/pages/Logistics/ContainersPage";
 import IssuesPage from "@/pages/Logistics/IssuesPage";
-import TrackingPage from "@/pages/Logistics/TrackingPage";
 import SettingsPage from "@/pages/Settings/SettingsPage";
 import Layout from "@/layout/layout";
 import { useAuthContext } from "@/context/auth-context";
 import Dashboard from "@/pages/Dashboard";
-import { UsersPage } from "@/modules/users/pages/users-page";
-import { UserLoginPage } from "@/modules/users/pages/user-login-page";
-import ShipmentsPage from "@/modules/shipments/pages/shipments-page";
+import { UsersPage } from "@/modules/pages/users/users-page";
+import { UserLoginPage } from "@/modules/pages/users/user-login-page";
+import ShipmentsPage from "@/modules/pages/shipments/shipments-page";
 
 // Define a protected route component
 const ProtectedRoute = ({

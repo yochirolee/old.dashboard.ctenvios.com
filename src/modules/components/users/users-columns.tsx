@@ -13,20 +13,9 @@ import {
 	DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { UserActiveSwitch } from "./user-active-switch";
+import { User } from "@/data/data";
 
-const userInterface = {
-	id: "1",
-	name: "John Doe",
-	email: "john.doe@example.com",
-	role: "admin",
-	status: "active",
-	isActive: true,
-	lastLogin: new Date().toISOString(),
-	createdAt: new Date().toISOString(),
-};
-export const userColumns = (
-	handleDeleteUser: (id: string) => void,
-): ColumnDef<typeof userInterface>[] => [
+export const userColumns = (handleDeleteUser: (id: string) => void): ColumnDef<User>[] => [
 	{
 		accessorKey: "name",
 		header: "Name",
@@ -44,6 +33,13 @@ export const userColumns = (
 				</div>
 			);
 		},
+	},
+	{
+		accessorKey: "agency",
+		header: "Agency",
+		cell: ({ row }) => (
+			<div className="text-sm text-muted-foreground">{row.original?.agency?.name}</div>
+		),
 	},
 	{
 		accessorKey: "role",

@@ -27,7 +27,7 @@ export default function ShipmentSheetDetails({ hbl }: { hbl: string }) {
 					<SheetTitle className="text-base font-semibold">Shipment Details</SheetTitle>
 					<Separator />
 				</SheetHeader>
-				<ScrollArea className="h-[calc(100vh-30px)]">
+				<ScrollArea className="h-[calc(100vh-40px)]">
 					<ShipmentDetails hbl={hbl} />
 				</ScrollArea>
 			</SheetContent>

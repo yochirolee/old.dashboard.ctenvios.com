@@ -33,68 +33,50 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Calendar } from "../ui/calendar";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
-import { tracking_api } from "@/api/tracking-api";
-import { toast } from "@/hooks/use-toast";
+import { Container } from "@/data/data";
+import { useUpdateContainerStatus } from "@/hooks/use-containers";
 
 const formSchema = z.object({
-	updatedAt: z.date(),
-	eventType: z
-		.string({ required_error: "El tipo de evento es requerido" })
-		.min(1, "Debe seleccionar un tipo de evento"),
-	userId: z.string({ required_error: "El ID del usuario es requerido" }),
-	containerId: z.number().optional(),
+	timestamp: z.date(),
+	statusId: z.number(),
 });
 
 // Infer the type from the schema
 type FormValues = z.infer<typeof formSchema>;
 
-export function ContainerUpdateModalForm({
-	selectedContainerId,
-	inPort,
-}: {
-	selectedContainerId: number;
-	inPort: boolean;
-}) {
+export function ContainerUpdateModalForm({ selectedContainer }: { selectedContainer: Container }) {
 	const [open, setOpen] = useState(false);
-	const [error, setError] = useState<string | null>(null);
-	const queryClient = useQueryClient();
-	const form = useForm({
+	const form = useForm<FormValues>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			userId: "42cbb03e-9d73-47a6-857e-77527c02bdc2",
+			timestamp: undefined,
+			statusId: undefined,
 		},
 	});
 	const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-	const updateContainerMutation = useMutation({
-		mutationFn: (values: z.infer<typeof formSchema>) =>
-			tracking_api.containers.containerUpdate(values),
-		onSuccess: () => {
-			queryClient.invalidateQueries({
-				queryKey: ["parcelsByContainerId", selectedContainerId],
-			});
-			form.reset();
-			toast({
-				title: "Contenedor actualizado",
-				description: "El contenedor ha sido actualizado correctamente",
-			});
-			setError(null);
-			setOpen(false);
-		},
-		onError: (error) => {
-			setError(error.message || "An error occurred while updating the container");
-			console.error("Error updating container:", error);
-		},
-	});
+	const { mutate: updateContainerMutation, isPending } = useUpdateContainerStatus(
+		selectedContainer?.id,
+	);
 
 	const onSubmit = async (data: FormValues) => {
-		updateContainerMutation.mutate({ ...data, containerId: selectedContainerId });
-		form.reset();
+		console.log(data);
+		updateContainerMutation(
+			{
+				timestamp: data.timestamp,
+				statusId: Number(data.statusId),
+			},
+			{
+				onSuccess: () => {
+					setOpen(false);
+					form.reset();
+				},
+			},
+		);
 	};
 
 	const handleOpenChange = (open: boolean) => {
 		if (!open) {
 			form.reset();
-			setError(null);
 		}
 		setOpen(open);
 	};
@@ -102,24 +84,28 @@ export function ContainerUpdateModalForm({
 	return (
 		<Dialog open={open} onOpenChange={handleOpenChange}>
 			<DialogTrigger asChild>
-				<Button disabled={!inPort} variant="ghost" size="sm" className="  h-8 lg:flex">
+				<Button
+					disabled={!selectedContainer?.status}
+					variant="ghost"
+					size="sm"
+					className="  h-8 lg:flex"
+				>
 					<RefreshCcw className="h-4 w-4 text-green-600" />
 					<span className=" md:inline">Actualizar</span>
 				</Button>
 			</DialogTrigger>
-			<DialogContent className="sm:max-w-[425px]"> 
+			<DialogContent className="sm:max-w-[425px]">
 				<DialogHeader>
 					<DialogTitle>Actualizar Contenedor</DialogTitle>
 					<DialogDescription>
 						Por favor, proporcione detalles sobre el contenedor.
 					</DialogDescription>
 				</DialogHeader>
-				{error && <div className="text-sm text-red-500 mb-4">{error}</div>}
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
 						<FormField
 							control={form.control}
-							name="updatedAt"
+							name="timestamp"
 							render={({ field }) => (
 								<FormItem className="flex flex-col">
 									<FormLabel>Fecha</FormLabel>
@@ -157,21 +143,22 @@ export function ContainerUpdateModalForm({
 						/>
 						<FormField
 							control={form.control}
-							name="eventType"
+							name="statusId"
 							render={({ field }) => (
 								<FormItem className="flex flex-col">
 									<FormLabel>Tipo de Evento</FormLabel>
-									<Select onValueChange={field.onChange} defaultValue={field.value}>
+									<Select
+										onValueChange={(value) => {
+											form.setValue("statusId", Number(value));
+										}}
+										defaultValue={field.value.toString()}
+									>
 										<SelectTrigger>
 											<SelectValue placeholder="Selecciona un tipo de evento" />
 										</SelectTrigger>
 										<SelectContent>
-											<SelectItem value="CONTAINER_TO_CUSTOMS">
-												Desagrupado - Pendiente de Aduana
-											</SelectItem>
-											<SelectItem value="CONTAINER_WAREHOUSE">
-												Aforado- Listo Para Traslado
-											</SelectItem>
+											<SelectItem value="5">Desagrupado - Pendiente de Aduana</SelectItem>
+											<SelectItem value="6">Aforado- Listo Para Traslado</SelectItem>
 										</SelectContent>
 									</Select>
 									<FormMessage />
@@ -179,8 +166,8 @@ export function ContainerUpdateModalForm({
 							)}
 						/>
 
-						<Button className="w-full" disabled={updateContainerMutation.isPending} type="submit">
-							{updateContainerMutation.isPending ? (
+						<Button className="w-full" disabled={isPending} type="submit">
+							{isPending ? (
 								<div className="flex items-center gap-2">
 									<Loader2 className="animate-spin" />
 									Actualizando...

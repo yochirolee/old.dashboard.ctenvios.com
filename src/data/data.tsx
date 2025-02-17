@@ -21,6 +21,68 @@ import {
 	File,
 } from "lucide-react";
 
+export type User = {
+	id: string;
+	name: string;
+	email: string;
+	role: string;
+	status: string;
+	isActive: boolean;
+	lastLogin: string;
+	createdAt: string;
+	agency: {
+		id: number;
+		name: string;
+	};
+};
+
+export type Shipment = {
+	hbl: string;
+	invoiceId: number;
+	containerId: number;
+	agency: {
+		name: string;
+	};
+	location: string;
+	timestamp: Date;
+	status: {
+		name: string;
+		description: string;
+		code: string;
+	};
+	description: string;
+	sender: string;
+	receiver: string;
+	state: string;
+	city: string;
+	invoiceDate: Date;
+	updateMethod: string;
+	statusDetails: string;
+};
+
+export type ShipmentEvent = {
+	id: string;
+	status: {
+		code: string;
+		description: string;
+		name: string;
+		id: number;
+	};
+	user: {
+		id: number;
+		name: string;
+	};
+	timestamp: string;
+	isCompleted: boolean;
+};
+
+export type Container = {
+	id: number;
+	containerNumber: string;
+	isActive: boolean;
+	status: string;
+};
+
 export const roles = [
 	"ROOT",
 	"ADMINISTRATOR",
