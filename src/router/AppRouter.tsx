@@ -5,13 +5,12 @@ import CreateOrder from "../pages/CreateOrder";
 import ContainersPage from "@/pages/Logistics/ContainersPage";
 import IssuesPage from "@/pages/Logistics/IssuesPage";
 import SettingsPage from "@/pages/Settings/SettingsPage";
-import { useAuth } from "@/context/auth-context";
 import Dashboard from "@/pages/Dashboard";
 import UsersPage from "@/modules/pages/users/users-page";
 import UserLoginPage from "@/modules/pages/users/user-login-page";
 import ShipmentsPage from "@/modules/pages/shipments/shipments-page";
 import { ProtectedRoute } from "./ProtectedRoute";
-
+import MultipleShippingLabels from "@/modules/pages/invoices/createLabels";
 /* // Define a protected route component
 const ProtectedRoute = ({
 	children,
@@ -50,6 +49,7 @@ export default function AppRouter(): JSX.Element {
 				<Route path="orders">
 					<Route index element={<Orders />} />
 					<Route path="create" element={<CreateOrder />} />
+					<Route path="create-labels" element={<MultipleShippingLabels />} />
 				</Route>
 				<Route path="logistics">
 					<Route path="containers" element={<ContainersPage />} />
