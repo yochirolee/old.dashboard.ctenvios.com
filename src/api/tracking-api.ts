@@ -52,6 +52,7 @@ export const tracking_api = {
 	stats: {
 		getStats: async (): Promise<any[]> => {
 			const response = await axios.get(`${baseUrl}/stats`);
+			console.log(response.data);
 			return response.data;
 		},
 		getDailySales: async (): Promise<any[]> => {

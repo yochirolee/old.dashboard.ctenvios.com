@@ -75,9 +75,7 @@ export const useUpdateUser = () => {
 export const useLogin = () => {
 	return useMutation({
 		mutationFn: (params: { email: string; password: string }) => api.users.login(params),
-		onSuccess: (data) => {
-			localStorage.setItem("token", data.token);
-		},
+
 		onError: (error) => {
 			console.error("Login failed:", error);
 		},

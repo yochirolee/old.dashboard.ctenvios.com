@@ -7,7 +7,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
-import { useAuthContext } from "@/context/auth-context";
+import { useAuth } from "@/context/auth-context";
 import { Alert } from "@/components/ui/alert";
 
 export const description =
@@ -29,7 +29,7 @@ export function UserLoginForm() {
 		},
 	});
 
-	const { login, isLoggingIn, loginError } = useAuthContext();
+	const { login, isLoggingIn, loginError } = useAuth();
 
 	const onSubmit = (data: z.infer<typeof FormSchema>) => {
 		login(data.email, data.password);

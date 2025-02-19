@@ -28,14 +28,14 @@ export default function ShipmentTimelineItem({
 			<div className="flex items-center relative">
 				<div
 					className={`w-6 h-6 rounded-full  flex items-center justify-center z-10
-            ${isCompleted ? "bg-green-500 border-green-500" : "bg-gray-200/15 "}`}
+            ${isCompleted ? "bg-green-500 border-green-500" : "bg-gray-800/50 "}`}
 				>
 					{Icon}
 				</div>
 				{!isLast && (
 					<div
-						className={`h-[40px] w-[1px] absolute top-[26px] left-3 -translate-x-1/2
-              ${isCompleted ? "bg-green-500" : "bg-gray-300"}`}
+						className={`h-[49px] w-[0.5px]  absolute top-[28px] left-3 -translate-x-1/2
+              ${isCompleted ? "bg-green-500" : "bg-gray-300/20"}`}
 					></div>
 				)}
 			</div>

@@ -22,13 +22,13 @@ export function ContainerToPortForm({ selectedContainerId }: { selectedContainer
 	const form = useForm({
 		resolver: zodResolver(FormSchema),
 		defaultValues: {
-			timestamp: new Date(),
-			containerId: selectedContainerId,
+			timestamp: undefined,
+			containerId: undefined,
 		},
 	});
 	const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
-	const { mutate: containerToPortMutation, isPending } = useContainerToPort(selectedContainerId,);
+	const { mutate: containerToPortMutation, isPending } = useContainerToPort(selectedContainerId);
 
 	const onSubmit = async (data: z.infer<typeof FormSchema>) => {
 		containerToPortMutation(data.timestamp);

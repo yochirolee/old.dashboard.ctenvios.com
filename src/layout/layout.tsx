@@ -64,7 +64,7 @@ import { Link, useLocation } from "react-router-dom";
 import { ModeToggle } from "@/components/common/nav/mode-toggle";
 import { Toaster } from "@/components/ui/toaster";
 import { nav_links } from "@/data/data";
-import { useAuthContext } from "@/context/auth-context";
+import { useAuth } from "@/context/auth-context";
 
 export default function Layout({ children }: { children: ReactNode }) {
 	const [activeTeam, setActiveTeam] = useState(nav_links.teams[0]);
@@ -73,7 +73,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 	const handleItemClick = (url: string) => {
 		setActiveItem(url);
 	};
-	const { logout, user } = useAuthContext();
+	const { logout, user } = useAuth();
 
 	// Add role-based filtering for navigation items
 	const filteredNavLinks = nav_links.navMain.filter((item) => {
@@ -259,7 +259,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 											<AvatarFallback className="rounded-lg">CN</AvatarFallback>
 										</Avatar>
 										<div className="grid flex-1 text-left text-sm leading-tight">
-											<span className="truncate font-semibold">{user?.username}</span>
+											<span className="truncate font-semibold">{user?.name}</span>
 											<span className="truncate text-xs">{user?.email}</span>
 										</div>
 										<ChevronsUpDown className="ml-auto size-4" />
@@ -278,7 +278,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 												<AvatarFallback className="rounded-lg">CN</AvatarFallback>
 											</Avatar>
 											<div className="grid flex-1 text-left text-sm leading-tight">
-												<span className="truncate font-semibold">{user?.username}</span>
+												<span className="truncate font-semibold">{user?.name}</span>
 												<span className="truncate text-xs">{user?.email}</span>
 											</div>
 										</div>

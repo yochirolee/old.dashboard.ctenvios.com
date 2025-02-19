@@ -3,7 +3,7 @@ import { Table } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { DataTableViewOptions } from "@/components/common/table/data-table-view-option";
 
-import { locations, statuses } from "@/data/data";
+import {  statuses } from "@/data/data";
 import { DataTableFacetedFilter } from "@/components/common/table/data-table-faceted-filters";
 import { X } from "lucide-react";
 
@@ -38,7 +38,7 @@ export function DataTableToolbar<TData extends TableData>({ table }: DataTableTo
 					<DataTableFacetedFilter
 						column={table.getColumn("location")}
 						title="Location"
-						options={locations}
+						options={statuses}
 					/>
 				)}
 

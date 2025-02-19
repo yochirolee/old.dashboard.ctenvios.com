@@ -15,6 +15,7 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
 	(config) => {
+		
 		const token = localStorage.getItem("token"); // Or use a state management solution
 		if (token) {
 			config.headers.Authorization = `Bearer ${token}`;
@@ -58,14 +59,13 @@ const api = {
 			return response.data;
 		},
 		getContainerById: async (containerId: number) => {
-			const response = await axiosInstance.get(`/containers/${containerId}`);
+			const response = await axiosInstance.get(`/containers/${containerId}/shipments`);
 			return response.data;
 		},
 		containerToPort: async (containerId: number, timestamp: Date) => {
 			const response = await axiosInstance.post(`/containers/toPort/${containerId}`, {
 				timestamp,
 			});
-			console.log(response);
 			return response.data;
 		},
 		updateContainerShipmentsStatus: async (
@@ -73,7 +73,7 @@ const api = {
 			statusId: number,
 			timestamp: Date,
 		) => {
-			const response = await axiosInstance.put(`/containers/updateStatus/${containerId}`, {
+			const response = await axiosInstance.put(`/containers/update/${containerId}/shipments`, {
 				timestamp,
 				statusId,
 			});

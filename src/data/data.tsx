@@ -109,21 +109,13 @@ export const statuses = [
 	{ value: "ENTREGADO", label: "Entregado", icon: CheckCheck },
 ];
 
-export const locations = [
-	{ value: "Agencia", label: "Agencia", icon: Building2 },
-	{ value: "Almacen Central", label: "Almacen Central", icon: Warehouse },
-	{ value: "Contenedor", label: "Contenedor", icon: Container },
-	{ value: "Puerto del Mariel", label: "Puerto del Mariel", icon: LucideAnchor },
-	{ value: "Almacen Mypimes", label: "Almacen Mypimes", icon: Warehouse },
-	{ value: "En Traslado", label: "En Traslado", icon: Truck },
-	{ value: "Entregado", label: "Entregado", icon: CheckCheck },
-];
+
 
 export const nav_links = {
 	user: {
-		name: "shadcn",
-		email: "m@example.com",
-		avatar: "/avatars/shadcn.jpg",
+		name: "yosho",
+		email: "yosho@example.com",
+		avatar: "/avatars/yosho.jpg",
 	},
 	teams: [
 		{
@@ -138,26 +130,26 @@ export const nav_links = {
 			url: "/",
 			icon: Home,
 			isActive: true,
-			roles: ["ROOT", "ADMIN", "USER"],
+			roles: ["ROOT", "ADMINISTRATOR", "USER", "SALES", "MESSENGER", "CARRIER_MESSENGER", "CARRIER_ADMIN", "CARRIER_WAREHOUSE_MANAGER", "CARRIER_WAREHOUSE_WORKER", "WAREHOUSE_MANAGER", "WAREHOUSE_WORKER", "AGENT"],
 		},
 		{
 			title: "Ordenes",
 			url: "/orders",
 			icon: File,
 			isActive: true,
-			roles: ["ROOT", "ADMIN", "USER"],
+			roles: ["ROOT", "ADMINISTRATOR", "USER", "SALES", "MESSENGER", "CARRIER_MESSENGER", "CARRIER_ADMIN", "CARRIER_WAREHOUSE_MANAGER", "CARRIER_WAREHOUSE_WORKER", "WAREHOUSE_MANAGER", "WAREHOUSE_WORKER", "AGENT"],
 			items: [
 				{
 					title: "Crear Orden",
 					url: "/orders/create",
 					isActive: true,
-					roles: ["ROOT", "ADMIN"],
+					roles: ["ROOT", "ADMINISTRATOR", "USER", "SALES", "MESSENGER", "CARRIER_MESSENGER", "CARRIER_ADMIN", "CARRIER_WAREHOUSE_MANAGER", "CARRIER_WAREHOUSE_WORKER", "WAREHOUSE_MANAGER", "WAREHOUSE_WORKER", "AGENT"],
 				},
 				{
 					title: "Ordenes",
 					url: "/orders",
 					isActive: false,
-					roles: ["ROOT", "ADMIN"],
+					roles: ["ROOT", "ADMINISTRATOR", "USER", "SALES", "MESSENGER", "CARRIER_MESSENGER", "CARRIER_ADMIN", "CARRIER_WAREHOUSE_MANAGER", "CARRIER_WAREHOUSE_WORKER", "WAREHOUSE_MANAGER", "WAREHOUSE_WORKER", "AGENT"],
 				},
 			],
 		},
@@ -166,13 +158,13 @@ export const nav_links = {
 			url: "#",
 			icon: Warehouse,
 			isActive: false,
-			roles: ["ROOT", "ADMIN", "USER", "SALES"],
+			roles: ["ROOT", "ADMINISTRATOR", "USER", "SALES", "MESSENGER", "CARRIER_MESSENGER", "CARRIER_ADMIN", "CARRIER_WAREHOUSE_MANAGER", "CARRIER_WAREHOUSE_WORKER", "WAREHOUSE_MANAGER", "WAREHOUSE_WORKER", "AGENT"],
 			items: [
 				{
 					title: "Tracking",
 					url: "/logistics/tracking",
 					isActive: false,
-					roles: ["ROOT", "ADMIN", "USER", "SALES"],
+					roles: ["ROOT", "ADMINISTRATOR", "USER", "SALES", "MESSENGER", "CARRIER_MESSENGER", "CARRIER_ADMIN", "CARRIER_WAREHOUSE_MANAGER", "CARRIER_WAREHOUSE_WORKER", "WAREHOUSE_MANAGER", "WAREHOUSE_WORKER", "AGENT"],
 				},
 				{
 					title: "Contenedores",

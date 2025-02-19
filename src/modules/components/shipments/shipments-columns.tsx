@@ -93,12 +93,10 @@ export const ShipmentColumns = (): ColumnDef<Shipment>[] => [
 		accessorKey: "status",
 		header: "Status",
 		cell: ({ row }) => (
-			<div className="flex flex-col justify-left items-start">
-				<Badge className=" flex gap-2 items-center" variant="secondary">
-					{getIcon(row.original?.status?.code)}
-					{row.original?.status?.name}
-				</Badge>
-			</div>
+			<Badge className=" inline-flex gap-2  flex-shrink-0 items-center" variant="secondary">
+				{getIcon(row.original?.status?.code)}
+				<div className="truncate">{row.original?.status?.name}</div>
+			</Badge>
 		),
 	},
 

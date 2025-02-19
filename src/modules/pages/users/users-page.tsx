@@ -6,7 +6,7 @@ import { UserDeleteDialog } from "../../components/users/user-delete-dialog";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 
-export function UsersPage() {
+export default function UsersPage() {
 	const { data, isLoading } = useGetUsers();
 	const [isOpen, setIsOpen] = useState(false);
 	const [id, setId] = useState<string | null>(null);

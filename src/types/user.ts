@@ -8,4 +8,4 @@ export type User = {
 	password: string;
 	lastLogin: string;
 	createdAt: string;
-};
+}; 

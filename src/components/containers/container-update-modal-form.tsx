@@ -38,7 +38,7 @@ import { useUpdateContainerStatus } from "@/hooks/use-containers";
 
 const formSchema = z.object({
 	timestamp: z.date(),
-	statusId: z.number(),
+	statusId: z.string(),
 });
 
 // Infer the type from the schema
@@ -59,7 +59,6 @@ export function ContainerUpdateModalForm({ selectedContainer }: { selectedContai
 	);
 
 	const onSubmit = async (data: FormValues) => {
-		console.log(data);
 		updateContainerMutation(
 			{
 				timestamp: data.timestamp,
@@ -149,9 +148,9 @@ export function ContainerUpdateModalForm({ selectedContainer }: { selectedContai
 									<FormLabel>Tipo de Evento</FormLabel>
 									<Select
 										onValueChange={(value) => {
-											form.setValue("statusId", Number(value));
+											form.setValue("statusId", value);
 										}}
-										defaultValue={field.value.toString()}
+										defaultValue={field.value?.toString()}
 									>
 										<SelectTrigger>
 											<SelectValue placeholder="Selecciona un tipo de evento" />
