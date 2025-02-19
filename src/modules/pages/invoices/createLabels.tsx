@@ -2,7 +2,7 @@ import { useMemo, useRef } from "react";
 import { useQRCode } from "next-qrcode";
 import Barcode from "react-barcode";
 import { Separator } from "@/components/ui/separator";
-import { useReactToPrint, PrintContextReturnType } from "react-to-print";
+import { useReactToPrint } from "react-to-print";
 import { Button } from "@/components/ui/button";
 
 interface ShippingLabelProps {
