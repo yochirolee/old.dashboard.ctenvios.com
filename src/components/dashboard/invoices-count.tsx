@@ -9,8 +9,8 @@ import {
 	ChartTooltipContent,
 } from "@/components/ui/chart";
 import { useQuery } from "@tanstack/react-query";
-import { tracking_api } from "@/api/tracking-api";
 import { Skeleton } from "../ui/skeleton";
+import { api } from "@/api/api";
 
 const chartConfig = {
 	views: {
@@ -29,7 +29,7 @@ const chartConfig = {
 export function InvoicesCount() {
 	const { data: chartData, isLoading } = useQuery({
 		queryKey: ["daily-sales"],
-		queryFn: () => tracking_api.stats.getDailySales(),
+		queryFn: () => api.stats.getDailySales(),
 	});
 	const [activeChart, setActiveChart] = React.useState<keyof typeof chartConfig>("sales");
 

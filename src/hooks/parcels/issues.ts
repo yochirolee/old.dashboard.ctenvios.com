@@ -1,10 +1,10 @@
-import { tracking_api } from "@/api/tracking-api";
+import { api } from "@/api/api";
 import {  useQuery } from "@tanstack/react-query";
 
 export const useFetchIssues = () => {
 	return useQuery<any[], Error>({
 		queryKey: ["issues"],
-		queryFn: () => tracking_api.issues.getAll(),
+		queryFn: () => api.agencies.getAll(),
 	});
 };
 

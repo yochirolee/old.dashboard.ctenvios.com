@@ -8,19 +8,12 @@ import {
 	ChartTooltipContent,
 } from "@/components/ui/chart";
 import { useQuery } from "@tanstack/react-query";
-import { tracking_api } from "@/api/tracking-api";
+import { api } from "@/api/api";
 import { Skeleton } from "../ui/skeleton";
 
 export const description = "A bar chart with a custom label";
 
-/* const chartData = [
-	{ month: "January", desktop: 186, mobile: 80 },
-	{ month: "February", desktop: 305, mobile: 200 },
-	{ month: "March", desktop: 237, mobile: 120 },
-	{ month: "April", desktop: 73, mobile: 190 },
-	{ month: "May", desktop: 209, mobile: 130 },
-	{ month: "June", desktop: 214, mobile: 140 },
-]; */
+
 
 const chartConfig = {
 	sales: {
@@ -43,7 +36,7 @@ export function EmployeeSales() {
 		isError,
 	} = useQuery({
 		queryKey: ["employees-sales"],
-		queryFn: () => tracking_api.stats.getEmployeesSales(),
+		queryFn: () => api.stats.getEmployeesSales(),
 	});
 	console.log(chartData);
 	if (isLoading) return <Skeleton className="h-[300px] w-full" />;

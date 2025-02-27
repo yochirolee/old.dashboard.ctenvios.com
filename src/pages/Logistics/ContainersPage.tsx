@@ -14,20 +14,8 @@ import { DataTable } from "@/components/common/table/data-table";
 import { ShipmentColumns } from "@/modules/components/shipments/shipments-columns";
 export default function ContainersPage() {
 	const [selectedContainer, setSelectedContainer] = useState<{ id: number } | null>(null);
-	const [agencyFilter, setAgencyFilter] = useState<string>("");
-	const [statusFilter, setStatusFilter] = useState<string>("");
 
 	const { data: container, isLoading, error } = useGetContainerById(selectedContainer?.id);
-	const filteredData = useMemo(() => {
-		if (!container?.shipments) return [];
-		return container.shipments.filter(({ agency, status }) => {
-			const matchesAgency =
-				!agencyFilter || agency?.toLowerCase().includes(agencyFilter.toLowerCase());
-			const matchesStatus =
-				!statusFilter || status?.toLowerCase().includes(statusFilter.toLowerCase());
-			return matchesAgency && matchesStatus;
-		});
-	}, [container?.shipments, agencyFilter, statusFilter]);
 
 	if (error) {
 		return (
@@ -56,30 +44,13 @@ export default function ContainersPage() {
 				) : (
 					<div>
 						{container ? (
-							<ContainerStats shipments={filteredData} />
+							<ContainerStats shipments={container.shipments} />
 						) : (
 							<ContainerPendingToArrival selectedContainerId={selectedContainer.id} />
 						)}
 
-						{filteredData.length > 0 ? (
-							<>
-								{/* <DataTableFacetedFilter
-									column={filteredData.filter((parcel: any) => parcel.agency)}
-									title="Agencias"
-									options={Array.from(
-										new Set(filteredData.map((parcel: any) => {
-											const agency = parcel.agency;
-											console.log(agency);
-											return {
-												label: agency || "Unknown",
-												value: agency || "",
-											};
-										}))
-									)}
-									
-								/> */}
-								<DataTable columns={ShipmentColumns()} data={filteredData} />
-							</>
+						{container?.shipments.length > 0 ? (
+							<DataTable columns={ShipmentColumns()} data={container?.shipments} />
 						) : (
 							<div className="text-center text-gray-500">
 								No hay resultados que coincidan con los filtros.

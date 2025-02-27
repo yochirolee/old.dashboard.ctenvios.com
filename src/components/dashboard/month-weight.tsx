@@ -2,7 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ChartConfig } from "@/components/ui/chart";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "../ui/skeleton";
-import { tracking_api } from "@/api/tracking-api";
+import { api } from "@/api/api";
 /* const chartData = [
 	{ agency: "Agency 1", weight: 186 },
 	{ agency: "Agency 2", weight: 305 },
@@ -29,7 +29,7 @@ const chartConfig = {
 export function MonthWeight() {
 	const { data: chartData, isLoading } = useQuery({
 		queryKey: ["month-weight"],
-		queryFn: () => tracking_api.stats.getStats(),
+		queryFn: () => api.stats.getStats(),
 	});
 
 	console.log(chartData);

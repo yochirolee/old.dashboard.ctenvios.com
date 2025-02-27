@@ -27,7 +27,7 @@ export default function ExcelUploadDialog({ isLoading }: { isLoading: boolean })
 			const formData = new FormData();
 			formData.append("file", file);
 			axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
-			const response = await axios.post(`${baseUrl}/parcels/upload-excel`, formData);
+			const response = await axios.post(`${baseUrl}/excel/upload-excel`, formData);
 			return response.data;
 		},
 

@@ -42,66 +42,71 @@ export const ContainerStats = ({ shipments }: { shipments: any[] }) => {
 	}, [shipments]);
 
 	return (
-		<div className="grid grid-cols-1 lg:grid-cols-5 gap-1 lg:gap-2 space-y-4 my-4">
-			<div className="grid  col-span-5  lg:gap-4 bg-muted/40 lg:dark:bg-gray-900 rounded-lg lg:p-6 grid-cols-2   lg:grid-cols-5">
-				<Card className="rounded-xl">
-					<div className="m-6">
-						<div className="flex items-center text-slate-800 dark:text-gray-300 my-4 justify-between">
-							<Label> Puerto Mariel</Label>
-							<AnchorIcon className="text-lg  text-violet-500" />
+		<>
+			<div>
+			
+			</div>
+			<div className="grid grid-cols-1 lg:grid-cols-5 gap-1 lg:gap-2 space-y-2 my-4">
+				<div className="grid  col-span-5  lg:gap-4 bg-muted/40 lg:dark:bg-gray-900 rounded-lg lg:p-4 grid-cols-2   lg:grid-cols-5">
+					<Card className="rounded-xl">
+						<div className="m-6">
+							<div className="flex items-center text-slate-800 dark:text-gray-300 my-4 justify-between">
+								<Label> Puerto Mariel</Label>
+								<AnchorIcon className="text-lg  text-violet-500" />
+							</div>
+							<div className="">
+								<h1 className="text-2xl font-bold">{stats.puertoMariel}</h1>
+							</div>
 						</div>
-						<div className="">
-							<h1 className="text-2xl font-bold">{stats.puertoMariel}</h1>
-						</div>
-					</div>
-				</Card>
-				<Card className="rounded-xl border bg-card text-card-foreground shadow">
-					<div className="m-6">
-						<div className="flex items-center text-slate-800 dark:text-gray-300 my-4 justify-between">
-							<div className="flex flex-col gap-1">
-								<Label> Almacen MiPymes</Label>
+					</Card>
+					<Card className="rounded-xl border bg-card text-card-foreground shadow">
+						<div className="m-6">
+							<div className="flex items-center text-slate-800 dark:text-gray-300 my-4 justify-between">
+								<div className="flex flex-col gap-1">
+									<Label> Almacen MiPymes</Label>
+								</div>
+
+								<ShieldIcon className="text-lg  text-yellow-500" />
 							</div>
 
-							<ShieldIcon className="text-lg  text-yellow-500" />
+							<div className="flex text-center items-center  justify-between gap-2">
+								<h1 className="text-2xl font-bold">{stats.aforoEspera}</h1>
+								<div className="text-xs text-slate-700">En espera de Aforo</div>
+							</div>
 						</div>
-
-						<div className="flex text-center items-center  justify-between gap-2">
-							<h1 className="text-2xl font-bold">{stats.aforoEspera}</h1>
-							<div className="text-xs text-slate-700">En espera de Aforo</div>
+					</Card>
+					<Card className="rounded-xl border bg-card text-card-foreground shadow">
+						<div className="m-6">
+							<div className="flex items-center text-slate-800 dark:text-gray-300 my-4 justify-between">
+								<Label> Almacen Mypimes</Label>
+								<ForkliftIcon className="text-xl  text-slate-800" />
+							</div>
+							<div className="flex text-center items-center  justify-between gap-2">
+								<h1 className="text-2xl font-bold">{stats.almacenMypimes}</h1>
+								<div className="text-xs text-slate-700">Aforado, Listo para Traslado</div>
+							</div>
 						</div>
-					</div>
-				</Card>
-				<Card className="rounded-xl border bg-card text-card-foreground shadow">
-					<div className="m-6">
-						<div className="flex items-center text-slate-800 dark:text-gray-300 my-4 justify-between">
-							<Label> Almacen Mypimes</Label>
-							<ForkliftIcon className="text-xl  text-slate-800" />
+					</Card>
+					<Card className="rounded-xl border bg-card text-card-foreground shadow">
+						<div className="m-6">
+							<div className="flex items-center text-slate-800 dark:text-gray-300 my-4 justify-between">
+								<Label> En Traslado</Label>
+								<TruckIcon className="text-xl   text-blue-800" />
+							</div>
+							<h1 className="text-2xl font-bold">{stats.enTraslado}</h1>
 						</div>
-						<div className="flex text-center items-center  justify-between gap-2">
-							<h1 className="text-2xl font-bold">{stats.almacenMypimes}</h1>
-							<div className="text-xs text-slate-700">Aforado, Listo para Traslado</div>
+					</Card>
+					<Card className="rounded-xl border bg-card text-card-foreground shadow">
+						<div className="m-6">
+							<div className="flex items-center text-slate-800 dark:text-gray-300 my-4 justify-between">
+								<Label> Entregado</Label>
+								<CheckCheckIcon className="text-xl  text-green-500" />
+							</div>
+							<h1 className="text-2xl font-bold">{stats.entregado}</h1>
 						</div>
-					</div>
-				</Card>
-				<Card className="rounded-xl border bg-card text-card-foreground shadow">
-					<div className="m-6">
-						<div className="flex items-center text-slate-800 dark:text-gray-300 my-4 justify-between">
-							<Label> En Traslado</Label>
-							<TruckIcon className="text-xl   text-blue-800" />
-						</div>
-						<h1 className="text-2xl font-bold">{stats.enTraslado}</h1>
-					</div>
-				</Card>
-				<Card className="rounded-xl border bg-card text-card-foreground shadow">
-					<div className="m-6">
-						<div className="flex items-center text-slate-800 dark:text-gray-300 my-4 justify-between">
-							<Label> Entregado</Label>
-							<CheckCheckIcon className="text-xl  text-green-500" />
-						</div>
-						<h1 className="text-2xl font-bold">{stats.entregado}</h1>
-					</div>
-				</Card>
+					</Card>
+				</div>
 			</div>
-		</div>
+		</>
 	);
 };
