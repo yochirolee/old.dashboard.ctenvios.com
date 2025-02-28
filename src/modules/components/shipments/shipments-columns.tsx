@@ -94,11 +94,13 @@ export const ShipmentColumns = (): ColumnDef<Shipment>[] => [
 		header: "Status",
 		cell: ({ row }) => (
 			<div>
-				<Badge className="inline-flex gap-2  items-center" variant="secondary">
-					{getIcon(row.original?.status?.code)}
-					<div className="">{row.original?.status?.name}</div>
-				</Badge>
-				<span className="truncate text-xs text-muted-foreground">
+				<div>
+					<Badge className=" gap-2  items-center" variant="secondary">
+						{getIcon(row.original?.status?.code)}
+						<div className="">{row.original?.status?.name}</div>
+					</Badge>
+				</div>
+				<span className="max-w-[10px] truncate text-xs text-muted-foreground">
 					{row.original?.status?.description}
 				</span>
 			</div>

@@ -74,6 +74,12 @@ export type ShipmentEvent = {
 	};
 	timestamp: string;
 	isCompleted: boolean;
+	location: {
+		id: number;
+		state: string;
+		country_code: string;
+		city: string;
+	};
 };
 
 export type Container = {

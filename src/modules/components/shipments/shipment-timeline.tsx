@@ -16,6 +16,7 @@ export default function ShipmentTimeline({ events }: { events: ShipmentEvent[] }
 							status={event.status}
 							timestamp={event.timestamp}
 							user={event.user}
+							location={event.location}
 							isCompleted={event.isCompleted}
 							isLast={index === events.length - 1}
 						/>
