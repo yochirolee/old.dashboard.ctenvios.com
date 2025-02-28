@@ -66,7 +66,7 @@ export const ShipmentColumns = (): ColumnDef<Shipment>[] => [
 		header: "HBL",
 		cell: ({ row }) => {
 			return (
-				<div className=" max-w-[150px]">
+				<div className="flex flex-col gap-2 max-w-[150px]">
 					<div>{row.original.hbl}</div>
 					<div className="text-xs text-muted-foreground">{row.original?.description}</div>
 				</div>
@@ -93,14 +93,14 @@ export const ShipmentColumns = (): ColumnDef<Shipment>[] => [
 		accessorKey: "status",
 		header: "Status",
 		cell: ({ row }) => (
-				<div className="flex flex-col gap-2">
-				<Badge className=" inline-flex gap-2 w-auto  items-center" variant="secondary">
+			<div>
+				<Badge className="inline-flex gap-2  items-center" variant="secondary">
 					{getIcon(row.original?.status?.code)}
-					<div className="truncate">{row.original?.status?.name}</div>
+					<div className="">{row.original?.status?.name}</div>
 				</Badge>
-				<div className="text-xs text-muted-foreground">
-					<span className="truncate">{row.original?.status?.description}</span>
-				</div>
+				<span className="truncate text-xs text-muted-foreground">
+					{row.original?.status?.description}
+				</span>
 			</div>
 		),
 	},
