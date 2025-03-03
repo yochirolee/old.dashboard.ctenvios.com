@@ -120,6 +120,12 @@ const api = {
 			return response.data;
 		},
 	},
+	issues: {
+		getAll: async () => {
+			const response = await axiosInstance.get("/issues");
+			return response.data;
+		},
+	},
 	stats: {
 		getStats: async (): Promise<any[]> => {
 			const response = await axios.get(`${baseUrl}/stats`);

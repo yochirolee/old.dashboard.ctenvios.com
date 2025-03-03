@@ -19,7 +19,9 @@ export default function ShipmentDetails({ hbl }: { hbl: string | undefined }) {
 	return (
 		<div className="flex pb-4 flex-col gap-4">
 			{isError && <p>Error loading shipment</p>}
-			{isLoading && <div className="flex justify-center items-center text-sm h-full">Loading shipment</div>}
+			{isLoading && (
+				<div className="flex justify-center items-center text-sm h-full">Loading shipment</div>
+			)}
 			{shipment && (
 				<div>
 					<Card className="overflow-hidden border-none p-0 m-0">
@@ -77,7 +79,13 @@ export default function ShipmentDetails({ hbl }: { hbl: string | undefined }) {
 									<div className="flex items-center justify-between">
 										<dt className="text-muted-foreground">Phone</dt>
 										<dd>
-											<a href="tel:">+1{shipment?.sender?.mobile}</a>
+											<a
+												href={`https://wa.me/1${shipment?.sender?.mobile?.replace(/\D/g, "")}`}
+												target="_blank"
+												rel="noopener noreferrer"
+											>
+												+1{shipment?.sender?.mobile}
+											</a>
 										</dd>
 									</div>
 								</dl>
@@ -98,7 +106,13 @@ export default function ShipmentDetails({ hbl }: { hbl: string | undefined }) {
 									<div className="flex items-center justify-between">
 										<dt className="text-muted-foreground">Phone</dt>
 										<dd>
-											<a href="tel:">+53{shipment?.receiver?.mobile}</a>
+											<a
+												href={`https://wa.me/53${shipment?.receiver?.mobile?.replace(/\D/g, "")}`}
+												target="_blank"
+												rel="noopener noreferrer"
+											>
+												+53{shipment?.receiver?.mobile}
+											</a>
 										</dd>
 									</div>
 								</dl>

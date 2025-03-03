@@ -2,23 +2,19 @@ import {
 	ArrowDown,
 	ArrowRight,
 	ArrowUp,
-	BaggageClaim,
-	Barcode,
-	Building2,
-	CheckCheck,
 	Container,
-	FileText,
-	LucideAnchor,
-	ShieldAlert,
-	ShieldCheck,
 	Warehouse,
-	Truck,
 	PieChart,
 	Home,
 	GalleryVerticalEnd,
 	Settings2,
 	Frame,
 	File,
+	Circle,
+	Timer,
+	CircleOff,
+	CheckCircle,
+	HelpCircle,
 } from "lucide-react";
 
 export type User = {
@@ -58,6 +54,29 @@ export type Shipment = {
 	invoiceDate: Date;
 	updateMethod: string;
 	statusDetails: string;
+};
+export type Issue = {
+	id: string;
+	hbl: string;
+	invoiceId: number;
+	title: string;
+	description: string;
+	priority: string;
+	type: string;
+	isResolved: boolean;
+	createdAt: Date;
+	updatedAt: Date;
+	shipmentDescription: string;
+	user: {
+		id: string;
+		name: string;
+	};
+	agency: {
+		id: number;
+		name: string;
+	};
+
+	comments: number;
 };
 
 export type ShipmentEvent = {
@@ -104,17 +123,85 @@ export const roles = [
 	"AGENT",
 ];
 
-export const statuses = [
-	{ value: "FACTURADO", label: "Facturado", icon: FileText },
-	{ value: "EN_PALLET", label: "En Pallet", icon: BaggageClaim },
-	{ value: "EN_DESPACHO", label: "En Despacho", icon: Barcode },
-	{ value: "EN_CONTENEDOR", label: "En Contenedor", icon: Container },
-	{ value: "EN_ESPERA_DE_AFORO", label: "En Espera de Aforo (Aduana)", icon: ShieldAlert },
-	{ value: "AFORADO", label: "Aforado", icon: ShieldCheck },
-	{ value: "EN_TRASLADO", label: "En Traslado", icon: Truck },
-	{ value: "ENTREGADO", label: "Entregado", icon: CheckCheck },
+export const labels = [
+	{
+		value: "bug",
+		label: "Bug",
+	},
+	{
+		value: "feature",
+		label: "Feature",
+	},
+	{
+		value: "documentation",
+		label: "Documentation",
+	},
 ];
 
+export const agencies = [
+	{
+		value: "2",
+		label: "Caribe Travel Express",
+	},
+	{
+		value: "129",
+		label: "Cuba Encarga",
+	},
+	{
+		value: "Rapid ",
+		label: "Rapid",
+	},
+];
+export const statuses = [
+	{
+		value: "backlog",
+		label: "Backlog",
+		icon: HelpCircle,
+	},
+	{
+		value: "todo",
+		label: "Todo",
+		icon: Circle,
+	},
+	{
+		value: "in progress",
+		label: "In Progress",
+		icon: Timer,
+	},
+	{
+		value: "done",
+		label: "Done",
+		icon: CheckCircle,
+	},
+	{
+		value: "canceled",
+		label: "Canceled",
+		icon: CircleOff,
+	},
+];
+
+export const priorities = [
+	{
+		label: "Low",
+		value: "LOW",
+		icon: ArrowDown,
+	},
+	{
+		label: "Medium",
+		value: "MEDIUM",
+		icon: ArrowRight,
+	},
+	{
+		label: "High",
+		value: "HIGH",
+		icon: ArrowUp,
+	},
+	{
+		label: "Very High",
+		value: "VERY_HIGH",
+		icon: ArrowUp,
+	},
+];
 export const nav_links = {
 	user: {
 		name: "yosho",

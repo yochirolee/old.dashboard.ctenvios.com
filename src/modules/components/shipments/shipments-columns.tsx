@@ -3,7 +3,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { toLower } from "lodash";
-import { FileTextIcon } from "lucide-react";
+import { FileTextIcon, FlameIcon } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Tooltip, TooltipTrigger } from "@/components/ui/tooltip";
 import { TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
@@ -21,6 +21,7 @@ export const ShipmentColumns = (): ColumnDef<Shipment>[] => [
 				}
 				onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
 				aria-label="Select all"
+				className="translate-y-[2px]"
 			/>
 		),
 		cell: ({ row }) => (
@@ -28,6 +29,7 @@ export const ShipmentColumns = (): ColumnDef<Shipment>[] => [
 				checked={row.getIsSelected()}
 				onCheckedChange={(value) => row.toggleSelected(!!value)}
 				aria-label="Select row"
+				className="translate-y-[2px]"
 			/>
 		),
 		enableSorting: false,
@@ -59,6 +61,9 @@ export const ShipmentColumns = (): ColumnDef<Shipment>[] => [
 				</TooltipProvider>
 			</div>
 		),
+		filterFn: (row, id, value) => {
+			return value.includes(row.getValue(id));
+		},
 	},
 
 	{
@@ -94,11 +99,18 @@ export const ShipmentColumns = (): ColumnDef<Shipment>[] => [
 		header: "Status",
 		cell: ({ row }) => (
 			<div>
-				<div>
+				<div className="flex items-center gap-2">
 					<Badge className=" gap-2  items-center" variant="secondary">
 						{getIcon(row.original?.status?.code)}
 						<div className="">{row.original?.status?.name}</div>
 					</Badge>
+					<div className="text-xs text-muted-foreground">
+						{row.original?._count?.issues ? (
+							<FlameIcon className="text-yellow-500" size={16} />
+						) : (
+							""
+						)}
+					</div>
 				</div>
 				<span className="max-w-[10px] truncate text-xs text-muted-foreground">
 					{row.original?.status?.description}

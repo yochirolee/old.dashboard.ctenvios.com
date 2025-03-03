@@ -19,6 +19,7 @@ export default function ShipmentTimeline({ events }: { events: ShipmentEvent[] }
 							location={event.location}
 							isCompleted={event.isCompleted}
 							isLast={index === events.length - 1}
+							issues={event.issues}
 						/>
 					);
 				})}

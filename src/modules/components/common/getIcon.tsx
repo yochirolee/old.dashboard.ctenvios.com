@@ -9,6 +9,7 @@ import {
 	PackageCheck,
 	Package,
 	BaggageClaim,
+	FlameIcon,
 } from "lucide-react";
 
 import { Anchor } from "lucide-react";
@@ -35,6 +36,8 @@ export const getIcon = (code: string) => {
 			return <BaggageClaim className="text-sky-500 h-4 w-4" />;
 		case "DELIVERED":
 			return <CheckCircle className="text-green-500 h-4 w-4" />;
+		case "EXCEPTION":
+			return <FlameIcon className="text-yellow-500 h-4 w-4" />;
 		default:
 			return <Clock className="text-gray-500 h-4 w-4" />;
 	}
