@@ -14,7 +14,7 @@ export const ContainerStats = ({ shipments }: { shipments: any[] }) => {
 		};
 
 		return shipments.reduce((acc, shipment) => {
-			switch (shipment.status.code) {
+			switch (shipment.status_code) {
 				case "IN_PORT":
 					acc.puertoMariel++;
 					break;
@@ -39,13 +39,11 @@ export const ContainerStats = ({ shipments }: { shipments: any[] }) => {
 			}
 			return acc;
 		}, initialStats);
-	}, [shipments]);
+	}, [shipments?.length]);
 
 	return (
 		<>
-			<div>
-			
-			</div>
+			<div></div>
 			<div className="grid grid-cols-1 lg:grid-cols-5 gap-1 lg:gap-2 space-y-2 my-4">
 				<div className="grid  col-span-5  lg:gap-4 bg-muted/40 lg:dark:bg-gray-900 rounded-lg lg:p-4 grid-cols-2   lg:grid-cols-5">
 					<Card className="rounded-xl">

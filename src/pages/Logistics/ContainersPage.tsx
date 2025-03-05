@@ -1,5 +1,5 @@
 import { ContainerSelect } from "@/modules/components/containers/container-select";
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import TableSkeleton from "@/components/logistics/table-skeleton";
 import { ContainerStats } from "@/components/containers/container-stats";
 import {
@@ -10,8 +10,9 @@ import { ContainerUpdateModalForm } from "@/components/containers/container-upda
 import ExcelUploadDialog from "@/components/logistics/excel-upload-dialog";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useGetContainerById } from "@/hooks/use-containers";
-import { DataTable } from "@/components/common/table/data-table";
+import { ShipmentsTable } from "@/modules/components/shipments/shipments-table";
 import { ShipmentColumns } from "@/modules/components/shipments/shipments-columns";
+
 export default function ContainersPage() {
 	const [selectedContainer, setSelectedContainer] = useState<{ id: number } | null>(null);
 
@@ -50,7 +51,7 @@ export default function ContainersPage() {
 						)}
 
 						{container?.shipments.length > 0 ? (
-							<DataTable columns={ShipmentColumns()} data={container?.shipments} />
+							<ShipmentsTable columns={ShipmentColumns()} data={container?.shipments} />
 						) : (
 							<div className="text-center text-gray-500">
 								No hay resultados que coincidan con los filtros.

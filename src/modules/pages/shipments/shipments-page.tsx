@@ -1,11 +1,12 @@
 import { ShipmentsTable } from "../../components/shipments/shipments-table";
-import { ShipmentColumns } from "../../components/shipments/shipments-columns";
+
 import { useGetShipments, useSearchShipments } from "@/hooks/use-shipments";
 import { ShipmentSearchForm } from "../../components/shipments/shipment-search-form";
 import { useState } from "react";
 import { ShipmentTableSkeleton } from "../../components/shipments/shipment-table-skeleton";
-import { ShipmentActionsMenu } from "../../components/shipments/shipment-actions-menu";
+import {  } from "../../components/shipments/shipment-actions-menu";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { ShipmentColumns } from "@/modules/components/shipments/shipments-columns";
 
 export default function ShipmentsPage() {
 	const { data, isLoading, error } = useGetShipments();
@@ -25,7 +26,7 @@ export default function ShipmentsPage() {
 		<div className="flex flex-col gap-4">
 			<div className="flex justify-between items-center  bg-muted/20  rounded-lg py-6 px-4">
 				<ShipmentSearchForm setQuerySearch={setQuerySearch} isLoading={searchLoading} />
-				<ShipmentActionsMenu />
+				
 			</div>
 			{isLoading ? (
 				<ShipmentTableSkeleton />

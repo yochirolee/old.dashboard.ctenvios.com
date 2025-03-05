@@ -83,12 +83,7 @@ export function ContainerUpdateModalForm({ selectedContainer }: { selectedContai
 	return (
 		<Dialog open={open} onOpenChange={handleOpenChange}>
 			<DialogTrigger asChild>
-				<Button
-					disabled={!selectedContainer?.status}
-					variant="ghost"
-					size="sm"
-					className="  h-8 lg:flex"
-				>
+				<Button disabled={!selectedContainer} variant="ghost" size="sm" className="  h-8 lg:flex">
 					<RefreshCcw className="h-4 w-4 text-green-600" />
 					<span className=" md:inline">Actualizar</span>
 				</Button>

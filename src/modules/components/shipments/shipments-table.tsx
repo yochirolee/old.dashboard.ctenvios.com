@@ -1,15 +1,19 @@
+import * as React from "react";
 import {
 	ColumnDef,
 	ColumnFiltersState,
+	SortingState,
+	VisibilityState,
 	flexRender,
 	getCoreRowModel,
+	getFacetedRowModel,
+	getFacetedUniqueValues,
 	getFilteredRowModel,
 	getPaginationRowModel,
 	getSortedRowModel,
-	SortingState,
 	useReactTable,
-	VisibilityState,
 } from "@tanstack/react-table";
+import * as XLSX from "xlsx";
 
 import {
 	Table,
@@ -19,8 +23,8 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
+import { ShipmentsDataTableToolbar } from "./shipments-data-table-toolbar";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
@@ -28,40 +32,49 @@ interface DataTableProps<TData, TValue> {
 }
 
 export function ShipmentsTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
-	const [sorting, setSorting] = useState<SortingState>([]);
-	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-	const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-	const [rowSelection, setRowSelection] = useState({});
+	const [rowSelection, setRowSelection] = React.useState({});
+	const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
+	const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+	const [sorting, setSorting] = React.useState<SortingState>([]);
 
 	const table = useReactTable({
 		data,
 		columns,
-		getCoreRowModel: getCoreRowModel(),
-		getPaginationRowModel: getPaginationRowModel(),
-		getFilteredRowModel: getFilteredRowModel(),
-		onColumnFiltersChange: setColumnFilters,
-		onSortingChange: setSorting,
-		getSortedRowModel: getSortedRowModel(),
-		onColumnVisibilityChange: setColumnVisibility,
-		onRowSelectionChange: setRowSelection,
 		state: {
 			sorting,
-			columnFilters,
 			columnVisibility,
 			rowSelection,
+			columnFilters,
 		},
+		enableRowSelection: true,
+		onRowSelectionChange: setRowSelection,
+		onSortingChange: setSorting,
+		onColumnFiltersChange: setColumnFilters,
+		onColumnVisibilityChange: setColumnVisibility,
+		getCoreRowModel: getCoreRowModel(),
+		getFilteredRowModel: getFilteredRowModel(),
+		getPaginationRowModel: getPaginationRowModel(),
+		getSortedRowModel: getSortedRowModel(),
+		getFacetedRowModel: getFacetedRowModel(),
+		getFacetedUniqueValues: getFacetedUniqueValues(),
 	});
 
+	
+
 	return (
-		<div className="flex flex-col  gap-4">
-			<div className="  border rounded-md ">
+		<div className="space-y-4">
+			<div className="items-center bg-foreground-muted p-2 rounded-md">
+				<ShipmentsDataTableToolbar table={table} />
+				
+			</div>
+			<div className="rounded-md border">
 				<Table>
 					<TableHeader>
 						{table.getHeaderGroups().map((headerGroup) => (
 							<TableRow key={headerGroup.id}>
 								{headerGroup.headers.map((header) => {
 									return (
-										<TableHead key={header.id}>
+										<TableHead key={header.id} colSpan={header.colSpan}>
 											{header.isPlaceholder
 												? null
 												: flexRender(header.column.columnDef.header, header.getContext())}
@@ -91,32 +104,6 @@ export function ShipmentsTable<TData, TValue>({ columns, data }: DataTableProps<
 						)}
 					</TableBody>
 				</Table>
-				<div className="flex items-center justify-between mx-4 py-4">
-					<div>
-						<div className="flex-1 text-sm text-muted-foreground">
-							{table.getFilteredSelectedRowModel()?.rows?.length} of{" "}
-							{table.getFilteredRowModel()?.rows?.length} row(s) selected.
-						</div>
-					</div>
-					<div className="flex items-center gap-2">
-						<Button
-							variant="outline"
-							size="sm"
-							onClick={() => table.previousPage()}
-							disabled={!table.getCanPreviousPage()}
-						>
-							Previous
-						</Button>
-						<Button
-							variant="outline"
-							size="sm"
-							onClick={() => table.nextPage()}
-							disabled={!table.getCanNextPage()}
-						>
-							Next
-						</Button>
-					</div>
-				</div>
 			</div>
 		</div>
 	);

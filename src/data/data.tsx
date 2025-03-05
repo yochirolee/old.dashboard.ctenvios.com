@@ -76,7 +76,7 @@ export type Issue = {
 		name: string;
 	};
 
-	comments: number;
+	events: ShipmentEvent[];
 };
 
 export type ShipmentEvent = {
@@ -138,24 +138,10 @@ export const labels = [
 	},
 ];
 
-export const agencies = [
-	{
-		value: "2",
-		label: "Caribe Travel Express",
-	},
-	{
-		value: "129",
-		label: "Cuba Encarga",
-	},
-	{
-		value: "Rapid ",
-		label: "Rapid",
-	},
-];
 export const statuses = [
 	{
-		value: "backlog",
-		label: "Backlog",
+		value: "IN_PORT",
+		label: "In Port",
 		icon: HelpCircle,
 	},
 	{

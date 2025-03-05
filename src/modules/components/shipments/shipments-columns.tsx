@@ -3,13 +3,14 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { toLower } from "lodash";
-import { FileTextIcon, FlameIcon } from "lucide-react";
+import { FileTextIcon } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Tooltip, TooltipTrigger } from "@/components/ui/tooltip";
 import { TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
 import ShipmentSheetDetails from "./shipment-sheet-details";
 import { getIcon } from "../common/getIcon";
 import { Shipment } from "@/data/data";
+import { DataTableColumnHeader } from "./shipments-data-table-column-header";
 
 export const ShipmentColumns = (): ColumnDef<Shipment>[] => [
 	{
@@ -38,9 +39,10 @@ export const ShipmentColumns = (): ColumnDef<Shipment>[] => [
 	{
 		accessorKey: "agency",
 		header: "Agency",
+
 		cell: ({ row }) => (
 			<div className="flex flex-col items-start gap-2">
-				<div className=" text-xs text-sky-700">{row.original.agency?.name}</div>
+				<div className="text-xs text-sky-700">{row.original.agency}</div>
 				<TooltipProvider>
 					<Tooltip>
 						<TooltipTrigger asChild>
@@ -68,10 +70,10 @@ export const ShipmentColumns = (): ColumnDef<Shipment>[] => [
 
 	{
 		accessorKey: "hbl",
-		header: "HBL",
+		header: ({ column }) => <DataTableColumnHeader column={column} title="Hbl" />,
 		cell: ({ row }) => {
 			return (
-				<div className="flex flex-col gap-2 max-w-[150px]">
+				<div className="flex flex-col gap-2">
 					<div>{row.original.hbl}</div>
 					<div className="text-xs text-muted-foreground">{row.original?.description}</div>
 				</div>
@@ -79,7 +81,7 @@ export const ShipmentColumns = (): ColumnDef<Shipment>[] => [
 		},
 	},
 	{
-		id: "actions",
+		id: "details",
 		cell: ({ row }) => (
 			<TooltipProvider>
 				<Tooltip>
@@ -96,27 +98,23 @@ export const ShipmentColumns = (): ColumnDef<Shipment>[] => [
 
 	{
 		accessorKey: "status",
-		header: "Status",
+		header: ({ column }) => <DataTableColumnHeader column={column} title="Status" />,
 		cell: ({ row }) => (
 			<div>
 				<div className="flex items-center gap-2">
 					<Badge className=" gap-2  items-center" variant="secondary">
-						{getIcon(row.original?.status?.code)}
-						<div className="">{row.original?.status?.name}</div>
+						{getIcon(row.original?.status_code)}
+						<div className="">{row.original?.status}</div>
 					</Badge>
-					<div className="text-xs text-muted-foreground">
-						{row.original?._count?.issues ? (
-							<FlameIcon className="text-yellow-500" size={16} />
-						) : (
-							""
-						)}
-					</div>
 				</div>
 				<span className="max-w-[10px] truncate text-xs text-muted-foreground">
 					{row.original?.status?.description}
 				</span>
 			</div>
 		),
+		filterFn: (row, id, value) => {
+			return value.includes(row.getValue(id));
+		},
 	},
 
 	{
@@ -147,7 +145,7 @@ export const ShipmentColumns = (): ColumnDef<Shipment>[] => [
 
 	{
 		accessorKey: "sender",
-		header: "Sender",
+		header: ({ column }) => <DataTableColumnHeader column={column} title="Sender" />,
 		cell: ({ row }) => (
 			<div className="flex items-center space-x-2 ">
 				<Avatar className="h-6  w-6 ">
@@ -160,7 +158,7 @@ export const ShipmentColumns = (): ColumnDef<Shipment>[] => [
 	},
 	{
 		accessorKey: "receiver",
-		header: "Receiver",
+		header: ({ column }) => <DataTableColumnHeader column={column} title="Receiver" />,
 		cell: ({ row }) => (
 			<div className="flex items-center space-x-2 ">
 				<Avatar className="h-6  w-6 ">
@@ -173,7 +171,7 @@ export const ShipmentColumns = (): ColumnDef<Shipment>[] => [
 	},
 	{
 		accessorKey: "state",
-		header: "State - City",
+		header: ({ column }) => <DataTableColumnHeader column={column} title="State - City" />,
 		cell: ({ row }) => (
 			<div>
 				<p>{row.original?.state}</p>
@@ -184,7 +182,7 @@ export const ShipmentColumns = (): ColumnDef<Shipment>[] => [
 
 	{
 		accessorKey: "updateMethod",
-		header: "Method",
+		header: ({ column }) => <DataTableColumnHeader column={column} title="Method" />,
 		cell: ({ row }) => (
 			<Badge className="text-xs" variant="outline">
 				{toLower(row.original?.updateMethod)}

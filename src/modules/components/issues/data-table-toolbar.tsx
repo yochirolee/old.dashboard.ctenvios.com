@@ -7,33 +7,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { DataTableViewOptions } from "./data-table-view-options";
 
-import { priorities, statuses, agencies } from "@/data/data";
+import { priorities, statuses } from "@/data/data";
 import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 
 interface DataTableToolbarProps<TData> {
 	table: Table<TData>;
 }
 
-interface AgencyOption {
-	label: string;
-	value: string;
-}
-
 export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>) {
 	const isFiltered = table.getState().columnFilters.length > 0;
 
-	/* const agencies: AgencyOption[] = Array.from(
-		new Set(
-			table.getCoreRowModel().rows.map((row) =>
-				JSON.stringify({
-					label: row.original.shipment?.agency?.name ?? "Unknown",
-					value: row.original.shipment?.agency?.name?.toString() ?? "",
-				}),
-			),
-		),
-	).map((str) => JSON.parse(str));
- */
-	
 	return (
 		<div className="flex items-center justify-between">
 			<div className="flex flex-1 items-center space-x-2">
@@ -47,7 +30,7 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
 					<DataTableFacetedFilter
 						column={table.getColumn("agency")}
 						title="Agency"
-						options={agencies}
+						options={statuses}
 					/>
 				)}
 				{table.getColumn("priority") && (

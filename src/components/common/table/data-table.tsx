@@ -20,10 +20,9 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
-import { DataTableToolbar } from "./data-table-toolbar";
+import { DataTableToolbar } from "@/modules/components/issues/data-table-toolbar";
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
