@@ -39,7 +39,7 @@ export const ContainerStats = ({ shipments }: { shipments: any[] }) => {
 			}
 			return acc;
 		}, initialStats);
-	}, [shipments?.length]);
+	}, [shipments]);
 
 	return (
 		<>
