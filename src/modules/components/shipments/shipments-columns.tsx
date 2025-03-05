@@ -101,14 +101,13 @@ export const ShipmentColumns = (): ColumnDef<Shipment>[] => [
 		header: ({ column }) => <DataTableColumnHeader column={column} title="Status" />,
 		cell: ({ row }) => (
 			<div>
-				<div className="flex items-center gap-2">
-					<Badge className=" gap-2  items-center" variant="secondary">
-						{getIcon(row.original?.status_code)}
-						<div className="">{row.original?.status}</div>
-					</Badge>
-				</div>
-				<span className="max-w-[10px] truncate text-xs text-muted-foreground">
-					{row.original?.status?.description}
+				<Badge className="shrink-0" variant="secondary">
+					{getIcon(row.original?.status_code)}
+					<div className="ml-2">{row.original?.status}</div>
+				</Badge>
+
+				<span className=" block  text-xs text-muted-foreground">
+					{row.original?.status_description}
 				</span>
 			</div>
 		),
@@ -181,12 +180,15 @@ export const ShipmentColumns = (): ColumnDef<Shipment>[] => [
 	},
 
 	{
-		accessorKey: "updateMethod",
-		header: ({ column }) => <DataTableColumnHeader column={column} title="Method" />,
+		accessorKey: "weight",
+		header: ({ column }) => <DataTableColumnHeader column={column} title="Weight" />,
 		cell: ({ row }) => (
-			<Badge className="text-xs" variant="outline">
-				{toLower(row.original?.updateMethod)}
-			</Badge>
+			<div className="flex flex-col gap-2 text-xs text-muted-foreground">
+				<span className="font-light">{parseFloat(row.original?.weight).toFixed(2)} Lbs</span>
+				<span className="font-light">
+					{parseFloat(row.original?.weight / 2.205).toFixed(2)} Kgs
+				</span>
+			</div>
 		),
 	},
 ];

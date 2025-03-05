@@ -13,37 +13,108 @@ interface DataTableToolbarProps<TData> {
 
 // Export to Excel function
 export const exportTableToExcel = (table: Table<any>): void => {
-	// Get visible columns for headers with proper type handling
-	const headers = table
+	// Get all visible columns except details and select
+	let headers = table
 		.getHeaderGroups()
 		.flatMap((headerGroup) => headerGroup.headers)
+		.filter((header) => !["details", "select"].includes(header.column.id))
 		.map((header) => {
 			const headerValue = header.column.columnDef.header;
 			if (typeof headerValue === "string") return headerValue;
 			if (typeof headerValue === "function") return header.column.id;
-			return header.column.id; // Fallback to column ID if header is a complex element
+			return header.column.id;
 		});
 
-	// Get rows based on whether filters are applied
+	// Remove duplicate columns that we'll reposition
+	headers = headers.filter(
+		(header) => !["hbl", "agency", "invoiceId", "description"].includes(header),
+	);
+
+	// Define the desired column order
+	const orderedHeaders = [
+		"HBL", // First
+		"Invoice ID", // Second
+		"Agency", // Third
+		"Description", // Fourth
+		"Status",
+		"Timestamp",
+		"Sender",
+		"Receiver",
+		"State - City",
+		"Weight",
+	];
+
 	const hasFilters = table.getState().columnFilters.length > 0;
 	const rowModel = hasFilters ? table.getFilteredRowModel() : table.getCoreRowModel();
 
-	// Transform cell values to handle special cases
+	// Transform rows to match the new column order
 	const rows = rowModel.rows.map((row) => {
-		return row.getVisibleCells().map((cell) => {
-			const value = cell.getValue();
-			if (value === null || value === undefined) return "";
-			if (typeof value === "object") return JSON.stringify(value);
-			return value;
-		});
+		// Get all other cells except the ones we're manually positioning
+		const otherCells = row
+			.getVisibleCells()
+			.filter(
+				(cell) =>
+					!["details", "select", "hbl", "agency", "invoiceId", "description"].includes(
+						cell.column.id,
+					),
+			)
+			.map((cell) => {
+				const column = cell.column.id;
+				const value = cell.getValue();
+
+				switch (column) {
+					case "weight":
+						const weight = row.original.weight;
+						return `${parseFloat(weight).toFixed(2)} Lbs / ${parseFloat(weight / 2.205  ).toFixed(
+							2,
+						)} Kgs`;
+					case "status":
+						return `${row.original.status} - ${row.original.status_description}`;
+					case "state":
+						return `${row.original.state} - ${row.original.city}`;
+					case "timestamp":
+						const date = new Date(row.original.timestamp);
+						const formattedDate = date.toLocaleDateString("en-US", {
+							day: "numeric",
+							month: "short",
+							year: "numeric",
+							hour: "2-digit",
+							minute: "2-digit",
+						});
+						const daysAgo = Math.floor((Date.now() - date.getTime()) / (1000 * 60 * 60 * 24));
+						return `${formattedDate} (${daysAgo} days ago)`;
+					default:
+						if (value === null || value === undefined) return "";
+						if (Array.isArray(value)) {
+							return value
+								.map((item) => (typeof item === "object" ? Object.values(item).join(", ") : item))
+								.join(" | ");
+						}
+						if (typeof value === "object") {
+							return Object.entries(value)
+								.map(([key, val]) => `${key}: ${val}`)
+								.join(" | ");
+						}
+						return value;
+				}
+			});
+
+		// Create array with desired order
+		return [
+			row.original.hbl || "", // HBL
+			row.original.invoiceId || "", // Invoice ID
+			row.original.agency || "", // Agency
+			row.original.description || "", // Description
+			...otherCells,
+		];
 	});
 
 	// Create worksheet with styling options
-	const ws = XLSX.utils.aoa_to_sheet([headers, ...rows]);
+	const ws = XLSX.utils.aoa_to_sheet([orderedHeaders, ...rows]);
 
-	// Add column width specifications
-	const colWidths = headers.map(() => ({ wch: 15 }));
-	ws["!cols"] = colWidths;
+	// Adjust cell formatting for better readability
+	ws["!rows"] = rows.map(() => ({ hpt: 25 })); // Set row height
+	ws["!cols"] = orderedHeaders.map(() => ({ wch: 30 })); // Increase column width
 
 	// Create workbook
 	const wb = XLSX.utils.book_new();

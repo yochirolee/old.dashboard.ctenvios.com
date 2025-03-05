@@ -4,7 +4,7 @@ import { useGetShipments, useSearchShipments } from "@/hooks/use-shipments";
 import { ShipmentSearchForm } from "../../components/shipments/shipment-search-form";
 import { useState } from "react";
 import { ShipmentTableSkeleton } from "../../components/shipments/shipment-table-skeleton";
-import {  } from "../../components/shipments/shipment-actions-menu";
+import {} from "../../components/shipments/shipment-actions-menu";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { ShipmentColumns } from "@/modules/components/shipments/shipments-columns";
 
@@ -20,13 +20,11 @@ export default function ShipmentsPage() {
 	});
 
 	// if querySearch is empty, show all shipments
-	const shipments = querySearch ? searchData : data;
 
 	return (
 		<div className="flex flex-col gap-4">
-			<div className="flex justify-between items-center  bg-muted/20  rounded-lg py-6 px-4">
+			<div className="md:flex justify-between items-center  bg-muted/20  rounded-lg py-6 px-4">
 				<ShipmentSearchForm setQuerySearch={setQuerySearch} isLoading={searchLoading} />
-				
 			</div>
 			{isLoading ? (
 				<ShipmentTableSkeleton />
@@ -36,7 +34,10 @@ export default function ShipmentsPage() {
 					<AlertDescription>Error loading shipments, please try again later</AlertDescription>
 				</Alert>
 			) : (
-				<ShipmentsTable data={shipments} columns={ShipmentColumns()} />
+				<ShipmentsTable
+					data={querySearch ? searchData?.shipments : data?.shipments}
+					columns={ShipmentColumns()}
+				/>
 			)}
 		</div>
 	);

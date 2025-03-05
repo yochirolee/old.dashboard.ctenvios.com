@@ -66,15 +66,13 @@ export type Issue = {
 	isResolved: boolean;
 	createdAt: Date;
 	updatedAt: Date;
+
 	shipmentDescription: string;
 	user: {
 		id: string;
 		name: string;
 	};
-	agency: {
-		id: number;
-		name: string;
-	};
+	agency: string;
 
 	events: ShipmentEvent[];
 };

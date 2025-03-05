@@ -50,12 +50,8 @@ export default function ContainersPage() {
 							<ContainerPendingToArrival selectedContainerId={selectedContainer.id} />
 						)}
 
-						{container?.shipments.length > 0 ? (
+						{container?.shipments.length > 0 && (
 							<ShipmentsTable columns={ShipmentColumns()} data={container?.shipments} />
-						) : (
-							<div className="text-center text-gray-500">
-								No hay resultados que coincidan con los filtros.
-							</div>
 						)}
 					</div>
 				)

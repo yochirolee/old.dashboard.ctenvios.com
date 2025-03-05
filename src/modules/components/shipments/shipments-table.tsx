@@ -24,8 +24,7 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { ShipmentsDataTableToolbar } from "./shipments-data-table-toolbar";
-import { Button } from "@/components/ui/button";
-
+import { DataTablePagination } from "./data-table-pagination";
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
 	data: TData[];
@@ -105,6 +104,7 @@ export function ShipmentsTable<TData, TValue>({ columns, data }: DataTableProps<
 					</TableBody>
 				</Table>
 			</div>
+			<DataTablePagination table={table} />
 		</div>
 	);
 }
