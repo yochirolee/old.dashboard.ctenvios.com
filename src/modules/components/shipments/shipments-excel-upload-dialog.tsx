@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { Upload, File, CheckCircle, AlertCircle, FileX, Loader2, UploadCloud } from "lucide-react";
+import { File, CheckCircle, AlertCircle, FileX, Loader2, UploadCloud, Package } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -11,30 +11,33 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { baseUrl } from "@/hooks/parcels/parcels";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
-export default function ExcelUploadDialog({ isLoading }: { isLoading: boolean }) {
+export default function ShipmentsExcelUploadDialog({ isLoading }: { isLoading: boolean }) {
 	const [open, setOpen] = useState(false);
 	const [file, setFile] = useState<File | null>(null);
 	const [error, setError] = useState<string | null>(null);
 	const [success, setSuccess] = useState(false);
+	const [shipments, setShipments] = useState<[]>([]);
 	const fileInputRef = useRef<HTMLInputElement>(null);
-
+	const queryClient = useQueryClient();
 	const mutation = useMutation({
 		mutationFn: async (file: File) => {
 			const formData = new FormData();
 			formData.append("file", file);
 			axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
 			const response = await axios.post(`${baseUrl}/excel/upload-excel`, formData);
+			setShipments(response.data);
 			return response.data;
 		},
 
 		onSuccess: () => {
 			setSuccess(true);
 			// Optionally invalidate and refetch other queries that might need updating
-			// queryClient.invalidateQueries({ queryKey: ['parcels'] });
+			queryClient.invalidateQueries({ queryKey: ["getShipments"] });
 		},
 		onError: () => {
 			setError("An error occurred during upload. Please try again.");
@@ -42,6 +45,8 @@ export default function ExcelUploadDialog({ isLoading }: { isLoading: boolean })
 			setSuccess(false);
 		},
 	});
+
+	console.log(shipments);
 
 	const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const selectedFile = event.target.files?.[0];
@@ -88,7 +93,7 @@ export default function ExcelUploadDialog({ isLoading }: { isLoading: boolean })
 			<DialogTrigger asChild>
 				<Button disabled={isLoading} variant="ghost" size="sm" className="  h-8 lg:flex">
 					<FileX className="h-4 w-4 text-green-600" />
-					<span className=" md:inline">Importar Excel</span>
+					<span className=" md:inline">Actualizar desde Excel</span>
 				</Button>
 			</DialogTrigger>
 			<DialogContent className="sm:max-w-[600px]">
@@ -138,11 +143,28 @@ export default function ExcelUploadDialog({ isLoading }: { isLoading: boolean })
 								</Alert>
 							)}
 							{success && (
-								<Alert variant="default" className="border-green-500  text-green-700">
-									<CheckCircle className="h-4 w-4" />
-									<AlertTitle>Success</AlertTitle>
-									<AlertDescription>File processed successfully!</AlertDescription>
-								</Alert>
+								<ScrollArea className="h-80 my-6 pr-3">
+									{shipments?.map((shipment) => (
+										<Alert variant="default" className=" my-2   ">
+											<CheckCircle className="h-4 w-4 text-green-700" />
+											<AlertTitle className={shipment?.success ? "text-green-700" : "text-red-700"}>
+												{shipment?.success ? "Success" : "Error"}
+											</AlertTitle>
+											{shipment?.success ? (
+												<AlertDescription className="flex  justify-between gap-2 ">
+													<span className="">Sheet Name: {shipment?.sheetName}</span>
+													<span className="inline-flex items-center gap-2">
+														<Package className="h-4 w-4" /> {shipment?.count}
+													</span>
+												</AlertDescription>
+											) : (
+												<AlertDescription>
+													{shipment?.sheetName} {shipment?.error}{" "}
+												</AlertDescription>
+											)}
+										</Alert>
+									))}
+								</ScrollArea>
 							)}
 						</div>
 					</CardContent>

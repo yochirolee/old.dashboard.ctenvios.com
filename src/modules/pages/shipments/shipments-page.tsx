@@ -7,6 +7,7 @@ import { ShipmentTableSkeleton } from "../../components/shipments/shipment-table
 import {} from "../../components/shipments/shipment-actions-menu";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { ShipmentColumns } from "@/modules/components/shipments/shipments-columns";
+import ShipmentsExcelUploadDialog from "@/modules/components/shipments/shipments-excel-upload-dialog";
 
 export default function ShipmentsPage() {
 	const { data, isLoading, error } = useGetShipments();
@@ -25,6 +26,7 @@ export default function ShipmentsPage() {
 		<div className="flex flex-col gap-4">
 			<div className="md:flex justify-between items-center  bg-muted/20  rounded-lg py-6 px-4">
 				<ShipmentSearchForm setQuerySearch={setQuerySearch} isLoading={searchLoading} />
+				<ShipmentsExcelUploadDialog isLoading={searchLoading} />
 			</div>
 			{isLoading ? (
 				<ShipmentTableSkeleton />

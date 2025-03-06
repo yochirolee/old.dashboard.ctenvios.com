@@ -7,7 +7,6 @@ import {
 	ContainerPendingToArrival,
 } from "@/components/containers/no-container-selected";
 import { ContainerUpdateModalForm } from "@/components/containers/container-update-modal-form";
-import ExcelUploadDialog from "@/components/logistics/excel-upload-dialog";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useGetContainerById } from "@/hooks/use-containers";
 import { ShipmentsTable } from "@/modules/components/shipments/shipments-table";
@@ -35,7 +34,6 @@ export default function ContainersPage() {
 				<ContainerSelect setSelectedContainer={setSelectedContainer} />
 				<div className="grid grid-cols-2 lg:flex items-center gap-4">
 					<ContainerUpdateModalForm selectedContainer={selectedContainer} />
-					<ExcelUploadDialog isLoading={isLoading} />
 				</div>
 			</div>
 

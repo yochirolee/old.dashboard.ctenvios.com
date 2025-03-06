@@ -12,12 +12,14 @@ export const useGetShipments = () => {
 	return useQuery({
 		queryKey: ["getShipments"],
 		queryFn: api.shipments.getAll,
+		refetchOnWindowFocus: true,
 	});
 };
 export const useSearchShipments = (params: { query: string }) => {
 	return useQuery({
 		queryKey: ["searchShipments", params],
 		queryFn: () => api.shipments.search(params),
+		enabled: !!params.query,
 	});
 };
 export const useGetShipmentByHbl = (hbl: string) => {

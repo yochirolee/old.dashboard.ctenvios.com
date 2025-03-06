@@ -10,33 +10,13 @@ import UserLoginPage from "@/modules/pages/users/user-login-page";
 import ShipmentsPage from "@/modules/pages/shipments/shipments-page";
 import { ProtectedRoute } from "./ProtectedRoute";
 import IssuesPage from "@/modules/pages/issues/issues-page";
-/* // Define a protected route component
-const ProtectedRoute = ({
-	children,
-	allowedRoles,
-}: {
-	children: JSX.Element;
-	allowedRoles: string[];
-}) => {
-	const { user } = useAuth();
-	const location = useLocation();
+import { roles } from "@/data/data";
 
-	if (!user) {
-		return <Navigate to="/login" state={{ from: location }} replace />;
-	}
-
-	if (!allowedRoles.includes(user.role || "")) {
-		// Redirect to dashboard if user doesn't have required role
-		return <Navigate to="/logistics/shipments" state={{ from: location }} replace />;
-	}
-
-	return children;
-}; */
 
 export default function AppRouter(): JSX.Element {
 	return (
 		<Routes>
-			<Route element={<ProtectedRoute allowedRoles={["ROOT", "ADMINISTRATOR"]} />}>
+			<Route element={<ProtectedRoute allowedRoles={[roles.ROOT, roles.ADMINISTRATOR]} />}>
 				<Route path="/" element={<Dashboard />} />
 				<Route path="settings">
 					<Route index element={<SettingsPage />} />
@@ -44,7 +24,7 @@ export default function AppRouter(): JSX.Element {
 				</Route>
 			</Route>
 
-			<Route element={<ProtectedRoute />}>
+			<Route element={<ProtectedRoute allowedRoles={[roles.ROOT, roles.ADMINISTRATOR, roles.AGENCY_ADMIN, roles.MESSENGER]} />}>
 				<Route path="orders">
 					<Route index element={<Orders />} />
 					<Route path="create" element={<CreateOrder />} />

@@ -106,20 +106,15 @@ export type Container = {
 	status: string;
 };
 
-export const roles = [
-	"ROOT",
-	"ADMINISTRATOR",
-	"AGENCY_ADMIN",
-	"MESSENGER",
-	"SALES",
-	"CARRIER_MESSENGER",
-	"CARRIER_ADMIN",
-	"CARRIER_WAREHOUSE_MANAGER",
-	"CARRIER_WAREHOUSE_WORKER",
-	"WAREHOUSE_MANAGER",
-	"WAREHOUSE_WORKER",
-	"AGENT",
-];
+export const roles = {
+	ROOT: "ROOT",
+	ADMINISTRATOR: "ADMINISTRATOR",
+	AGENCY_ADMIN: "AGENCY_ADMIN",
+	MESSENGER: "MESSENGER",
+	SALES: "SALES",
+	CARRIER_MESSENGER: "CARRIER_MESSENGER",
+	CARRIER_ADMIN: "CARRIER_ADMIN",
+};
 
 export const labels = [
 	{
@@ -136,33 +131,7 @@ export const labels = [
 	},
 ];
 
-export const statuses = [
-	{
-		value: "IN_PORT",
-		label: "In Port",
-		icon: HelpCircle,
-	},
-	{
-		value: "todo",
-		label: "Todo",
-		icon: Circle,
-	},
-	{
-		value: "in progress",
-		label: "In Progress",
-		icon: Timer,
-	},
-	{
-		value: "done",
-		label: "Done",
-		icon: CheckCircle,
-	},
-	{
-		value: "canceled",
-		label: "Canceled",
-		icon: CircleOff,
-	},
-];
+
 
 export const priorities = [
 	{
@@ -205,7 +174,7 @@ export const nav_links = {
 			url: "/",
 			icon: Home,
 			isActive: true,
-			roles: ["ROOT", "ADMINISTRATOR"],
+			roles: [roles.ROOT, roles.ADMINISTRATOR],
 		},
 		{
 			title: "Ordenes",
@@ -213,18 +182,11 @@ export const nav_links = {
 			icon: File,
 			isActive: true,
 			roles: [
-				"ROOT",
-				"ADMINISTRATOR",
-				"USER",
-				"SALES",
-				"MESSENGER",
-				"CARRIER_MESSENGER",
-				"CARRIER_ADMIN",
-				"CARRIER_WAREHOUSE_MANAGER",
-				"CARRIER_WAREHOUSE_WORKER",
-				"WAREHOUSE_MANAGER",
-				"WAREHOUSE_WORKER",
-				"AGENT",
+				roles.ROOT,
+				roles.ADMINISTRATOR,
+				roles.SALES,
+				roles.MESSENGER,
+				roles.CARRIER_MESSENGER,
 			],
 			items: [
 				{
@@ -232,38 +194,19 @@ export const nav_links = {
 					url: "/orders/create",
 					isActive: true,
 					roles: [
-						"ROOT",
-						"ADMINISTRATOR",
-						"USER",
-						"SALES",
-						"MESSENGER",
-						"CARRIER_MESSENGER",
-						"CARRIER_ADMIN",
-						"CARRIER_WAREHOUSE_MANAGER",
-						"CARRIER_WAREHOUSE_WORKER",
-						"WAREHOUSE_MANAGER",
-						"WAREHOUSE_WORKER",
-						"AGENT",
+						roles.ROOT,
+						roles.ADMINISTRATOR,
+						roles.AGENCY_ADMIN,
+						roles.SALES,
+						roles.MESSENGER,
+						roles.CARRIER_MESSENGER,
 					],
 				},
 				{
 					title: "Ordenes",
 					url: "/orders",
 					isActive: false,
-					roles: [
-						"ROOT",
-						"ADMINISTRATOR",
-						"USER",
-						"SALES",
-						"MESSENGER",
-						"CARRIER_MESSENGER",
-						"CARRIER_ADMIN",
-						"CARRIER_WAREHOUSE_MANAGER",
-						"CARRIER_WAREHOUSE_WORKER",
-						"WAREHOUSE_MANAGER",
-						"WAREHOUSE_WORKER",
-						"AGENT",
-					],
+					roles: [roles.ROOT, roles.ADMINISTRATOR, roles.AGENCY_ADMIN, roles.MESSENGER],
 				},
 			],
 		},
@@ -272,53 +215,29 @@ export const nav_links = {
 			url: "#",
 			icon: Warehouse,
 			isActive: false,
-			roles: [
-				"ROOT",
-				"ADMINISTRATOR",
-				"USER",
-				"SALES",
-				"MESSENGER",
-				"AGENCY_ADMIN",
-				"CARRIER_MESSENGER",
-				"CARRIER_ADMIN",
-				"CARRIER_WAREHOUSE_MANAGER",
-				"CARRIER_WAREHOUSE_WORKER",
-				"WAREHOUSE_MANAGER",
-				"WAREHOUSE_WORKER",
-				"AGENT",
-			],
+			roles: [roles.ROOT, roles.ADMINISTRATOR, roles.AGENCY_ADMIN, roles.MESSENGER],
 			items: [
 				{
 					title: "Tracking",
 					url: "/logistics/tracking",
 					isActive: false,
-					roles: [
-						"ROOT",
-						"ADMINISTRATOR",
-						"USER",
-						"SALES",
-						"MESSENGER",
-						"CARRIER_MESSENGER",
-						"CARRIER_ADMIN",
-						"CARRIER_WAREHOUSE_MANAGER",
-						"CARRIER_WAREHOUSE_WORKER",
-						"WAREHOUSE_MANAGER",
-						"WAREHOUSE_WORKER",
-						"AGENT",
-						"AGENCY_ADMIN",
-					],
+					roles: [roles.ROOT, roles.ADMINISTRATOR, roles.AGENCY_ADMIN, roles.MESSENGER],
 				},
 				{
 					title: "Contenedores",
 					url: "/logistics/containers",
 					isActive: false,
-					roles: ["ROOT", "ADMINISTRATOR"],
+					roles: [roles.ROOT, roles.ADMINISTRATOR,roles.AGENCY_ADMIN,roles.SALES],
 				},
 				{
 					title: "Reclamaciones",
 					url: "/logistics/issues",
 					isActive: false,
-					roles: ["ROOT", "ADMINISTRATOR"],
+					roles: [
+						roles.ROOT,
+						roles.ADMINISTRATOR,
+						
+					],
 				},
 			],
 		},
@@ -327,19 +246,19 @@ export const nav_links = {
 			url: "#",
 			icon: Settings2,
 			isActive: false,
-			roles: ["ROOT", "ADMINISTRATOR"],
+			roles: [roles.ROOT, roles.ADMINISTRATOR],
 			items: [
 				{
 					title: "General",
 					url: "/settings",
 					isActive: false,
-					roles: ["ROOT", "ADMINISTRATOR"],
+					roles: [roles.ROOT, roles.ADMINISTRATOR],
 				},
 				{
 					title: "Users",
 					url: "/settings/users",
 					isActive: false,
-					roles: ["ROOT", "ADMINISTRATOR"],
+					roles: [roles.ROOT, roles.ADMINISTRATOR],
 				},
 			],
 		},
