@@ -97,7 +97,12 @@ export function InvoicesCount() {
 							tickMargin={8}
 							minTickGap={32}
 							tickFormatter={(value) => {
-								const date = new Date(value);
+								// Parse the ISO string and force it to be interpreted in NY timezone
+								const date = new Date(
+									new Date(value).toLocaleString("en-US", {
+										timeZone: "America/New_York",
+									}),
+								);
 								return new Intl.DateTimeFormat("en-US", {
 									month: "short",
 									day: "numeric",
@@ -111,7 +116,12 @@ export function InvoicesCount() {
 									className="w-[150px]"
 									nameKey="sales"
 									labelFormatter={(value) => {
-										const date = new Date(value);
+										// Parse the ISO string and force it to be interpreted in NY timezone
+										const date = new Date(
+											new Date(value).toLocaleString("en-US", {
+												timeZone: "America/New_York",
+											}),
+										);
 										return new Intl.DateTimeFormat("en-US", {
 											month: "short",
 											day: "numeric",
