@@ -111,12 +111,13 @@ export function InvoicesCount() {
 									className="w-[150px]"
 									nameKey="sales"
 									labelFormatter={(value) => {
+										const date = new Date(value);
 										return new Intl.DateTimeFormat("en-US", {
 											month: "short",
 											day: "numeric",
 											year: "numeric",
 											timeZone: "America/New_York",
-										}).format(new Date(value));
+										}).format(date);
 									}}
 								/>
 							}
