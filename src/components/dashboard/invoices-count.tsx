@@ -97,17 +97,15 @@ export function InvoicesCount() {
 							tickMargin={8}
 							minTickGap={32}
 							tickFormatter={(value) => {
-								// Parse the ISO string and force it to be interpreted in NY timezone
-								const date = new Date(
-									new Date(value).toLocaleString("en-US", {
-										timeZone: "America/New_York",
-									}),
-								);
+								// Create date from UTC string and adjust to NY timezone
+								const utcDate = new Date(value);
+								const nyDate = new Date(utcDate.getTime() + utcDate.getTimezoneOffset() * 60000);
+
 								return new Intl.DateTimeFormat("en-US", {
 									month: "short",
 									day: "numeric",
 									timeZone: "America/New_York",
-								}).format(date);
+								}).format(nyDate);
 							}}
 						/>
 						<ChartTooltip
@@ -116,18 +114,18 @@ export function InvoicesCount() {
 									className="w-[150px]"
 									nameKey="sales"
 									labelFormatter={(value) => {
-										// Parse the ISO string and force it to be interpreted in NY timezone
-										const date = new Date(
-											new Date(value).toLocaleString("en-US", {
-												timeZone: "America/New_York",
-											}),
+										// Create date from UTC string and adjust to NY timezone
+										const utcDate = new Date(value);
+										const nyDate = new Date(
+											utcDate.getTime() + utcDate.getTimezoneOffset() * 60000,
 										);
+
 										return new Intl.DateTimeFormat("en-US", {
 											month: "short",
 											day: "numeric",
 											year: "numeric",
 											timeZone: "America/New_York",
-										}).format(date);
+										}).format(nyDate);
 									}}
 								/>
 							}
