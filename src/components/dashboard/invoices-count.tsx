@@ -11,6 +11,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "../ui/skeleton";
 import { api } from "@/api/api";
+import { AgencySelect } from "@/modules/components/agencies/agencies-select";
 
 const chartConfig = {
 	views: {
@@ -31,9 +32,8 @@ export function InvoicesCount() {
 		queryKey: ["daily-sales"],
 		queryFn: () => api.stats.getDailySales(),
 	});
-	const [activeChart, setActiveChart] = React.useState<keyof typeof chartConfig>("sales");
-
-	const {total, maxSalesValue} = React.useMemo(
+	
+	const { total, maxSalesValue } = React.useMemo(
 		() => ({
 			total: chartData
 				?.reduce((acc, curr) => acc + Number(curr.sales), 0)
@@ -41,7 +41,7 @@ export function InvoicesCount() {
 					style: "currency",
 					currency: "USD",
 				}),
-			maxSalesValue: chartData ? Math.max(...chartData.map(item => Number(item.sales))) : 0,
+			maxSalesValue: chartData ? Math.max(...chartData.map((item) => Number(item.sales))) : 0,
 		}),
 		[chartData],
 	);
@@ -52,23 +52,21 @@ export function InvoicesCount() {
 			<CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
 				<div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
 					<CardTitle>Agency Sales</CardTitle>
-					<CardDescription>Showing total sales for the last 30 days</CardDescription>
+					<CardDescription>Showing total sales for the current month</CardDescription>
 				</div>
+
 				<div className="flex">
 					{["sales"].map((key) => {
 						const chart = key as keyof typeof chartConfig;
 						return (
-							<button
+							<div
 								key={chart}
-								data-active={activeChart === chart}
+								
 								className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left even:border-l data-[active=true]:bg-muted/50 sm:border-l sm:border-t-0 sm:px-8 sm:py-6"
-								onClick={() => setActiveChart(chart)}
 							>
 								<span className="text-xs text-muted-foreground">{chartConfig[chart].label}</span>
-								<span className="text-lg font-bold leading-none sm:text-3xl">
-									{total}
-								</span>
-							</button>
+								<span className="text-lg font-bold leading-none sm:text-3xl">{total}</span>
+							</div>
 						);
 					})}
 				</div>
@@ -122,11 +120,10 @@ export function InvoicesCount() {
 							}
 						/>
 						<Line
-							dataKey={activeChart}
+							dataKey="sales"
 							type="monotone"
 							strokeWidth={1.5}
 							fillOpacity={0.1}
-							
 							dot={true}
 						/>
 					</LineChart>

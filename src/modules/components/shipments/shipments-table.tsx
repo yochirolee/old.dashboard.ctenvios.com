@@ -62,7 +62,7 @@ export function ShipmentsTable<TData, TValue>({ columns, data }: DataTableProps<
 
 	return (
 		<div className="space-y-4">
-			<div className="items-center bg-foreground-muted p-2 rounded-md">
+			<div className="items-center bg-foreground-muted  rounded-md">
 				<ShipmentsDataTableToolbar table={table} />
 				
 			</div>

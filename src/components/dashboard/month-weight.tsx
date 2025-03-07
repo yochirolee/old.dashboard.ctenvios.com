@@ -1,30 +1,9 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ChartConfig } from "@/components/ui/chart";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "../ui/skeleton";
 import { api } from "@/api/api";
-/* const chartData = [
-	{ agency: "Agency 1", weight: 186 },
-	{ agency: "Agency 2", weight: 305 },
-	{ agency: "Agency 3", weight: 237 },
-	{ agency: "Agency 4", weight: 73 },
-	{ agency: "Agency 5", weight: 209 },
-	{ agency: "Agency 6", weight: 214 },
-]; */
 
-const chartConfig = {
-	weight: {
-		label: "weight",
-		color: "hsl(var(--chart-1))",
-	},
-	agency: {
-		label: "agency",
-		color: "hsl(var(--chart-2))",
-	},
-	label: {
-		color: "hsl(var(--background))",
-	},
-} satisfies ChartConfig;
+
 
 export function MonthWeight() {
 	const { data: chartData, isLoading } = useQuery({
@@ -32,8 +11,7 @@ export function MonthWeight() {
 		queryFn: () => api.stats.getStats(),
 	});
 
-	console.log(chartData);
-
+	
 	const totalWeight = chartData?.reduce(
 		(acc: number, curr: { weight: number }) => acc + parseFloat(curr?.weight?.toString()),
 		0,

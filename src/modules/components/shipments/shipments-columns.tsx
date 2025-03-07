@@ -75,7 +75,7 @@ export const ShipmentColumns = (): ColumnDef<Shipment>[] => [
 			return (
 				<div className="flex flex-col gap-2">
 					<div>{row.original.hbl}</div>
-					<div className="text-xs text-muted-foreground">{row.original?.description}</div>
+					<div className="flex text-xs text-muted-foreground">{row.original?.description}</div>
 				</div>
 			);
 		},
@@ -100,13 +100,15 @@ export const ShipmentColumns = (): ColumnDef<Shipment>[] => [
 		accessorKey: "status",
 		header: ({ column }) => <DataTableColumnHeader column={column} title="Status" />,
 		cell: ({ row }) => (
-			<div>
-				<Badge className="shrink-0" variant="secondary">
-					{getIcon(row.original?.status_code)}
-					<div className="ml-2">{row.original?.status}</div>
-				</Badge>
+			<div className="flex min-w-40 flex-col shrink-0 gap-2">
+				<div className="flex items-center gap-2">
+					<Badge variant="secondary">
+						<span>{getIcon(row.original?.status_code)}</span>
+						<div className="ml-2">{row.original?.status}</div>
+					</Badge>
+				</div>
 
-				<span className=" block  text-xs text-muted-foreground">
+				<span className=" flex  text-xs text-muted-foreground">
 					{row.original?.status_description}
 				</span>
 			</div>

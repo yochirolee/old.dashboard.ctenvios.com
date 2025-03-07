@@ -26,16 +26,18 @@ import { useState } from "react";
 import { roles } from "@/data/data";
 import { useRegister } from "@/hooks/use-users";
 import { UserPlus } from "lucide-react";
-import { useAgencies } from "@/hooks/use-agencies";
 import { AgencySelect } from "@/modules/components/agencies/agencies-select";
 
 export const description =
 	"A login form with email and password. There's an option to login with Google and a link to sign up if you don't have an account.";
 
+// Create a type from the roles object values
+export type Role = (typeof roles)[keyof typeof roles];
+
 const FormSchema = z.object({
 	email: z.string().email(),
 	password: z.string().min(8),
-	role: z.enum(roles as [string, ...string[]]),
+	role: z.string(),
 	name: z.string().min(8),
 	agencyId: z.number(),
 });
@@ -165,9 +167,9 @@ export function UserRegisterForm() {
 											</SelectTrigger>
 											<SelectContent>
 												<SelectGroup>
-													{roles.map((role) => (
-														<SelectItem key={role} value={role}>
-															{role}
+													{Object.entries(roles).map(([key, value]) => (
+														<SelectItem key={key} value={key}>
+															{value}
 														</SelectItem>
 													))}
 												</SelectGroup>
