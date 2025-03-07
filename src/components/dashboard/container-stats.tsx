@@ -32,24 +32,24 @@ const chartConfig = {
 	visitors: {
 		label: "Packages",
 	},
-	inport: {
-		label: "in Port",
+	IN_PORT: {
+		label: "In Port",
 		color: "hsl(var(--chart-1))",
 	},
-	delivered: {
+	DELIVERED: {
 		label: "Delivered",
 		color: "hsl(var(--chart-2))",
 	},
-	readyforpickup: {
+	READY_FOR_PICKUP: {
 		label: "Ready for Pickup",
 		color: "hsl(var(--chart-3))",
 	},
-	intransit: {
+	IN_TRANSIT: {
 		label: "In Transit",
 		color: "hsl(var(--chart-4))",
 	},
-	pendingcustoms: {
-		label: "Pending Customs",
+	CUSTOMS_PENDING: {
+		label: "Customs Pending",
 		color: "hsl(var(--chart-5))",
 	},
 } satisfies ChartConfig;
@@ -71,15 +71,15 @@ export const ListContainerStatus = () => {
 		);
 
 	return (
-		<Card >
+		<Card>
 			<CardHeader className="bg-gray-800/10">
 				<CardTitle className="text-xl">Ultimos Contenedores</CardTitle>
 			</CardHeader>
 			<CardContent className="mt-6">
 				<div className="grid md:grid-cols-2 gap-2 lg:grid-cols-6">
-				{data?.map((item) => (
-					<ContainerStats key={item.id} data={item} />
-				))}
+					{data?.map((item) => (
+						<ContainerStats key={item.id} data={item} />
+					))}
 				</div>
 			</CardContent>
 		</Card>
@@ -92,9 +92,7 @@ export function ContainerStats({ data }: { data: any }) {
 	const chartData = Object.entries(data.status).map(([status, count]) => ({
 		status: status, // using 'browser' to match existing chart config
 		visitors: count, // using 'visitors' to match existing chart config
-		fill:
-			chartConfig[status.toLowerCase().replace(" ", "") as keyof typeof chartConfig]?.color ||
-			chartConfig.inport.color,
+		fill: chartConfig[status as keyof typeof chartConfig]?.color || chartConfig.IN_PORT.color,
 	}));
 
 	return (
@@ -148,7 +146,17 @@ export function ContainerStats({ data }: { data: any }) {
 			</CardContent>
 			<CardFooter className="flex-col gap-2 text-sm">
 				<div className="flex items-center text-xs gap-2 font-medium leading-none">
-					delivery percentage <TrendingUp className="h-4 w-4" />
+					<span>Delivery percentage: </span>
+					{(() => {
+						const delivered = data.status.DELIVERED || 0;
+						const total = data.count;
+						const percentage = (total as number) > 0 ? Math.round((delivered / total) * 100) : 0;
+						return (
+							<span className="flex items-center gap-1">
+								{percentage}% <TrendingUp className="h-4 w-4" />
+							</span>
+						);
+					})()}
 				</div>
 				<div className="leading-none text-xs text-muted-foreground">
 					Showing total packages in container
