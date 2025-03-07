@@ -128,7 +128,6 @@ const api = {
 	stats: {
 		getStats: async (): Promise<any[]> => {
 			const response = await axios.get(`${baseUrl}/stats`);
-			console.log(response.data);
 			return response.data;
 		},
 		getDailySales: async (): Promise<any[]> => {
@@ -137,6 +136,10 @@ const api = {
 		},
 		getEmployeesSales: async (): Promise<any[]> => {
 			const response = await axios.get(`${baseUrl}/stats/employees-sales`);
+			return response.data;
+		},
+		getContainerStats: async (): Promise<any[]> => {
+			const response = await axios.get(`${baseUrl}/stats/containers-status`);
 			return response.data;
 		},
 	},

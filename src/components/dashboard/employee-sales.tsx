@@ -38,7 +38,6 @@ export function EmployeeSales() {
 		queryKey: ["employees-sales"],
 		queryFn: () => api.stats.getEmployeesSales(),
 	});
-	console.log(chartData);
 	if (isLoading) return <Skeleton className="h-[300px] w-full" />;
 	if (isError) return <div>Error</div>;
     

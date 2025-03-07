@@ -32,8 +32,7 @@ export function InvoicesCount() {
 		queryFn: () => api.stats.getDailySales(),
 	});
 
-	console.log(chartData);
-
+	
 	const { total, maxSalesValue } = useMemo(
 		() => ({
 			total: chartData

@@ -3,21 +3,18 @@ import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "../ui/skeleton";
 import { api } from "@/api/api";
 
-
-
 export function MonthWeight() {
 	const { data: chartData, isLoading } = useQuery({
 		queryKey: ["month-weight"],
 		queryFn: () => api.stats.getStats(),
 	});
 
-	
 	const totalWeight = chartData?.reduce(
 		(acc: number, curr: { weight: number }) => acc + parseFloat(curr?.weight?.toString()),
 		0,
 	);
 
-	if (isLoading) return <Skeleton className="h-40 w-full" />;
+	if (isLoading) return <Skeleton className="h-[300px] w-full" />;
 	return (
 		<Card>
 			<CardHeader>
