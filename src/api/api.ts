@@ -142,6 +142,11 @@ const api = {
 			const response = await axios.get(`${baseUrl}/stats/containers-status`);
 			return response.data;
 		},
+		getDayDeliveries: async (): Promise<any[]> => {
+			const response = await axios.get(`${baseUrl}/stats/delivery-todays`);
+			return response.data;
+		},
 	},
+
 };
 export { api, baseUrl };

@@ -73,7 +73,7 @@ export const ListContainerStatus = () => {
 	return (
 		<Card>
 			<CardHeader className="bg-gray-800/10">
-				<CardTitle className="text-xl">Ultimos Contenedores</CardTitle>
+				<CardTitle className="text-lg lg:text-xl">Ultimos Contenedores</CardTitle>
 			</CardHeader>
 			<CardContent className="mt-6">
 				<div className="grid md:grid-cols-2 gap-2 lg:grid-cols-6">
@@ -88,7 +88,7 @@ export const ListContainerStatus = () => {
 
 export function ContainerStats({ data }: { data: any }) {
 	if (!data) return null;
-	console.log(data);
+
 	const chartData = Object.entries(data.status).map(([status, count]) => ({
 		status: status, // using 'browser' to match existing chart config
 		visitors: count, // using 'visitors' to match existing chart config

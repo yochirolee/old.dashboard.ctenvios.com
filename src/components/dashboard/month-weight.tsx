@@ -18,7 +18,7 @@ export function MonthWeight() {
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle>Month Weight for Sending</CardTitle>
+				<CardTitle className="text-lg lg:text-xl">Month Weight for Sending</CardTitle>
 				<CardDescription>
 					Total Weight: {parseFloat(totalWeight?.toFixed(2) ?? "0")} Lbs
 				</CardDescription>

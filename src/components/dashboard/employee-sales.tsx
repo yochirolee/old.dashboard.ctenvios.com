@@ -48,7 +48,7 @@ export function EmployeeSales() {
 			<CardHeader>
 				<div className="flex items-center justify-between">
 					<div>
-						<CardTitle>Employee Sales</CardTitle>
+						<CardTitle className="text-lg lg:text-xl">Employee Sales</CardTitle>
 						<CardDescription>Daily sales by employee</CardDescription>
 					</div>
 					{/* TODO: Add filter by date */}
@@ -80,12 +80,7 @@ export function EmployeeSales() {
 							tickFormatter={(value) => value.slice(0, 3)}
 							hide
 						/>
-						<XAxis
-							dataKey="sales"
-							type="number"
-							domain={[0, maxSalesValue * 1.2]}
-							
-						/>
+						<XAxis dataKey="sales" type="number" domain={[0, maxSalesValue * 1.2]} />
 						<ChartTooltip cursor={false} content={<ChartTooltipContent indicator="line" />} />
 						<Bar dataKey="sales" layout="vertical" fill="var(--color-sales)" radius={4}>
 							<LabelList
