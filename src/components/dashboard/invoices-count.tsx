@@ -33,7 +33,7 @@ export function InvoicesCount() {
 	});
 
 	console.log(chartData);
-	
+
 	const { total, maxSalesValue } = useMemo(
 		() => ({
 			total: chartData
@@ -62,7 +62,6 @@ export function InvoicesCount() {
 						return (
 							<div
 								key={chart}
-								
 								className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left even:border-l data-[active=true]:bg-muted/50 sm:border-l sm:border-t-0 sm:px-8 sm:py-6"
 							>
 								<span className="text-xs text-muted-foreground">{chartConfig[chart].label}</span>
@@ -99,10 +98,11 @@ export function InvoicesCount() {
 							minTickGap={32}
 							tickFormatter={(value) => {
 								const date = new Date(value);
-								return date.toLocaleDateString("en-US", {
+								return new Intl.DateTimeFormat("en-US", {
 									month: "short",
 									day: "numeric",
-								});
+									timeZone: "America/New_York",
+								}).format(date);
 							}}
 						/>
 						<ChartTooltip
@@ -111,22 +111,17 @@ export function InvoicesCount() {
 									className="w-[150px]"
 									nameKey="sales"
 									labelFormatter={(value) => {
-										return new Date(value).toLocaleDateString("en-US", {
+										return new Intl.DateTimeFormat("en-US", {
 											month: "short",
 											day: "numeric",
 											year: "numeric",
-										});
+											timeZone: "America/New_York",
+										}).format(new Date(value));
 									}}
 								/>
 							}
 						/>
-						<Line
-							dataKey="sales"
-							type="monotone"
-							strokeWidth={1.5}
-							fillOpacity={0.1}
-							dot={true}
-						/>
+						<Line dataKey="sales" type="monotone" strokeWidth={1.5} fillOpacity={0.1} dot={true} />
 					</LineChart>
 				</ChartContainer>
 			</CardContent>
