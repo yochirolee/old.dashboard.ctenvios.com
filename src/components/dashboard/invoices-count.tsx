@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useMemo } from "react";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -11,7 +11,6 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "../ui/skeleton";
 import { api } from "@/api/api";
-import { AgencySelect } from "@/modules/components/agencies/agencies-select";
 
 const chartConfig = {
 	views: {
@@ -32,8 +31,10 @@ export function InvoicesCount() {
 		queryKey: ["daily-sales"],
 		queryFn: () => api.stats.getDailySales(),
 	});
+
+	console.log(chartData);
 	
-	const { total, maxSalesValue } = React.useMemo(
+	const { total, maxSalesValue } = useMemo(
 		() => ({
 			total: chartData
 				?.reduce((acc, curr) => acc + Number(curr.sales), 0)
