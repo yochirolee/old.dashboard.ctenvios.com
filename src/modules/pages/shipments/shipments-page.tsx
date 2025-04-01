@@ -24,7 +24,7 @@ export default function ShipmentsPage() {
 
 	return (
 		<div className="flex flex-col gap-4">
-			<div className="md:flex justify-between items-center  bg-muted/20  rounded-lg py-6 px-4">
+			<div className="flex flex-col gap-2 md:flex md:flex-row lg:justify-between lg:items-center  bg-muted/20  rounded-lg p-4 lg:py-6 px-4">
 				<ShipmentSearchForm setQuerySearch={setQuerySearch} isLoading={searchLoading} />
 				<ShipmentsExcelUploadDialog isLoading={searchLoading} />
 			</div>

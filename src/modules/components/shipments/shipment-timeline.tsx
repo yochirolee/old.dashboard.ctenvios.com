@@ -1,7 +1,28 @@
 import ShipmentTimelineItem from "./shipment-timeline-item";
-import { getIcon } from "../common/getIcon";
-import { ShipmentEvent } from "@/data/data";
+import { getIcon } from "@/modules/components/common/getIcon";
 
+export type ShipmentEvent = {
+	id: string;
+	status: {
+		code: string;
+		description: string;
+		name: string;
+		id: number;
+	};
+	user: {
+		id: number;
+		name: string;
+	};
+	location: {
+		id: number;
+		state: string;
+		country_code: string;
+		city: string;
+	};
+	timestamp: string;
+	isCompleted: boolean;
+	images: { imageUrl: string }[];
+};
 export default function ShipmentTimeline({ events }: { events: ShipmentEvent[] }) {
 	return (
 		<div className="max-w-2xl mx-auto p-6">
@@ -16,10 +37,10 @@ export default function ShipmentTimeline({ events }: { events: ShipmentEvent[] }
 							status={event.status}
 							timestamp={event.timestamp}
 							user={event.user}
-							location={event.location}
 							isCompleted={event.isCompleted}
+							location={event.location}
 							isLast={index === events.length - 1}
-							issues={event.issues}
+							images={event.images}
 						/>
 					);
 				})}

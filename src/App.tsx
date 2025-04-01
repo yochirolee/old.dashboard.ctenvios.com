@@ -7,11 +7,10 @@ import { AuthProvider } from "./context/auth-context";
 const queryClient = new QueryClient({
 	defaultOptions: {
 		queries: {
-			refetchOnWindowFocus: false,
-			refetchOnMount: false,
-			refetchOnReconnect: false,
-			staleTime: 5 * 60 * 1000, // 5 m
-			retry: false,
+			refetchOnWindowFocus: true,
+			refetchOnMount: true,
+			refetchOnReconnect: true,
+			retry: true,
 		},
 	},
 });
