@@ -131,8 +131,6 @@ export const labels = [
 	},
 ];
 
-
-
 export const priorities = [
 	{
 		label: "Low",
@@ -227,17 +225,13 @@ export const nav_links = {
 					title: "Contenedores",
 					url: "/logistics/containers",
 					isActive: false,
-					roles: [roles.ROOT, roles.ADMINISTRATOR,roles.AGENCY_ADMIN,roles.SALES],
+					roles: [roles.ROOT, roles.ADMINISTRATOR, roles.AGENCY_ADMIN, roles.SALES],
 				},
 				{
 					title: "Reclamaciones",
 					url: "/logistics/issues",
 					isActive: false,
-					roles: [
-						roles.ROOT,
-						roles.ADMINISTRATOR,
-						
-					],
+					roles: [roles.ROOT, roles.ADMINISTRATOR, roles.AGENCY_ADMIN],
 				},
 			],
 		},
@@ -246,7 +240,7 @@ export const nav_links = {
 			url: "#",
 			icon: Settings2,
 			isActive: false,
-			roles: [roles.ROOT, roles.ADMINISTRATOR],
+			roles: [roles.ROOT, roles.ADMINISTRATOR, roles.AGENCY_ADMIN],
 			items: [
 				{
 					title: "General",
@@ -258,7 +252,7 @@ export const nav_links = {
 					title: "Users",
 					url: "/settings/users",
 					isActive: false,
-					roles: [roles.ROOT, roles.ADMINISTRATOR],
+					roles: [roles.ROOT, roles.ADMINISTRATOR, roles.AGENCY_ADMIN],
 				},
 			],
 		},

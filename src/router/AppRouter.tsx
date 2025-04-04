@@ -17,9 +17,9 @@ export default function AppRouter(): JSX.Element {
 		<Routes>
 			<Route element={<ProtectedRoute allowedRoles={[roles.ROOT, roles.ADMINISTRATOR]} />}>
 				<Route path="/" element={<Dashboard />} />
-				<Route path="settings">
-					<Route index element={<SettingsPage />} />
-					<Route path="users" element={<UsersPage />} />
+				<Route path="orders">
+					<Route index element={<Orders />} />
+					<Route path="create" element={<CreateOrder />} />
 				</Route>
 			</Route>
 
@@ -30,9 +30,9 @@ export default function AppRouter(): JSX.Element {
 					/>
 				}
 			>
-				<Route path="orders">
-					<Route index element={<Orders />} />
-					<Route path="create" element={<CreateOrder />} />
+				<Route path="settings">
+					<Route element={<SettingsPage />} />
+					<Route index path="users" element={<UsersPage />} />
 				</Route>
 				<Route path="logistics">
 					<Route path="containers" element={<ContainersPage />} />
