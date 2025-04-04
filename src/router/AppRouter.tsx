@@ -12,7 +12,6 @@ import { ProtectedRoute } from "./ProtectedRoute";
 import IssuesPage from "@/modules/pages/issues/issues-page";
 import { roles } from "@/data/data";
 
-
 export default function AppRouter(): JSX.Element {
 	return (
 		<Routes>
@@ -24,14 +23,20 @@ export default function AppRouter(): JSX.Element {
 				</Route>
 			</Route>
 
-			<Route element={<ProtectedRoute allowedRoles={[roles.ROOT, roles.ADMINISTRATOR, roles.AGENCY_ADMIN, roles.MESSENGER]} />}>
+			<Route
+				element={
+					<ProtectedRoute
+						allowedRoles={[roles.ROOT, roles.ADMINISTRATOR, roles.AGENCY_ADMIN, roles.MESSENGER]}
+					/>
+				}
+			>
 				<Route path="orders">
 					<Route index element={<Orders />} />
 					<Route path="create" element={<CreateOrder />} />
 				</Route>
 				<Route path="logistics">
 					<Route path="containers" element={<ContainersPage />} />
-					<Route path="tracking" element={<ShipmentsPage />} />
+					<Route index path="tracking" element={<ShipmentsPage />} />
 					<Route path="issues" element={<IssuesPage />} />
 				</Route>
 			</Route>
