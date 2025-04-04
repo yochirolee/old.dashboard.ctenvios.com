@@ -23,10 +23,11 @@ import {
 	DialogTrigger,
 } from "@/components/ui/dialog";
 import { useState } from "react";
-import { roles } from "@/data/data";
+import { getRolesWithEqualOrLowerHierarchy, roles } from "@/data/data";
 import { useRegister } from "@/hooks/use-users";
 import { UserPlus } from "lucide-react";
 import { AgencySelect } from "@/modules/components/agencies/agencies-select";
+import { useAuth } from "@/context/auth-context";
 
 export const description =
 	"A login form with email and password. There's an option to login with Google and a link to sign up if you don't have an account.";
@@ -47,13 +48,14 @@ type FormValues = z.infer<typeof FormSchema>;
 export function UserRegisterForm() {
 	const [open, setOpen] = useState(false);
 	const [selectedAgency, setSelectedAgency] = useState<any>(null);
+	const { user } = useAuth();
 
 	const form = useForm<FormValues>({
 		resolver: zodResolver(FormSchema),
 		defaultValues: {
 			email: "",
 			password: "",
-			role: "",
+			role: user?.role || "",
 			name: "",
 			agencyId: 0,
 		},
@@ -167,9 +169,9 @@ export function UserRegisterForm() {
 											</SelectTrigger>
 											<SelectContent>
 												<SelectGroup>
-													{Object.entries(roles).map(([key, value]) => (
-														<SelectItem key={key} value={key}>
-															{value}
+													{getRolesWithEqualOrLowerHierarchy(user?.role).map((role) => (
+														<SelectItem key={role} value={role}>
+															{roles[role]}
 														</SelectItem>
 													))}
 												</SelectGroup>
