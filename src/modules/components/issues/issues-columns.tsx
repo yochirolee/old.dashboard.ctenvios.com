@@ -105,11 +105,10 @@ export const IssuesColumns = (): ColumnDef<Issue>[] => [
 	}, */
 
 	{
-		accessorKey: "title",
-		header: "Title",
+		accessorKey: "description",
+		header: "Description",
 		cell: ({ row }) => (
 			<div className=" space-y-1 ">
-				<p className="font-medium">{row.original.title}</p>
 				<p className="text-xs text-muted-foreground">{row.original.description}</p>
 			</div>
 		),
@@ -141,8 +140,8 @@ export const IssuesColumns = (): ColumnDef<Issue>[] => [
 		header: "Created At",
 		cell: ({ row }) => (
 			<div className="text-xs space-y-2 text-muted-foreground">
-				{row.original.createdAt
-					? new Date(row.original?.createdAt).toLocaleDateString("en-US", {
+				{row.original.updatedAt
+					? new Date(row.original?.updatedAt).toLocaleDateString("en-US", {
 							day: "numeric",
 							month: "short",
 							year: "numeric",

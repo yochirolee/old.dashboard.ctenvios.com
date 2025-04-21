@@ -1,5 +1,5 @@
 import { Table } from "@tanstack/react-table";
-import { FileChartColumn, FileTextIcon, X } from "lucide-react";
+import { FileChartColumn, X } from "lucide-react";
 import * as XLSX from "xlsx";
 
 import { Button } from "@/components/ui/button";
@@ -41,7 +41,7 @@ export const exportTableToExcel = (table: Table<any>): void => {
 		"Sender",
 		"Receiver",
 		"State - City",
-		"Weight",
+		"Weight/Lbs",
 	];
 
 	const hasFilters = table.getState().columnFilters.length > 0;
@@ -63,11 +63,10 @@ export const exportTableToExcel = (table: Table<any>): void => {
 				const value = cell.getValue();
 
 				switch (column) {
-					case "weight":
+					case "weight/lbs":
 						const weight = row.original.weight;
-						return `${parseFloat(weight).toFixed(2)} Lbs / ${parseFloat(weight / 2.205  ).toFixed(
-							2,
-						)} Kgs`;
+						return weight ? `${parseFloat(weight).toFixed(2)} ` : "";
+
 					case "status":
 						return `${row.original.status} - ${row.original.status_description}`;
 					case "state":
@@ -113,8 +112,8 @@ export const exportTableToExcel = (table: Table<any>): void => {
 	const ws = XLSX.utils.aoa_to_sheet([orderedHeaders, ...rows]);
 
 	// Adjust cell formatting for better readability
-	ws["!rows"] = rows.map(() => ({ hpt: 25 })); // Set row height
-	ws["!cols"] = orderedHeaders.map(() => ({ wch: 30 })); // Increase column width
+	ws["!rows"] = rows.map(() => ({ hpt: 20 })); // Set row height
+	ws["!cols"] = orderedHeaders.map(() => ({ wch: 25 })); // Increase column width
 
 	// Create workbook
 	const wb = XLSX.utils.book_new();
