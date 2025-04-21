@@ -29,7 +29,7 @@ export default function ContainersPage() {
 	}
 
 	return (
-		<div className="p-2 md:p-4">
+		<div >
 			<div className="bg-muted/20 p-4 rounded-md flex flex-col space-y-4 md:space-y-0 md:space-x-4 md:justify-between md:flex-row  items-center">
 				<ContainerSelect setSelectedContainer={setSelectedContainer} />
 				<ContainerUpdateModalForm selectedContainer={selectedContainer} />
