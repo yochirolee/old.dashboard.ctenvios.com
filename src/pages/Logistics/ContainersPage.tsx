@@ -30,11 +30,9 @@ export default function ContainersPage() {
 
 	return (
 		<div className="p-2 md:p-4">
-			<div className="bg-muted/20 rounded-md my-2 md:py-6 md:px-4 gap-4 grid md:flex justify-center md:justify-between items-center">
+			<div className="bg-muted/20 p-4 rounded-md flex flex-col space-y-4 md:space-y-0 md:space-x-4 md:justify-between md:flex-row  items-center">
 				<ContainerSelect setSelectedContainer={setSelectedContainer} />
-				<div className="grid grid-cols-2 lg:flex items-center gap-4">
-					<ContainerUpdateModalForm selectedContainer={selectedContainer} />
-				</div>
+				<ContainerUpdateModalForm selectedContainer={selectedContainer} />
 			</div>
 
 			{selectedContainer?.id ? (

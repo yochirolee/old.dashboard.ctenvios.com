@@ -36,7 +36,7 @@ export const ContainerSelect = ({
 					variant="outline"
 					role="combobox"
 					aria-expanded={open}
-					className="w-[300px] justify-between"
+					className="w-full md:w-[300px] justify-between"
 				>
 					{value ? (
 						containers.find((container: any) => container.id === value)?.name + " - " + value

@@ -46,7 +46,6 @@ export default function ShipmentsExcelUploadDialog({ isLoading }: { isLoading: b
 		},
 	});
 
-	
 	const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const selectedFile = event.target.files?.[0];
 		if (
@@ -90,7 +89,12 @@ export default function ShipmentsExcelUploadDialog({ isLoading }: { isLoading: b
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
-				<Button disabled={isLoading} variant="ghost" size="sm" className="  h-8 lg:flex  ">
+				<Button
+					disabled={isLoading}
+					variant="outline"
+					size="sm"
+					className="  w-full md:w-auto border-gray-300/15  "
+				>
 					<FileX className="h-4 w-4 text-green-600" />
 					<span className=" md:inline">Actualizar desde Excel</span>
 				</Button>

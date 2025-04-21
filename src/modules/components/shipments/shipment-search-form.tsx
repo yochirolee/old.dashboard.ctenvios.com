@@ -36,25 +36,25 @@ export function ShipmentSearchForm({
 	}
 
 	return (
-		<div className=" ">
+		<div className="grid w-full md:w-auto  ">
 			<Form {...form}>
 				<form
 					onSubmit={form.handleSubmit(onSubmit)}
-					className="grid grid-cols-1 md:flex  md:mx-0 md:flex-row items-center gap-2 md:gap-4 "
+					
 				>
 					<FormField
 						control={form.control}
 						name="search"
 						disabled={isLoading}
 						render={({ field }) => (
-							<FormItem>
-								<FormControl>
-									<div className="relative ml-auto flex-1 md:grow-0">
+							<FormItem >
+								<FormControl >
+									<div className="relative  ml-auto flex-1 md:grow-0">
 										<Search className="absolute left-2.5 top-[12px] h-4 w-4 text-muted-foreground" />
 										<Input
 											type="search"
 											placeholder="Buscar..."
-											className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px]"
+											className="   pl-8 md:w-[200px] lg:w-[336px]"
 											{...field}
 											onChange={(e) => {
 												field.onChange(e);
