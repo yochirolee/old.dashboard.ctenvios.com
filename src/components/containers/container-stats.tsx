@@ -42,14 +42,14 @@ export const ContainerStats = ({ shipments }: { shipments: any[] }) => {
 	}, [shipments]);
 
 	return (
-		<div className="grid grid-cols-2 md:grid-cols-5 gap-2 my-4 bg-muted/40 rounded-lg p-2">
+		<div className="grid grid-cols-2 md:grid-cols-5 gap-1 my-4 bg-muted/40 rounded-lg p-1 md:p-4">
 			<Card className="rounded-xl">
 				<div className="mx-4 md:m-6">
 					<div className="flex items-center text-slate-800 dark:text-gray-300 my-1 md:my-4  justify-between">
 						<div className="flex flex-col gap-1">
-							<Label> Puerto Mariel</Label>
+							<Label className="text-xs md:text-sm"> Puerto Mariel</Label>
 						</div>
-						<AnchorIcon className="  md:text-lg  text-violet-500" />
+						<AnchorIcon className="  h-4 w-4 md:h-6 md:w-6   text-violet-500" />
 					</div>
 					<div className="">
 						<h1 className="text-xl md:text-2xl font-bold">{stats.puertoMariel}</h1>
@@ -60,10 +60,10 @@ export const ContainerStats = ({ shipments }: { shipments: any[] }) => {
 				<div className="mx-4 md:m-6">
 					<div className="flex items-center text-slate-800 dark:text-gray-300 my-1 md:my-4 justify-between">
 						<div className="flex flex-col gap-1">
-							<Label> Almacen MiPymes</Label>
+							<Label className="text-xs md:text-sm"> Almacen MiPymes</Label>
 						</div>
 
-						<ShieldIcon className=" text-lg  text-yellow-500" />
+						<ShieldIcon className=" h-4 w-4 md:h-6 md:w-6  text-yellow-500" />
 					</div>
 
 					<div className="flex text-center items-center  justify-between gap-2">
@@ -75,8 +75,8 @@ export const ContainerStats = ({ shipments }: { shipments: any[] }) => {
 			<Card className="rounded-xl border bg-card text-card-foreground shadow">
 				<div className="mx-4 md:m-6">
 					<div className="flex items-center text-slate-800 dark:text-gray-300 my-1 md:my-4 justify-between">
-						<Label> Almacen Mypimes</Label>
-						<ForkliftIcon className="text-xl  text-slate-800" />
+						<Label className="text-xs md:text-sm"> Almacen Mypimes</Label>
+						<ForkliftIcon className=" h-4 w-4 md:h-6 md:w-6  text-slate-800" />
 					</div>
 					<div className="flex text-center items-center  justify-between gap-2">
 						<h1 className="text-xl md:text-2xl font-bold">{stats.almacenMypimes}</h1>
@@ -87,8 +87,8 @@ export const ContainerStats = ({ shipments }: { shipments: any[] }) => {
 			<Card className="rounded-xl border bg-card text-card-foreground shadow">
 				<div className="mx-4 md:m-6">
 					<div className="flex items-center text-slate-800 dark:text-gray-300 my-1 md:my-4 justify-between">
-						<Label> En Traslado</Label>
-						<TruckIcon className="text-xl   text-blue-800" />
+						<Label className="text-xs md:text-sm"> En Traslado</Label>
+						<TruckIcon className=" h-4 w-4 md:h-6 md:w-6  text-blue-800" />
 					</div>
 					<h1 className="text-xl md:text-2xl font-bold">{stats.enTraslado}</h1>
 				</div>
@@ -96,8 +96,8 @@ export const ContainerStats = ({ shipments }: { shipments: any[] }) => {
 			<Card className="rounded-xl border bg-card text-card-foreground shadow">
 				<div className="mx-4 md:m-6">
 					<div className="flex items-center text-slate-800 dark:text-gray-300 my-1 md:my-4 justify-between">
-						<Label> Entregado</Label>
-						<CheckCheckIcon className="text-xl  text-green-500" />
+						<Label className="text-xs md:text-sm"> Entregado</Label>
+						<CheckCheckIcon className=" h-4 w-4 md:h-6 md:w-6  text-green-500" />
 					</div>
 					<h1 className="text-xl md:text-2xl font-bold">{stats.entregado}</h1>
 				</div>
