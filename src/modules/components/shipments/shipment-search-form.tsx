@@ -54,7 +54,7 @@ export function ShipmentSearchForm({
 										<Input
 											type="search"
 											placeholder="Buscar..."
-											className="   pl-8 md:w-[200px] lg:w-[336px]"
+											className="   pl-8 md:w-[200px] lg:w-[336px] "
 											{...field}
 											onChange={(e) => {
 												field.onChange(e);

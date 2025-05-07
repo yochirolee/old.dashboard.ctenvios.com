@@ -15,7 +15,7 @@ import { roles } from "@/data/data";
 export default function AppRouter(): JSX.Element {
 	return (
 		<Routes>
-			<Route element={<ProtectedRoute allowedRoles={[roles.ROOT, roles.ADMINISTRATOR]} />}>
+			<Route element={<ProtectedRoute allowedRoles={[roles.ROOT, roles.ADMINISTRATOR, roles.AGENCY_ADMIN]} />}>
 				<Route path="/" element={<Dashboard />} />
 				<Route path="orders">
 					<Route index element={<Orders />} />

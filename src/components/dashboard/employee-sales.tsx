@@ -1,4 +1,4 @@
-import { Bar, BarChart, CartesianGrid, LabelList, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, Cell, LabelList, XAxis, YAxis } from "recharts";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -13,12 +13,10 @@ import { Skeleton } from "../ui/skeleton";
 
 export const description = "A bar chart with a custom label";
 
-
-
 const chartConfig = {
 	sales: {
 		label: "sales",
-		color: "hsl(var(--chart-1))",
+		color: "hsl(var(--chart-2))",
 	},
 	employee: {
 		label: "employee",
@@ -40,9 +38,21 @@ export function EmployeeSales() {
 	});
 	if (isLoading) return <Skeleton className="h-[300px] w-full" />;
 	if (isError) return <div>Error</div>;
-    
-	const maxSalesValue = chartData ? Math.max(...chartData.map(item => Number(item.sales))) : 0;
-	 
+
+	const maxSalesValue = chartData ? Math.max(...chartData.map((item) => Number(item.sales))) : 0;
+
+	// Define colors for employee bars
+	const employeeColors = [
+		"hsl(var(--chart-1))",
+		"hsl(var(--chart-2))",
+		"hsl(var(--chart-3))",
+		"hsl(var(--chart-4))",
+		"hsl(var(--chart-5))",
+		"hsl(var(--chart-6))",
+		"hsl(var(--chart-7))",
+		"hsl(var(--chart-8))",
+	];
+
 	return (
 		<Card>
 			<CardHeader>
@@ -67,29 +77,18 @@ export function EmployeeSales() {
 						data={chartData}
 						layout="vertical"
 						margin={{
-							right: 16,
+							right: 20,
+							left: 40,
 						}}
 					>
 						<CartesianGrid horizontal={false} />
-						<YAxis
-							dataKey="employee"
-							type="category"
-							tickLine={false}
-							tickMargin={10}
-							axisLine={false}
-							tickFormatter={(value) => value.slice(0, 3)}
-							hide
-						/>
+						<YAxis dataKey="employee" type="category" axisLine={false} tickLine={false} />
 						<XAxis dataKey="sales" type="number" domain={[0, maxSalesValue * 1.2]} />
 						<ChartTooltip cursor={false} content={<ChartTooltipContent indicator="line" />} />
-						<Bar dataKey="sales" layout="vertical" fill="var(--color-sales)" radius={4}>
-							<LabelList
-								dataKey="employee"
-								position="insideLeft"
-								offset={8}
-								className="fill-[--color-label]"
-								fontSize={12}
-							/>
+						<Bar dataKey="sales" layout="vertical" radius={8}>
+							{chartData?.map(( _,index) => (
+								<Cell key={`cell-${index}`} fill={employeeColors[index % employeeColors.length]} />
+							))}
 							<LabelList
 								dataKey="sales"
 								position="right"

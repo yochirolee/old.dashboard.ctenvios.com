@@ -190,7 +190,7 @@ export const nav_links = {
 			url: "/",
 			icon: Home,
 			isActive: true,
-			roles: [roles.ROOT, roles.ADMINISTRATOR],
+			roles: [roles.ROOT, roles.ADMINISTRATOR, roles.AGENCY_ADMIN],
 		},
 		{
 			title: "Ordenes",

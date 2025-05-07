@@ -127,23 +127,23 @@ const api = {
 	},
 	stats: {
 		getStats: async (): Promise<any[]> => {
-			const response = await axios.get(`${baseUrl}/stats`);
+			const response = await axiosInstance.get(`${baseUrl}/stats`);
 			return response.data;
 		},
 		getDailySales: async (): Promise<any[]> => {
-			const response = await axios.get(`${baseUrl}/stats/daily-sales`);
+			const response = await axiosInstance.get(`${baseUrl}/stats/daily-sales`);
 			return response.data;
 		},
 		getEmployeesSales: async (): Promise<any[]> => {
-			const response = await axios.get(`${baseUrl}/stats/employees-sales`);
+			const response = await axiosInstance.get(`${baseUrl}/stats/employees-sales`);
 			return response.data;
 		},
 		getContainerStats: async (): Promise<any[]> => {
-			const response = await axios.get(`${baseUrl}/stats/containers-status`);
+			const response = await axiosInstance.get(`${baseUrl}/stats/containers-status`);
 			return response.data;
 		},
 		getDayDeliveries: async (): Promise<any[]> => {
-			const response = await axios.get(`${baseUrl}/stats/delivery-todays`);
+			const response = await axiosInstance.get(`${baseUrl}/stats/delivery-todays`);
 			return response.data;
 		},
 	},
