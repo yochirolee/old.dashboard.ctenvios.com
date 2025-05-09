@@ -197,13 +197,7 @@ export const nav_links = {
 			url: "/orders",
 			icon: File,
 			isActive: true,
-			roles: [
-				roles.ROOT,
-				roles.ADMINISTRATOR,
-				roles.SALES,
-				roles.MESSENGER,
-				roles.CARRIER_MESSENGER,
-			],
+			roles: [roles.ROOT, roles.ADMINISTRATOR, roles.MESSENGER, roles.CARRIER_MESSENGER],
 			items: [
 				{
 					title: "Crear Orden",
@@ -231,25 +225,22 @@ export const nav_links = {
 			url: "#",
 			icon: Warehouse,
 			isActive: false,
-			roles: [roles.ROOT, roles.ADMINISTRATOR, roles.AGENCY_ADMIN, roles.MESSENGER],
+			roles: [roles.ROOT, roles.ADMINISTRATOR, roles.SALES, roles.AGENCY_ADMIN, roles.MESSENGER],
 			items: [
 				{
 					title: "Tracking",
 					url: "/logistics/tracking",
 					isActive: false,
-					roles: [roles.ROOT, roles.ADMINISTRATOR, roles.AGENCY_ADMIN, roles.MESSENGER],
 				},
 				{
 					title: "Contenedores",
 					url: "/logistics/containers",
 					isActive: false,
-					roles: [roles.ROOT, roles.ADMINISTRATOR, roles.AGENCY_ADMIN, roles.SALES],
 				},
 				{
 					title: "Reclamaciones",
 					url: "/logistics/issues",
 					isActive: false,
-					roles: [roles.ROOT, roles.ADMINISTRATOR, roles.AGENCY_ADMIN],
 				},
 			],
 		},
