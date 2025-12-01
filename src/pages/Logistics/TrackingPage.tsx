@@ -28,6 +28,8 @@ export default function TrackingPage() {
 		);
 	}
 
+	console.log(data);
+
 	return (
 		<div className="space-y-6   ">
 			<SearchForm setQuerySearch={setSearchQuery} isLoading={isLoading} />
