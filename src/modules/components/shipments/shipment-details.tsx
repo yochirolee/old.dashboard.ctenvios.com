@@ -16,7 +16,6 @@ export default function ShipmentDetails({ hbl }: { hbl: string | undefined }) {
 	if (!hbl) return null;
 	const { data: shipment, isLoading, isError } = useGetShipmentByHbl(hbl);
 
-	console.log(shipment);
 
 	return (
 		<div className="flex pb-4 flex-col gap-4">
@@ -25,7 +24,7 @@ export default function ShipmentDetails({ hbl }: { hbl: string | undefined }) {
 				<div className="flex justify-center items-center text-sm h-full">Loading shipment</div>
 			)}
 			{shipment && (
-				<div>
+				<div className="grid grid-cols-2 gap-4 ">
 					<Card className="overflow-hidden border-none p-0 m-0">
 						<CardHeader className="flex flex-row justify-between items-start">
 							<div className="grid grid-cols-2 items-center  ">

@@ -2,26 +2,13 @@ import ShipmentTimelineItem from "./shipment-timeline-item";
 import { getIcon } from "@/modules/components/common/getIcon";
 
 export type ShipmentEvent = {
-	id: string;
-	status: {
-		code: string;
-		description: string;
-		name: string;
-		id: number;
-	};
-	user: {
-		id: number;
-		name: string;
-	};
-	location: {
-		id: number;
-		state: string;
-		country_code: string;
-		city: string;
-	};
-	timestamp: string;
-	isCompleted: boolean;
-	images: { imageUrl: string }[];
+	 timestamp: string;
+	 statusCode: string;
+	 statusName: string;
+	 statusDescription: string;
+	 updateMethod: string;
+	 userName: string;
+	 source: string;
 };
 export default function ShipmentTimeline({ events }: { events: ShipmentEvent[] }) {
 	return (
@@ -33,14 +20,27 @@ export default function ShipmentTimeline({ events }: { events: ShipmentEvent[] }
 					return (
 						<ShipmentTimelineItem
 							key={index}
-							icon={getIcon(event?.status?.code)}
-							status={event.status}
-							timestamp={event.timestamp}
-							user={event.user}
-							isCompleted={event.isCompleted}
-							location={event.location}
+							icon={getIcon(event?.statusCode)}
+							status={{
+								code: event?.statusCode,
+								description: event?.statusDescription,
+								name: event?.statusName,
+								id: 0,
+							}}
+							timestamp={event?.timestamp}
+							user={{
+								id: 0,
+								name: event?.userName,
+							}}
+							location={{
+								id: 0,
+								state: event?.source,
+								country_code: "",
+								city: "",
+							}}
+							images={[]}
+							isCompleted={event?.statusCode === "completed"}
 							isLast={index === events.length - 1}
-							images={event.images}
 						/>
 					);
 				})}

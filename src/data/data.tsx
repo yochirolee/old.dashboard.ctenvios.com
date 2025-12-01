@@ -54,6 +54,7 @@ export type Shipment = {
 	invoiceDate: Date;
 	updateMethod: string;
 	statusDetails: string;
+	weight: number;
 };
 export type Issue = {
 	id: string;
